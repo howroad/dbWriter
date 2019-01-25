@@ -2,7 +2,7 @@ package com.nstc.temp.model;
 
 import java.util.Date;
 
-/**  */
+/** */
 public class Blend {
     /** ���� */
     private String id;

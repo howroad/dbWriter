@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="TEMP.CommonDaoImpl">
-	<!-- ������ƵǼ� -->
+	<!-- 锟斤拷锟斤拷锟斤拷频羌锟� -->
 	<insert id="saveBusiness" parameterClass="com.nstc.temp.model.BusinessModel">
 	    <selectKey resultClass="java.lang.Integer" keyProperty="bussId">
 	        SELECT BIFS_BUSINESS_SEQ.NEXTVAL AS bussId FROM DUAL
@@ -110,11 +110,11 @@
 	        #state#
 	    )
 	</insert>
-	<!-- ɾ����ƵǼ� -->
+	<!-- 删锟斤拷锟斤拷频羌锟� -->
 	<delete id="deleteBusinessById" parameterClass="java.lang.Integer">
 	    delete BIFS_BUSINESS WHERE BUSS_ID = #bussId#
 	</delete>
-	<!-- �޸���ƵǼ� -->
+	<!-- 锟睫革拷锟斤拷频羌锟� -->
 	<update id="updateBusiness" parameterClass="com.nstc.temp.model.BusinessModel">
 	    UPDATE BIFS_BUSINESS SET
 	    BUSS_ID = #bussId#
@@ -267,7 +267,7 @@
 	    </isNotEmpty>
 	    WHERE BUSS_ID = #bussId#
 	</update>
-	<!-- ��ѯ��ƵǼ� -->
+	<!-- 锟斤拷询锟斤拷频羌锟� -->
 	<select id="getBusinessList" parameterClass="com.nstc.temp.model.BusinessModel" resultClass="com.nstc.temp.model.BusinessModel">
 	    SELECT
 	        T.BUSS_ID AS "bussId",
@@ -472,7 +472,7 @@
 	        T.STATE = #state#
 	    </isNotEmpty>
 	</select>
-	<!-- ����ҵ����־ -->
+	<!-- 锟斤拷锟斤拷业锟斤拷锟斤拷志 -->
 	<insert id="saveBusinessLog" parameterClass="com.nstc.temp.model.BusinessLogModel">
 	    <selectKey resultClass="java.lang.Integer" keyProperty="logId">
 	        SELECT BIFS_BUSINESS_LOG_SEQ.NEXTVAL AS logId FROM DUAL
@@ -495,11 +495,11 @@
 	        #memo#
 	    )
 	</insert>
-	<!-- ɾ��ҵ����־ -->
+	<!-- 删锟斤拷业锟斤拷锟斤拷志 -->
 	<delete id="deleteBusinessLogById" parameterClass="java.lang.Integer">
 	    delete BIFS_BUSINESS_LOG WHERE LOG_ID = #logId#
 	</delete>
-	<!-- �޸�ҵ����־ -->
+	<!-- 锟睫革拷业锟斤拷锟斤拷志 -->
 	<update id="updateBusinessLog" parameterClass="com.nstc.temp.model.BusinessLogModel">
 	    UPDATE BIFS_BUSINESS_LOG SET
 	    LOG_ID = #logId#
@@ -523,7 +523,7 @@
 	    </isNotEmpty>
 	    WHERE LOG_ID = #logId#
 	</update>
-	<!-- ��ѯҵ����־ -->
+	<!-- 锟斤拷询业锟斤拷锟斤拷志 -->
 	<select id="getBusinessLogList" parameterClass="com.nstc.temp.model.BusinessLogModel" resultClass="com.nstc.temp.model.BusinessLogModel">
 	    SELECT
 	        T.LOG_ID AS "logId",
@@ -556,7 +556,7 @@
 	        T.MEMO = #memo#
 	    </isNotEmpty>
 	</select>
-	<!-- ��������������� -->
+	<!-- 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟� -->
 	<insert id="saveNature" parameterClass="com.nstc.temp.model.NatureModel">
 	    <selectKey resultClass="java.lang.Integer" keyProperty="id">
 	        SELECT BIFS_NATURE_SEQ.NEXTVAL AS id FROM DUAL
@@ -573,11 +573,11 @@
 	        #natureValue#
 	    )
 	</insert>
-	<!-- ɾ������������� -->
+	<!-- 删锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟� -->
 	<delete id="deleteNatureById" parameterClass="java.lang.Integer">
 	    delete BIFS_NATURE WHERE ID = #id#
 	</delete>
-	<!-- �޸Ĵ���������� -->
+	<!-- 锟睫改达拷锟斤拷锟斤拷锟斤拷锟斤拷锟� -->
 	<update id="updateNature" parameterClass="com.nstc.temp.model.NatureModel">
 	    UPDATE BIFS_NATURE SET
 	    ID = #id#
@@ -592,7 +592,7 @@
 	    </isNotEmpty>
 	    WHERE ID = #id#
 	</update>
-	<!-- ��ѯ����������� -->
+	<!-- 锟斤拷询锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟� -->
 	<select id="getNatureList" parameterClass="com.nstc.temp.model.NatureModel" resultClass="com.nstc.temp.model.NatureModel">
 	    SELECT
 	        T.ID AS "id",
@@ -613,7 +613,7 @@
 	        T.NATURE_VALUE = #natureValue#
 	    </isNotEmpty>
 	</select>
-	<!-- 新增事务申请 -->
+	<!-- 鏂板浜嬪姟鐢宠 -->
 	<insert id="saveAffair" parameterClass="com.nstc.temp.model.AffairModel">
 	    <selectKey resultClass="java.lang.Integer" keyProperty="id">
 	        SELECT TPS_AFFAIR_SEQ.NEXTVAL AS id FROM DUAL
@@ -650,11 +650,11 @@
 	        #updateTime#
 	    )
 	</insert>
-	<!-- 删除事务申请 -->
+	<!-- 鍒犻櫎浜嬪姟鐢宠 -->
 	<delete id="deleteAffairById" parameterClass="java.lang.Integer">
 	    delete TPS_AFFAIR WHERE ID = #id#
 	</delete>
-	<!-- 修改事务申请 -->
+	<!-- 淇敼浜嬪姟鐢宠 -->
 	<update id="updateAffair" parameterClass="com.nstc.temp.model.AffairModel">
 	    UPDATE TPS_AFFAIR SET
 	    ID = #id#
@@ -699,7 +699,7 @@
 	    </isNotEmpty>
 	    WHERE ID = #id#
 	</update>
-	<!-- 查询事务申请 -->
+	<!-- 鏌ヨ浜嬪姟鐢宠 -->
 	<select id="getAffairList" parameterClass="com.nstc.temp.model.AffairModel" resultClass="com.nstc.temp.model.AffairModel">
 	    SELECT
 	        T.ID AS "id",
@@ -760,7 +760,7 @@
 	        T.UPDATE_TIME = #updateTime#
 	    </isNotEmpty>
 	</select>
-	<!-- 新增事务类型 -->
+	<!-- 鏂板浜嬪姟绫诲瀷 -->
 	<insert id="saveAffairType" parameterClass="com.nstc.temp.model.AffairTypeModel">
 	    INSERT INTO TPS_AFFAIR_TYPE (
 	        AFFAIR_CODE,
@@ -782,11 +782,11 @@
 	        #openState#
 	    )
 	</insert>
-	<!-- 删除事务类型 -->
+	<!-- 鍒犻櫎浜嬪姟绫诲瀷 -->
 	<delete id="deleteAffairTypeById" parameterClass="java.lang.Integer">
 	    delete TPS_AFFAIR_TYPE WHERE AFFAIR_CODE = #affairCode#
 	</delete>
-	<!-- 修改事务类型 -->
+	<!-- 淇敼浜嬪姟绫诲瀷 -->
 	<update id="updateAffairType" parameterClass="com.nstc.temp.model.AffairTypeModel">
 	    UPDATE TPS_AFFAIR_TYPE SET
 	    AFFAIR_CODE = #affairCode#
@@ -813,7 +813,7 @@
 	    </isNotEmpty>
 	    WHERE AFFAIR_CODE = #affairCode#
 	</update>
-	<!-- 查询事务类型 -->
+	<!-- 鏌ヨ浜嬪姟绫诲瀷 -->
 	<select id="getAffairTypeList" parameterClass="com.nstc.temp.model.AffairTypeModel" resultClass="com.nstc.temp.model.AffairTypeModel">
 	    SELECT
 	        T.AFFAIR_CODE AS "affairCode",
@@ -848,6 +848,408 @@
 	    </isNotEmpty>
 	    <isNotEmpty property="openState" prepend="and">
 	        T.OPEN_STATE = #openState#
+	    </isNotEmpty>
+	</select>
+	<!-- 新增此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录 -->
+	<insert id="saveWarehouseBill" parameterClass="com.nstc.temp.model.WarehouseBill">
+	    <selectKey resultClass="java.lang.Integer" keyProperty="wbid">
+	        SELECT BMM_WAREHOUSE_BILL_SEQ.NEXTVAL AS wbid FROM DUAL
+	    </selectKey>
+	    INSERT INTO BMM_WAREHOUSE_BILL (
+	        WBID,
+	        WHID,
+	        BLID,
+	        BEGINDATE,
+	        ENDDATE,
+	        LOCKED,
+	        ENDFLAG,
+	        ENDTYPE,
+	        REGISTERFLAG,
+	        REGISTERDATE,
+	        REGISTERAMOUNT,
+	        REGISTERTYPE,
+	        PRIORHOLDER,
+	        HOLDER,
+	        RECFLAG,
+	        BANENDRSMTMK,
+	        BILLSTATUS,
+	        HOLDERBANKNO,
+	        HOLDERBANKACCOUNT,
+	        OWNERBANKNO,
+	        OWNERBANKACCOUNT,
+	        PAYBILLWAY,
+	        SOURCEAPPNO,
+	        SOURCEID,
+	        BANKBILLSYSNO,
+	        LASTTXID,
+	        PROCESSFLAG,
+	        REMARK,
+	        CREATETIME,
+	        LASTUPDATETIME,
+	        FLAWFLAG,
+	        SETTLEDAMOUNT,
+	        DISCOUNTREGRATE,
+	        DAYSINWAY,
+	        DEFERDAYS,
+	        ORGWHID
+	    ) VALUES(
+	        #wbid#,
+	        #whid#,
+	        #blid#,
+	        #begindate#,
+	        #enddate#,
+	        #locked#,
+	        #endflag#,
+	        #endtype#,
+	        #registerflag#,
+	        #registerdate#,
+	        #registeramount#,
+	        #registertype#,
+	        #priorholder#,
+	        #holder#,
+	        #recflag#,
+	        #banendrsmtmk#,
+	        #billstatus#,
+	        #holderbankno#,
+	        #holderbankaccount#,
+	        #ownerbankno#,
+	        #ownerbankaccount#,
+	        #paybillway#,
+	        #sourceappno#,
+	        #sourceid#,
+	        #bankbillsysno#,
+	        #lasttxid#,
+	        #processflag#,
+	        #remark#,
+	        #createtime#,
+	        #lastupdatetime#,
+	        #flawflag#,
+	        #settledamount#,
+	        #discountregrate#,
+	        #daysinway#,
+	        #deferdays#,
+	        #orgwhid#
+	    )
+	</insert>
+	<!-- 删除此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录 -->
+	<delete id="deleteWarehouseBillById" parameterClass="java.lang.Integer">
+	    delete BMM_WAREHOUSE_BILL WHERE WBID = #wbid#
+	</delete>
+	<!-- 修改此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录 -->
+	<update id="updateWarehouseBill" parameterClass="com.nstc.temp.model.WarehouseBill">
+	    UPDATE BMM_WAREHOUSE_BILL SET
+	    WBID = #wbid#
+	    <isNotEmpty prepend="," property="whid">
+	        WHID = #whid#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="blid">
+	        BLID = #blid#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="begindate">
+	        BEGINDATE = #begindate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="enddate">
+	        ENDDATE = #enddate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="locked">
+	        LOCKED = #locked#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="endflag">
+	        ENDFLAG = #endflag#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="endtype">
+	        ENDTYPE = #endtype#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="registerflag">
+	        REGISTERFLAG = #registerflag#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="registerdate">
+	        REGISTERDATE = #registerdate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="registeramount">
+	        REGISTERAMOUNT = #registeramount#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="registertype">
+	        REGISTERTYPE = #registertype#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="priorholder">
+	        PRIORHOLDER = #priorholder#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="holder">
+	        HOLDER = #holder#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="recflag">
+	        RECFLAG = #recflag#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="banendrsmtmk">
+	        BANENDRSMTMK = #banendrsmtmk#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="billstatus">
+	        BILLSTATUS = #billstatus#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="holderbankno">
+	        HOLDERBANKNO = #holderbankno#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="holderbankaccount">
+	        HOLDERBANKACCOUNT = #holderbankaccount#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="ownerbankno">
+	        OWNERBANKNO = #ownerbankno#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="ownerbankaccount">
+	        OWNERBANKACCOUNT = #ownerbankaccount#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="paybillway">
+	        PAYBILLWAY = #paybillway#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="sourceappno">
+	        SOURCEAPPNO = #sourceappno#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="sourceid">
+	        SOURCEID = #sourceid#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="bankbillsysno">
+	        BANKBILLSYSNO = #bankbillsysno#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="lasttxid">
+	        LASTTXID = #lasttxid#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="processflag">
+	        PROCESSFLAG = #processflag#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="remark">
+	        REMARK = #remark#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createtime">
+	        CREATETIME = #createtime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="lastupdatetime">
+	        LASTUPDATETIME = #lastupdatetime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="flawflag">
+	        FLAWFLAG = #flawflag#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="settledamount">
+	        SETTLEDAMOUNT = #settledamount#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="discountregrate">
+	        DISCOUNTREGRATE = #discountregrate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="daysinway">
+	        DAYSINWAY = #daysinway#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="deferdays">
+	        DEFERDAYS = #deferdays#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="orgwhid">
+	        ORGWHID = #orgwhid#
+	    </isNotEmpty>
+	    WHERE WBID = #wbid#
+	</update>
+	<!-- 查询此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录 -->
+	<select id="getWarehouseBillList" parameterClass="com.nstc.temp.model.WarehouseBill" resultClass="com.nstc.temp.model.WarehouseBill">
+	    SELECT
+	        T.WBID AS "wbid",
+	        T.WHID AS "whid",
+	        T.BLID AS "blid",
+	        T.BEGINDATE AS "begindate",
+	        T.ENDDATE AS "enddate",
+	        T.LOCKED AS "locked",
+	        T.ENDFLAG AS "endflag",
+	        T.ENDTYPE AS "endtype",
+	        T.REGISTERFLAG AS "registerflag",
+	        T.REGISTERDATE AS "registerdate",
+	        T.REGISTERAMOUNT AS "registeramount",
+	        T.REGISTERTYPE AS "registertype",
+	        T.PRIORHOLDER AS "priorholder",
+	        T.HOLDER AS "holder",
+	        T.RECFLAG AS "recflag",
+	        T.BANENDRSMTMK AS "banendrsmtmk",
+	        T.BILLSTATUS AS "billstatus",
+	        T.HOLDERBANKNO AS "holderbankno",
+	        T.HOLDERBANKACCOUNT AS "holderbankaccount",
+	        T.OWNERBANKNO AS "ownerbankno",
+	        T.OWNERBANKACCOUNT AS "ownerbankaccount",
+	        T.PAYBILLWAY AS "paybillway",
+	        T.SOURCEAPPNO AS "sourceappno",
+	        T.SOURCEID AS "sourceid",
+	        T.BANKBILLSYSNO AS "bankbillsysno",
+	        T.LASTTXID AS "lasttxid",
+	        T.PROCESSFLAG AS "processflag",
+	        T.REMARK AS "remark",
+	        T.CREATETIME AS "createtime",
+	        T.LASTUPDATETIME AS "lastupdatetime",
+	        T.FLAWFLAG AS "flawflag",
+	        T.SETTLEDAMOUNT AS "settledamount",
+	        T.DISCOUNTREGRATE AS "discountregrate",
+	        T.DAYSINWAY AS "daysinway",
+	        T.DEFERDAYS AS "deferdays",
+	        T.ORGWHID AS "orgwhid"
+	    FROM BMM_WAREHOUSE_BILL T WHERE 1 = 1
+	    <isNotEmpty property="wbid" prepend="and">
+	        T.WBID = #wbid#
+	    </isNotEmpty>
+	    <isNotEmpty property="whid" prepend="and">
+	        T.WHID = #whid#
+	    </isNotEmpty>
+	    <isNotEmpty property="blid" prepend="and">
+	        T.BLID = #blid#
+	    </isNotEmpty>
+	    <isNotEmpty property="begindate" prepend="and">
+	        T.BEGINDATE = #begindate#
+	    </isNotEmpty>
+	    <isNotEmpty property="enddate" prepend="and">
+	        T.ENDDATE = #enddate#
+	    </isNotEmpty>
+	    <isNotEmpty property="locked" prepend="and">
+	        T.LOCKED = #locked#
+	    </isNotEmpty>
+	    <isNotEmpty property="endflag" prepend="and">
+	        T.ENDFLAG = #endflag#
+	    </isNotEmpty>
+	    <isNotEmpty property="endtype" prepend="and">
+	        T.ENDTYPE = #endtype#
+	    </isNotEmpty>
+	    <isNotEmpty property="registerflag" prepend="and">
+	        T.REGISTERFLAG = #registerflag#
+	    </isNotEmpty>
+	    <isNotEmpty property="registerdate" prepend="and">
+	        T.REGISTERDATE = #registerdate#
+	    </isNotEmpty>
+	    <isNotEmpty property="registeramount" prepend="and">
+	        T.REGISTERAMOUNT = #registeramount#
+	    </isNotEmpty>
+	    <isNotEmpty property="registertype" prepend="and">
+	        T.REGISTERTYPE = #registertype#
+	    </isNotEmpty>
+	    <isNotEmpty property="priorholder" prepend="and">
+	        T.PRIORHOLDER = #priorholder#
+	    </isNotEmpty>
+	    <isNotEmpty property="holder" prepend="and">
+	        T.HOLDER = #holder#
+	    </isNotEmpty>
+	    <isNotEmpty property="recflag" prepend="and">
+	        T.RECFLAG = #recflag#
+	    </isNotEmpty>
+	    <isNotEmpty property="banendrsmtmk" prepend="and">
+	        T.BANENDRSMTMK = #banendrsmtmk#
+	    </isNotEmpty>
+	    <isNotEmpty property="billstatus" prepend="and">
+	        T.BILLSTATUS = #billstatus#
+	    </isNotEmpty>
+	    <isNotEmpty property="holderbankno" prepend="and">
+	        T.HOLDERBANKNO = #holderbankno#
+	    </isNotEmpty>
+	    <isNotEmpty property="holderbankaccount" prepend="and">
+	        T.HOLDERBANKACCOUNT = #holderbankaccount#
+	    </isNotEmpty>
+	    <isNotEmpty property="ownerbankno" prepend="and">
+	        T.OWNERBANKNO = #ownerbankno#
+	    </isNotEmpty>
+	    <isNotEmpty property="ownerbankaccount" prepend="and">
+	        T.OWNERBANKACCOUNT = #ownerbankaccount#
+	    </isNotEmpty>
+	    <isNotEmpty property="paybillway" prepend="and">
+	        T.PAYBILLWAY = #paybillway#
+	    </isNotEmpty>
+	    <isNotEmpty property="sourceappno" prepend="and">
+	        T.SOURCEAPPNO = #sourceappno#
+	    </isNotEmpty>
+	    <isNotEmpty property="sourceid" prepend="and">
+	        T.SOURCEID = #sourceid#
+	    </isNotEmpty>
+	    <isNotEmpty property="bankbillsysno" prepend="and">
+	        T.BANKBILLSYSNO = #bankbillsysno#
+	    </isNotEmpty>
+	    <isNotEmpty property="lasttxid" prepend="and">
+	        T.LASTTXID = #lasttxid#
+	    </isNotEmpty>
+	    <isNotEmpty property="processflag" prepend="and">
+	        T.PROCESSFLAG = #processflag#
+	    </isNotEmpty>
+	    <isNotEmpty property="remark" prepend="and">
+	        T.REMARK = #remark#
+	    </isNotEmpty>
+	    <isNotEmpty property="createtime" prepend="and">
+	        T.CREATETIME = #createtime#
+	    </isNotEmpty>
+	    <isNotEmpty property="lastupdatetime" prepend="and">
+	        T.LASTUPDATETIME = #lastupdatetime#
+	    </isNotEmpty>
+	    <isNotEmpty property="flawflag" prepend="and">
+	        T.FLAWFLAG = #flawflag#
+	    </isNotEmpty>
+	    <isNotEmpty property="settledamount" prepend="and">
+	        T.SETTLEDAMOUNT = #settledamount#
+	    </isNotEmpty>
+	    <isNotEmpty property="discountregrate" prepend="and">
+	        T.DISCOUNTREGRATE = #discountregrate#
+	    </isNotEmpty>
+	    <isNotEmpty property="daysinway" prepend="and">
+	        T.DAYSINWAY = #daysinway#
+	    </isNotEmpty>
+	    <isNotEmpty property="deferdays" prepend="and">
+	        T.DEFERDAYS = #deferdays#
+	    </isNotEmpty>
+	    <isNotEmpty property="orgwhid" prepend="and">
+	        T.ORGWHID = #orgwhid#
+	    </isNotEmpty>
+	</select>
+	<!-- 新增 -->
+	<insert id="saveBlend" parameterClass="com.nstc.temp.model.Blend">
+	    <selectKey resultClass="java.lang.Integer" keyProperty="id">
+	        SELECT CTMS_BLEND_SEQ.NEXTVAL AS id FROM DUAL
+	    </selectKey>
+	    INSERT INTO CTMS_BLEND (
+	        ID,
+	        NO,
+	        USER_ID,
+	        OPERATE_TIME
+	    ) VALUES(
+	        #id#,
+	        #no#,
+	        #userId#,
+	        #operateTime#
+	    )
+	</insert>
+	<!-- 删除 -->
+	<delete id="deleteBlendById" parameterClass="java.lang.Integer">
+	    delete CTMS_BLEND WHERE ID = #id#
+	</delete>
+	<!-- 修改 -->
+	<update id="updateBlend" parameterClass="com.nstc.temp.model.Blend">
+	    UPDATE CTMS_BLEND SET
+	    ID = #id#
+	    <isNotEmpty prepend="," property="no">
+	        NO = #no#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="userId">
+	        USER_ID = #userId#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="operateTime">
+	        OPERATE_TIME = #operateTime#
+	    </isNotEmpty>
+	    WHERE ID = #id#
+	</update>
+	<!-- 查询 -->
+	<select id="getBlendList" parameterClass="com.nstc.temp.model.Blend" resultClass="com.nstc.temp.model.Blend">
+	    SELECT
+	        T.ID AS "id",
+	        T.NO AS "no",
+	        T.USER_ID AS "userId",
+	        T.OPERATE_TIME AS "operateTime"
+	    FROM CTMS_BLEND T WHERE 1 = 1
+	    <isNotEmpty property="id" prepend="and">
+	        T.ID = #id#
+	    </isNotEmpty>
+	    <isNotEmpty property="no" prepend="and">
+	        T.NO = #no#
+	    </isNotEmpty>
+	    <isNotEmpty property="userId" prepend="and">
+	        T.USER_ID = #userId#
+	    </isNotEmpty>
+	    <isNotEmpty property="operateTime" prepend="and">
+	        T.OPERATE_TIME = #operateTime#
 	    </isNotEmpty>
 	</select>
 		

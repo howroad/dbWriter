@@ -37,13 +37,12 @@ public class Table {
 	private final static int GET = 3;
 	private final static String[] COM_NAME = new String[] {"新增","删除","修改","查询"};
 	private final static String[] COM_PARAM = new String[] {"model","id","model","scope"};
-	private final static String PO = "";
+	public final static String PO = "";
 	private final static String[] COM_PARAM_TYPE = new String[] { "实体","主键","实体", "查询条件"};
 	private final static int DAO = 4;
 	private final static int SERVICE = 5;
 	private final static String UNDER_LINE = "_";
-	private final static int SEQ_DIR = 0;//0 前,1后
-	private String appNo = "TEMP";
+	private String appNo = null;
 	/**
 	 * 获得插入语句的字段，例如to_date('','')
 	 * @Description:
@@ -640,7 +639,7 @@ public class Table {
      */
     public String getSeqName() {
         String seqName = null;
-        if(new Integer(0).equals(SEQ_DIR)) {
+        if(new Integer(0).equals(DbSettings.SEQ_DIR)) {
             seqName = "SEQ_" + getTableName();
         }else {
             seqName = getTableName() + "_SEQ";

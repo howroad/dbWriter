@@ -42,15 +42,11 @@ import oracle.jdbc.driver.OracleConnection;
  * 
  */
 public class WriteUtil {
-    private final static String PATH = "C:/Users/Administrator/Desktop/model/";
-    //private final static String URL = "jdbc:oracle:thin:@192.168.20.35:1521:sas";
-    private final static String URL = "jdbc:oracle:thin:@192.168.20.33:1521:nstestsid";
-    private final static String USER = "HAIMA_FSS20180831";
-    private final static String PASSWORD = "123456";
-    private final static String EXCEL_PATH = "C:/Users/Administrator/Desktop/model/1.xlsx";
+
     static {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
+            
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -59,7 +55,7 @@ public class WriteUtil {
 
     public void buildCreateFromDB(Table table) {
         PrintWriter out = null;
-        String filName = PATH  + table.getTableName() + "_FROMDB" + ".TAB";
+        String filName = DbSettings.PATH  + table.getTableName() + "_FROMDB" + ".TAB";
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            out.println(getCreateFromDB(table.getTableName()));
@@ -77,7 +73,7 @@ public class WriteUtil {
         String sql = "select dbms_metadata.get_ddl('TABLE','" + tableName + "') from dual";
         String result = null;
         try {
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(DbSettings.URL, DbSettings.USER, DbSettings.PASSWORD);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -107,7 +103,7 @@ public class WriteUtil {
     public List<Table> buildTableFromExcel(String appNo) {
         ExcelUtil importExcelUtil=new ExcelUtil();
         //excel 导入数据demo
-        File file = new File(EXCEL_PATH);
+        File file = new File(DbSettings.EXCEL_PATH);
         List<List<String>> dataList= null;
         List<Table> tableList = new ArrayList<Table>();
         
@@ -151,11 +147,11 @@ public class WriteUtil {
         String tableRemark = null;
         List<Line> lineList = new ArrayList<Line>();
         try {
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(DbSettings.URL, DbSettings.USER, DbSettings.PASSWORD);
             ((OracleConnection) conn).setRemarksReporting(true);
             db = conn.getMetaData();
-            rs = db.getColumns(null, USER, tableName.toUpperCase(), null);
-            rsTable = db.getTables(null, USER, tableName.toUpperCase(), new String[] {"TABLE"});
+            rs = db.getColumns(null, DbSettings.USER, tableName.toUpperCase(), null);
+            rsTable = db.getTables(null, DbSettings.USER, tableName.toUpperCase(), new String[] {"TABLE"});
             if(rsTable.next()) {
                 tableRemark = rsTable.getString("REMARKS");
             }
@@ -194,7 +190,7 @@ public class WriteUtil {
     }
     public void buildDate(Table table) {
         PrintWriter out = null;
-        String filName = PATH  + table.getTableName() + ".SQL";
+        String filName = DbSettings.PATH  + table.getTableName() + ".SQL";
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            List<List<Object>> dataList = getData(table.getTableName());
@@ -213,7 +209,7 @@ public class WriteUtil {
         String sql = "SELECT * FROM " + tableName + " WHERE ROWNUM <= 20";
         List<List<Object>> resultList = new ArrayList<List<Object>>();
         try {
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = DriverManager.getConnection(DbSettings.URL, DbSettings.USER, DbSettings.PASSWORD);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             int count = rs.getMetaData().getColumnCount();
@@ -245,7 +241,7 @@ public class WriteUtil {
     }
     public void buildSeq(Table table) {
         PrintWriter out = null;
-        String filName = PATH + table.getSeqName() + ".SEQ";
+        String filName = DbSettings.PATH + table.getSeqName() + ".SEQ";
         try {
             out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
             table.writeSEQ(out);
@@ -257,7 +253,7 @@ public class WriteUtil {
     }
     public void buildTab(Table table) {
         PrintWriter out = null;
-        String filName = PATH  + table.getTableName() + ".TAB";
+        String filName = DbSettings.PATH  + table.getTableName() + ".TAB";
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeCreateTable(out);
@@ -269,7 +265,7 @@ public class WriteUtil {
     }
     public void buildJavaBean(Table table) {
         PrintWriter out = null;
-        String filName = PATH  + table.getJaveBeanName();
+        String filName = DbSettings.PATH  + table.getJaveBeanName();
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeJaveBean(out);
@@ -281,7 +277,7 @@ public class WriteUtil {
     }
     public void buildDao(Table table) {
         PrintWriter out = null;
-        String filName = PATH + table.getDaoName();
+        String filName = DbSettings.PATH + table.getDaoName();
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeDao(out);
@@ -293,7 +289,7 @@ public class WriteUtil {
     }
     public void buildXml(Table table) {
         PrintWriter out = null;
-        String filName = PATH + table.getXmlName();
+        String filName = DbSettings.PATH + table.getXmlName();
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeXml(out);

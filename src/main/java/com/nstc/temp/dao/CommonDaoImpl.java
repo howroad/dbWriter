@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.nstc.temp.model.AffairModel;
 import com.nstc.temp.model.AffairTypeModel;
+import com.nstc.temp.model.Blend;
 import com.nstc.temp.model.BusinessLogModel;
 import com.nstc.temp.model.BusinessModel;
 import com.nstc.temp.model.NatureModel;
+import com.nstc.temp.model.WarehouseBill;
 
 /**
  * <p>Title: Guarantee2DaoImpl.java</p>
@@ -92,6 +94,34 @@ public class CommonDaoImpl extends BaseDao implements ICommonDao {
     public List<AffairTypeModel> getAffairTypeList(AffairTypeModel scope) {
         List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getAffairTypeList"),scope);
         List<AffairTypeModel> resultList = Arrays.asList(list.toArray(new AffairTypeModel[0]));
+        return resultList;
+    }
+    public Integer saveWarehouseBill(WarehouseBill model) {
+        return (Integer)getSqlMapClientTemplate().insert(getStatement("saveWarehouseBill"),model);
+    }
+    public void deleteWarehouseBillById (Integer id) {
+        getSqlMapClientTemplate().delete(getStatement("deleteWarehouseBillById"),id);
+    }
+    public void updateWarehouseBill(WarehouseBill model) {
+        getSqlMapClientTemplate().update(getStatement("updateWarehouseBill"),model);
+    }
+    public List<WarehouseBill> getWarehouseBillList(WarehouseBill scope) {
+        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getWarehouseBillList"),scope);
+        List<WarehouseBill> resultList = Arrays.asList(list.toArray(new WarehouseBill[0]));
+        return resultList;
+    }
+    public Integer saveBlend(Blend model) {
+        return (Integer)getSqlMapClientTemplate().insert(getStatement("saveBlend"),model);
+    }
+    public void deleteBlendById (Integer id) {
+        getSqlMapClientTemplate().delete(getStatement("deleteBlendById"),id);
+    }
+    public void updateBlend(Blend model) {
+        getSqlMapClientTemplate().update(getStatement("updateBlend"),model);
+    }
+    public List<Blend> getBlendList(Blend scope) {
+        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getBlendList"),scope);
+        List<Blend> resultList = Arrays.asList(list.toArray(new Blend[0]));
         return resultList;
     }
 }

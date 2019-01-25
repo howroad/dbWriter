@@ -23,7 +23,6 @@ import java.util.List;
 public class Start {
     public static void main(String[] args) {
         WriteUtil wt = new WriteUtil();
-        String[] tablesFromDB = new String[] { "TPS_affair" };
         
         if(DbSettings.fromExcel) {
             List<Table> tables = wt.buildTableFromExcel(DbSettings.appNo);
@@ -37,6 +36,7 @@ public class Start {
         }
         
         if(DbSettings.fromDatebase) {
+            String[] tablesFromDB = DbSettings.tablesFromDB;
             for (String tableName : tablesFromDB) {
                 if(tableName.toUpperCase().startsWith("UM_")) {
                     continue;
@@ -52,5 +52,6 @@ public class Start {
             } 
         }
         System.out.println("end...");
+        
     }
 }

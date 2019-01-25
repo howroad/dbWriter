@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.nstc.temp.model.AffairModel;
 import com.nstc.temp.model.AffairTypeModel;
+import com.nstc.temp.model.Blend;
 import com.nstc.temp.model.BusinessLogModel;
 import com.nstc.temp.model.BusinessModel;
 import com.nstc.temp.model.NatureModel;
+import com.nstc.temp.model.WarehouseBill;
 
 /**
  * <p>Title: Guarantee2Dao.java</p>
@@ -171,4 +173,65 @@ public interface ICommonDao {
     * @since 2019-01-10 10:36:14
     */
     public List<AffairTypeModel> getAffairTypeList(AffairTypeModel scope); 
+    
+    /**
+    * 新增此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录
+    * @param model 此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录实体
+    * @author luhao
+    * @return 此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录主键
+    * @since 2019-01-25 17:50:57
+    */
+    public Integer saveWarehouseBill(WarehouseBill model);
+    /**
+    * 删除此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录
+    * @param id 此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录主键
+    * @author luhao
+    * @since 2019-01-25 17:50:57
+    */
+    public void deleteWarehouseBillById (Integer id);
+    /**
+    * 修改此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录
+    * @param model 此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录实体
+    * @author luhao
+    * @since 2019-01-25 17:50:57
+    */
+    public void updateWarehouseBill(WarehouseBill model);
+    /**
+    * 查询此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录
+    * @param scope 此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录查询条件
+    * @author luhao
+    * @return 此票据指特定人、特定时间持有的票据，一张票据多次持有形成多条记录集合
+    * @since 2019-01-25 17:50:57
+    */
+    public List<WarehouseBill> getWarehouseBillList(WarehouseBill scope);
+    /**
+    * 新增
+    * @param model 实体
+    * @author luhao
+    * @return 主键
+    * @since 2019-01-25 18:58:47
+    */
+    public Integer saveBlend(Blend model);
+    /**
+    * 删除
+    * @param id 主键
+    * @author luhao
+    * @since 2019-01-25 18:58:47
+    */
+    public void deleteBlendById (Integer id);
+    /**
+    * 修改
+    * @param model 实体
+    * @author luhao
+    * @since 2019-01-25 18:58:47
+    */
+    public void updateBlend(Blend model);
+    /**
+    * 查询
+    * @param scope 查询条件
+    * @author luhao
+    * @return 集合
+    * @since 2019-01-25 18:58:47
+    */
+    public List<Blend> getBlendList(Blend scope);
 }

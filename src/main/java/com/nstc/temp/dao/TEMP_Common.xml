@@ -1,0 +1,854 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="TEMP.CommonDaoImpl">
+	<!-- ������ƵǼ� -->
+	<insert id="saveBusiness" parameterClass="com.nstc.temp.model.BusinessModel">
+	    <selectKey resultClass="java.lang.Integer" keyProperty="bussId">
+	        SELECT BIFS_BUSINESS_SEQ.NEXTVAL AS bussId FROM DUAL
+	    </selectKey>
+	    INSERT INTO BIFS_BUSINESS (
+	        BUSS_ID,
+	        BUSS_TYPE,
+	        APPLY_ID,
+	        BUSS_NO,
+	        NATURE,
+	        CLTNO,
+	        LSH,
+	        CUR_CODE,
+	        CUR_CODE_LINK,
+	        AMOUNT,
+	        BALANCE,
+	        ACCOUNT_NO,
+	        RATE,
+	        ACT_DATE,
+	        START_DATE,
+	        END_DATE,
+	        WATCH_DATE,
+	        INTEREST_DAY,
+	        INTEREST_BASE,
+	        ADV_FLAG,
+	        ADJUST_DAY,
+	        MEMO,
+	        APPLY_DATE,
+	        FINANCE_NAME,
+	        FINANCE_NO,
+	        EXPECT_DAY,
+	        EXPECT_RATE,
+	        STAND_RATE,
+	        ADD_POINT,
+	        FLOAT_RATE,
+	        BOND_NAME,
+	        BOND_NO,
+	        BOND_NUM,
+	        INTEREST_PERIOD,
+	        REPAY_TYPE,
+	        LIBRO_REFE,
+	        LIBRO_MAX,
+	        LIBRO_MIN,
+	        RATE_LINK,
+	        P_BUSS_ID,
+	        REJECT_REASON,
+	        REASON,
+	        CREATOR,
+	        CREATE_TIME,
+	        AMOUNTLOCAL,
+	        LINK_RATE,
+	        PAR_VALUE,
+	        DEPOSIT_AMOUNT,
+	        FINISH_TYPE,
+	        STATE
+	    ) VALUES(
+	        #bussId#,
+	        #bussType#,
+	        #applyId#,
+	        #bussNo#,
+	        #nature#,
+	        #cltno#,
+	        #lsh#,
+	        #curCode#,
+	        #curCodeLink#,
+	        #amount#,
+	        #balance#,
+	        #accountNo#,
+	        #rate#,
+	        #actDate#,
+	        #startDate#,
+	        #endDate#,
+	        #watchDate#,
+	        #interestDay#,
+	        #interestBase#,
+	        #advFlag#,
+	        #adjustDay#,
+	        #memo#,
+	        #applyDate#,
+	        #financeName#,
+	        #financeNo#,
+	        #expectDay#,
+	        #expectRate#,
+	        #standRate#,
+	        #addPoint#,
+	        #floatRate#,
+	        #bondName#,
+	        #bondNo#,
+	        #bondNum#,
+	        #interestPeriod#,
+	        #repayType#,
+	        #libroRefe#,
+	        #libroMax#,
+	        #libroMin#,
+	        #rateLink#,
+	        #pBussId#,
+	        #rejectReason#,
+	        #reason#,
+	        #creator#,
+	        #createTime#,
+	        #amountlocal#,
+	        #linkRate#,
+	        #parValue#,
+	        #depositAmount#,
+	        #finishType#,
+	        #state#
+	    )
+	</insert>
+	<!-- ɾ����ƵǼ� -->
+	<delete id="deleteBusinessById" parameterClass="java.lang.Integer">
+	    delete BIFS_BUSINESS WHERE BUSS_ID = #bussId#
+	</delete>
+	<!-- �޸���ƵǼ� -->
+	<update id="updateBusiness" parameterClass="com.nstc.temp.model.BusinessModel">
+	    UPDATE BIFS_BUSINESS SET
+	    BUSS_ID = #bussId#
+	    <isNotEmpty prepend="," property="bussType">
+	        BUSS_TYPE = #bussType#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="applyId">
+	        APPLY_ID = #applyId#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="bussNo">
+	        BUSS_NO = #bussNo#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="nature">
+	        NATURE = #nature#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="cltno">
+	        CLTNO = #cltno#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="lsh">
+	        LSH = #lsh#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="curCode">
+	        CUR_CODE = #curCode#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="curCodeLink">
+	        CUR_CODE_LINK = #curCodeLink#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="amount">
+	        AMOUNT = #amount#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="balance">
+	        BALANCE = #balance#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="accountNo">
+	        ACCOUNT_NO = #accountNo#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="rate">
+	        RATE = #rate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="actDate">
+	        ACT_DATE = #actDate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="startDate">
+	        START_DATE = #startDate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="endDate">
+	        END_DATE = #endDate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="watchDate">
+	        WATCH_DATE = #watchDate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="interestDay">
+	        INTEREST_DAY = #interestDay#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="interestBase">
+	        INTEREST_BASE = #interestBase#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="advFlag">
+	        ADV_FLAG = #advFlag#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="adjustDay">
+	        ADJUST_DAY = #adjustDay#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="memo">
+	        MEMO = #memo#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="applyDate">
+	        APPLY_DATE = #applyDate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="financeName">
+	        FINANCE_NAME = #financeName#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="financeNo">
+	        FINANCE_NO = #financeNo#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="expectDay">
+	        EXPECT_DAY = #expectDay#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="expectRate">
+	        EXPECT_RATE = #expectRate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="standRate">
+	        STAND_RATE = #standRate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="addPoint">
+	        ADD_POINT = #addPoint#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="floatRate">
+	        FLOAT_RATE = #floatRate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="bondName">
+	        BOND_NAME = #bondName#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="bondNo">
+	        BOND_NO = #bondNo#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="bondNum">
+	        BOND_NUM = #bondNum#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="interestPeriod">
+	        INTEREST_PERIOD = #interestPeriod#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="repayType">
+	        REPAY_TYPE = #repayType#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="libroRefe">
+	        LIBRO_REFE = #libroRefe#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="libroMax">
+	        LIBRO_MAX = #libroMax#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="libroMin">
+	        LIBRO_MIN = #libroMin#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="rateLink">
+	        RATE_LINK = #rateLink#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="pBussId">
+	        P_BUSS_ID = #pBussId#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="rejectReason">
+	        REJECT_REASON = #rejectReason#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="reason">
+	        REASON = #reason#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="creator">
+	        CREATOR = #creator#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createTime">
+	        CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="amountlocal">
+	        AMOUNTLOCAL = #amountlocal#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="linkRate">
+	        LINK_RATE = #linkRate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="parValue">
+	        PAR_VALUE = #parValue#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="depositAmount">
+	        DEPOSIT_AMOUNT = #depositAmount#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="finishType">
+	        FINISH_TYPE = #finishType#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="state">
+	        STATE = #state#
+	    </isNotEmpty>
+	    WHERE BUSS_ID = #bussId#
+	</update>
+	<!-- ��ѯ��ƵǼ� -->
+	<select id="getBusinessList" parameterClass="com.nstc.temp.model.BusinessModel" resultClass="com.nstc.temp.model.BusinessModel">
+	    SELECT
+	        T.BUSS_ID AS "bussId",
+	        T.BUSS_TYPE AS "bussType",
+	        T.APPLY_ID AS "applyId",
+	        T.BUSS_NO AS "bussNo",
+	        T.NATURE AS "nature",
+	        T.CLTNO AS "cltno",
+	        T.LSH AS "lsh",
+	        T.CUR_CODE AS "curCode",
+	        T.CUR_CODE_LINK AS "curCodeLink",
+	        T.AMOUNT AS "amount",
+	        T.BALANCE AS "balance",
+	        T.ACCOUNT_NO AS "accountNo",
+	        T.RATE AS "rate",
+	        T.ACT_DATE AS "actDate",
+	        T.START_DATE AS "startDate",
+	        T.END_DATE AS "endDate",
+	        T.WATCH_DATE AS "watchDate",
+	        T.INTEREST_DAY AS "interestDay",
+	        T.INTEREST_BASE AS "interestBase",
+	        T.ADV_FLAG AS "advFlag",
+	        T.ADJUST_DAY AS "adjustDay",
+	        T.MEMO AS "memo",
+	        T.APPLY_DATE AS "applyDate",
+	        T.FINANCE_NAME AS "financeName",
+	        T.FINANCE_NO AS "financeNo",
+	        T.EXPECT_DAY AS "expectDay",
+	        T.EXPECT_RATE AS "expectRate",
+	        T.STAND_RATE AS "standRate",
+	        T.ADD_POINT AS "addPoint",
+	        T.FLOAT_RATE AS "floatRate",
+	        T.BOND_NAME AS "bondName",
+	        T.BOND_NO AS "bondNo",
+	        T.BOND_NUM AS "bondNum",
+	        T.INTEREST_PERIOD AS "interestPeriod",
+	        T.REPAY_TYPE AS "repayType",
+	        T.LIBRO_REFE AS "libroRefe",
+	        T.LIBRO_MAX AS "libroMax",
+	        T.LIBRO_MIN AS "libroMin",
+	        T.RATE_LINK AS "rateLink",
+	        T.P_BUSS_ID AS "pBussId",
+	        T.REJECT_REASON AS "rejectReason",
+	        T.REASON AS "reason",
+	        T.CREATOR AS "creator",
+	        T.CREATE_TIME AS "createTime",
+	        T.AMOUNTLOCAL AS "amountlocal",
+	        T.LINK_RATE AS "linkRate",
+	        T.PAR_VALUE AS "parValue",
+	        T.DEPOSIT_AMOUNT AS "depositAmount",
+	        T.FINISH_TYPE AS "finishType",
+	        T.STATE AS "state"
+	    FROM BIFS_BUSINESS T WHERE 1 = 1
+	    <isNotEmpty property="bussId" prepend="and">
+	        T.BUSS_ID = #bussId#
+	    </isNotEmpty>
+	    <isNotEmpty property="bussType" prepend="and">
+	        T.BUSS_TYPE = #bussType#
+	    </isNotEmpty>
+	    <isNotEmpty property="applyId" prepend="and">
+	        T.APPLY_ID = #applyId#
+	    </isNotEmpty>
+	    <isNotEmpty property="bussNo" prepend="and">
+	        T.BUSS_NO = #bussNo#
+	    </isNotEmpty>
+	    <isNotEmpty property="nature" prepend="and">
+	        T.NATURE = #nature#
+	    </isNotEmpty>
+	    <isNotEmpty property="cltno" prepend="and">
+	        T.CLTNO = #cltno#
+	    </isNotEmpty>
+	    <isNotEmpty property="lsh" prepend="and">
+	        T.LSH = #lsh#
+	    </isNotEmpty>
+	    <isNotEmpty property="curCode" prepend="and">
+	        T.CUR_CODE = #curCode#
+	    </isNotEmpty>
+	    <isNotEmpty property="curCodeLink" prepend="and">
+	        T.CUR_CODE_LINK = #curCodeLink#
+	    </isNotEmpty>
+	    <isNotEmpty property="amount" prepend="and">
+	        T.AMOUNT = #amount#
+	    </isNotEmpty>
+	    <isNotEmpty property="balance" prepend="and">
+	        T.BALANCE = #balance#
+	    </isNotEmpty>
+	    <isNotEmpty property="accountNo" prepend="and">
+	        T.ACCOUNT_NO = #accountNo#
+	    </isNotEmpty>
+	    <isNotEmpty property="rate" prepend="and">
+	        T.RATE = #rate#
+	    </isNotEmpty>
+	    <isNotEmpty property="actDate" prepend="and">
+	        T.ACT_DATE = #actDate#
+	    </isNotEmpty>
+	    <isNotEmpty property="startDate" prepend="and">
+	        T.START_DATE = #startDate#
+	    </isNotEmpty>
+	    <isNotEmpty property="endDate" prepend="and">
+	        T.END_DATE = #endDate#
+	    </isNotEmpty>
+	    <isNotEmpty property="watchDate" prepend="and">
+	        T.WATCH_DATE = #watchDate#
+	    </isNotEmpty>
+	    <isNotEmpty property="interestDay" prepend="and">
+	        T.INTEREST_DAY = #interestDay#
+	    </isNotEmpty>
+	    <isNotEmpty property="interestBase" prepend="and">
+	        T.INTEREST_BASE = #interestBase#
+	    </isNotEmpty>
+	    <isNotEmpty property="advFlag" prepend="and">
+	        T.ADV_FLAG = #advFlag#
+	    </isNotEmpty>
+	    <isNotEmpty property="adjustDay" prepend="and">
+	        T.ADJUST_DAY = #adjustDay#
+	    </isNotEmpty>
+	    <isNotEmpty property="memo" prepend="and">
+	        T.MEMO = #memo#
+	    </isNotEmpty>
+	    <isNotEmpty property="applyDate" prepend="and">
+	        T.APPLY_DATE = #applyDate#
+	    </isNotEmpty>
+	    <isNotEmpty property="financeName" prepend="and">
+	        T.FINANCE_NAME = #financeName#
+	    </isNotEmpty>
+	    <isNotEmpty property="financeNo" prepend="and">
+	        T.FINANCE_NO = #financeNo#
+	    </isNotEmpty>
+	    <isNotEmpty property="expectDay" prepend="and">
+	        T.EXPECT_DAY = #expectDay#
+	    </isNotEmpty>
+	    <isNotEmpty property="expectRate" prepend="and">
+	        T.EXPECT_RATE = #expectRate#
+	    </isNotEmpty>
+	    <isNotEmpty property="standRate" prepend="and">
+	        T.STAND_RATE = #standRate#
+	    </isNotEmpty>
+	    <isNotEmpty property="addPoint" prepend="and">
+	        T.ADD_POINT = #addPoint#
+	    </isNotEmpty>
+	    <isNotEmpty property="floatRate" prepend="and">
+	        T.FLOAT_RATE = #floatRate#
+	    </isNotEmpty>
+	    <isNotEmpty property="bondName" prepend="and">
+	        T.BOND_NAME = #bondName#
+	    </isNotEmpty>
+	    <isNotEmpty property="bondNo" prepend="and">
+	        T.BOND_NO = #bondNo#
+	    </isNotEmpty>
+	    <isNotEmpty property="bondNum" prepend="and">
+	        T.BOND_NUM = #bondNum#
+	    </isNotEmpty>
+	    <isNotEmpty property="interestPeriod" prepend="and">
+	        T.INTEREST_PERIOD = #interestPeriod#
+	    </isNotEmpty>
+	    <isNotEmpty property="repayType" prepend="and">
+	        T.REPAY_TYPE = #repayType#
+	    </isNotEmpty>
+	    <isNotEmpty property="libroRefe" prepend="and">
+	        T.LIBRO_REFE = #libroRefe#
+	    </isNotEmpty>
+	    <isNotEmpty property="libroMax" prepend="and">
+	        T.LIBRO_MAX = #libroMax#
+	    </isNotEmpty>
+	    <isNotEmpty property="libroMin" prepend="and">
+	        T.LIBRO_MIN = #libroMin#
+	    </isNotEmpty>
+	    <isNotEmpty property="rateLink" prepend="and">
+	        T.RATE_LINK = #rateLink#
+	    </isNotEmpty>
+	    <isNotEmpty property="pBussId" prepend="and">
+	        T.P_BUSS_ID = #pBussId#
+	    </isNotEmpty>
+	    <isNotEmpty property="rejectReason" prepend="and">
+	        T.REJECT_REASON = #rejectReason#
+	    </isNotEmpty>
+	    <isNotEmpty property="reason" prepend="and">
+	        T.REASON = #reason#
+	    </isNotEmpty>
+	    <isNotEmpty property="creator" prepend="and">
+	        T.CREATOR = #creator#
+	    </isNotEmpty>
+	    <isNotEmpty property="createTime" prepend="and">
+	        T.CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty property="amountlocal" prepend="and">
+	        T.AMOUNTLOCAL = #amountlocal#
+	    </isNotEmpty>
+	    <isNotEmpty property="linkRate" prepend="and">
+	        T.LINK_RATE = #linkRate#
+	    </isNotEmpty>
+	    <isNotEmpty property="parValue" prepend="and">
+	        T.PAR_VALUE = #parValue#
+	    </isNotEmpty>
+	    <isNotEmpty property="depositAmount" prepend="and">
+	        T.DEPOSIT_AMOUNT = #depositAmount#
+	    </isNotEmpty>
+	    <isNotEmpty property="finishType" prepend="and">
+	        T.FINISH_TYPE = #finishType#
+	    </isNotEmpty>
+	    <isNotEmpty property="state" prepend="and">
+	        T.STATE = #state#
+	    </isNotEmpty>
+	</select>
+	<!-- ����ҵ����־ -->
+	<insert id="saveBusinessLog" parameterClass="com.nstc.temp.model.BusinessLogModel">
+	    <selectKey resultClass="java.lang.Integer" keyProperty="logId">
+	        SELECT BIFS_BUSINESS_LOG_SEQ.NEXTVAL AS logId FROM DUAL
+	    </selectKey>
+	    INSERT INTO BIFS_BUSINESS_LOG (
+	        LOG_ID,
+	        BUSS_ID,
+	        LOG_TYPE,
+	        FMID,
+	        CREATOR,
+	        CREATE_TIME,
+	        MEMO
+	    ) VALUES(
+	        #logId#,
+	        #bussId#,
+	        #logType#,
+	        #fmid#,
+	        #creator#,
+	        #createTime#,
+	        #memo#
+	    )
+	</insert>
+	<!-- ɾ��ҵ����־ -->
+	<delete id="deleteBusinessLogById" parameterClass="java.lang.Integer">
+	    delete BIFS_BUSINESS_LOG WHERE LOG_ID = #logId#
+	</delete>
+	<!-- �޸�ҵ����־ -->
+	<update id="updateBusinessLog" parameterClass="com.nstc.temp.model.BusinessLogModel">
+	    UPDATE BIFS_BUSINESS_LOG SET
+	    LOG_ID = #logId#
+	    <isNotEmpty prepend="," property="bussId">
+	        BUSS_ID = #bussId#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="logType">
+	        LOG_TYPE = #logType#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="fmid">
+	        FMID = #fmid#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="creator">
+	        CREATOR = #creator#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createTime">
+	        CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="memo">
+	        MEMO = #memo#
+	    </isNotEmpty>
+	    WHERE LOG_ID = #logId#
+	</update>
+	<!-- ��ѯҵ����־ -->
+	<select id="getBusinessLogList" parameterClass="com.nstc.temp.model.BusinessLogModel" resultClass="com.nstc.temp.model.BusinessLogModel">
+	    SELECT
+	        T.LOG_ID AS "logId",
+	        T.BUSS_ID AS "bussId",
+	        T.LOG_TYPE AS "logType",
+	        T.FMID AS "fmid",
+	        T.CREATOR AS "creator",
+	        T.CREATE_TIME AS "createTime",
+	        T.MEMO AS "memo"
+	    FROM BIFS_BUSINESS_LOG T WHERE 1 = 1
+	    <isNotEmpty property="logId" prepend="and">
+	        T.LOG_ID = #logId#
+	    </isNotEmpty>
+	    <isNotEmpty property="bussId" prepend="and">
+	        T.BUSS_ID = #bussId#
+	    </isNotEmpty>
+	    <isNotEmpty property="logType" prepend="and">
+	        T.LOG_TYPE = #logType#
+	    </isNotEmpty>
+	    <isNotEmpty property="fmid" prepend="and">
+	        T.FMID = #fmid#
+	    </isNotEmpty>
+	    <isNotEmpty property="creator" prepend="and">
+	        T.CREATOR = #creator#
+	    </isNotEmpty>
+	    <isNotEmpty property="createTime" prepend="and">
+	        T.CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty property="memo" prepend="and">
+	        T.MEMO = #memo#
+	    </isNotEmpty>
+	</select>
+	<!-- ��������������� -->
+	<insert id="saveNature" parameterClass="com.nstc.temp.model.NatureModel">
+	    <selectKey resultClass="java.lang.Integer" keyProperty="id">
+	        SELECT BIFS_NATURE_SEQ.NEXTVAL AS id FROM DUAL
+	    </selectKey>
+	    INSERT INTO BIFS_NATURE (
+	        ID,
+	        BUSS_TYPE,
+	        NATURE_NAME,
+	        NATURE_VALUE
+	    ) VALUES(
+	        #id#,
+	        #bussType#,
+	        #natureName#,
+	        #natureValue#
+	    )
+	</insert>
+	<!-- ɾ������������� -->
+	<delete id="deleteNatureById" parameterClass="java.lang.Integer">
+	    delete BIFS_NATURE WHERE ID = #id#
+	</delete>
+	<!-- �޸Ĵ���������� -->
+	<update id="updateNature" parameterClass="com.nstc.temp.model.NatureModel">
+	    UPDATE BIFS_NATURE SET
+	    ID = #id#
+	    <isNotEmpty prepend="," property="bussType">
+	        BUSS_TYPE = #bussType#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="natureName">
+	        NATURE_NAME = #natureName#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="natureValue">
+	        NATURE_VALUE = #natureValue#
+	    </isNotEmpty>
+	    WHERE ID = #id#
+	</update>
+	<!-- ��ѯ����������� -->
+	<select id="getNatureList" parameterClass="com.nstc.temp.model.NatureModel" resultClass="com.nstc.temp.model.NatureModel">
+	    SELECT
+	        T.ID AS "id",
+	        T.BUSS_TYPE AS "bussType",
+	        T.NATURE_NAME AS "natureName",
+	        T.NATURE_VALUE AS "natureValue"
+	    FROM BIFS_NATURE T WHERE 1 = 1
+	    <isNotEmpty property="id" prepend="and">
+	        T.ID = #id#
+	    </isNotEmpty>
+	    <isNotEmpty property="bussType" prepend="and">
+	        T.BUSS_TYPE = #bussType#
+	    </isNotEmpty>
+	    <isNotEmpty property="natureName" prepend="and">
+	        T.NATURE_NAME = #natureName#
+	    </isNotEmpty>
+	    <isNotEmpty property="natureValue" prepend="and">
+	        T.NATURE_VALUE = #natureValue#
+	    </isNotEmpty>
+	</select>
+	<!-- 新增事务申请 -->
+	<insert id="saveAffair" parameterClass="com.nstc.temp.model.AffairModel">
+	    <selectKey resultClass="java.lang.Integer" keyProperty="id">
+	        SELECT TPS_AFFAIR_SEQ.NEXTVAL AS id FROM DUAL
+	    </selectKey>
+	    INSERT INTO TPS_AFFAIR (
+	        ID,
+	        AFFAIR_CODE,
+	        CLTNO,
+	        ACT_DATE,
+	        DESCRPTION,
+	        UPFILENAME,
+	        STATUS,
+	        APPROVE_PERSON,
+	        APPROVE_TIME,
+	        BIZCASEID,
+	        CREATE_PERSON,
+	        CREATE_TIME,
+	        UPDATE_PERSON,
+	        UPDATE_TIME
+	    ) VALUES(
+	        #id#,
+	        #affairCode#,
+	        #cltno#,
+	        #actDate#,
+	        #descrption#,
+	        #upfilename#,
+	        #status#,
+	        #approvePerson#,
+	        #approveTime#,
+	        #bizcaseid#,
+	        #createPerson#,
+	        #createTime#,
+	        #updatePerson#,
+	        #updateTime#
+	    )
+	</insert>
+	<!-- 删除事务申请 -->
+	<delete id="deleteAffairById" parameterClass="java.lang.Integer">
+	    delete TPS_AFFAIR WHERE ID = #id#
+	</delete>
+	<!-- 修改事务申请 -->
+	<update id="updateAffair" parameterClass="com.nstc.temp.model.AffairModel">
+	    UPDATE TPS_AFFAIR SET
+	    ID = #id#
+	    <isNotEmpty prepend="," property="affairCode">
+	        AFFAIR_CODE = #affairCode#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="cltno">
+	        CLTNO = #cltno#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="actDate">
+	        ACT_DATE = #actDate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="descrption">
+	        DESCRPTION = #descrption#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="upfilename">
+	        UPFILENAME = #upfilename#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="status">
+	        STATUS = #status#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="approvePerson">
+	        APPROVE_PERSON = #approvePerson#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="approveTime">
+	        APPROVE_TIME = #approveTime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="bizcaseid">
+	        BIZCASEID = #bizcaseid#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createPerson">
+	        CREATE_PERSON = #createPerson#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createTime">
+	        CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="updatePerson">
+	        UPDATE_PERSON = #updatePerson#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="updateTime">
+	        UPDATE_TIME = #updateTime#
+	    </isNotEmpty>
+	    WHERE ID = #id#
+	</update>
+	<!-- 查询事务申请 -->
+	<select id="getAffairList" parameterClass="com.nstc.temp.model.AffairModel" resultClass="com.nstc.temp.model.AffairModel">
+	    SELECT
+	        T.ID AS "id",
+	        T.AFFAIR_CODE AS "affairCode",
+	        T.CLTNO AS "cltno",
+	        T.ACT_DATE AS "actDate",
+	        T.DESCRPTION AS "descrption",
+	        T.UPFILENAME AS "upfilename",
+	        T.STATUS AS "status",
+	        T.APPROVE_PERSON AS "approvePerson",
+	        T.APPROVE_TIME AS "approveTime",
+	        T.BIZCASEID AS "bizcaseid",
+	        T.CREATE_PERSON AS "createPerson",
+	        T.CREATE_TIME AS "createTime",
+	        T.UPDATE_PERSON AS "updatePerson",
+	        T.UPDATE_TIME AS "updateTime"
+	    FROM TPS_AFFAIR T WHERE 1 = 1
+	    <isNotEmpty property="id" prepend="and">
+	        T.ID = #id#
+	    </isNotEmpty>
+	    <isNotEmpty property="affairCode" prepend="and">
+	        T.AFFAIR_CODE = #affairCode#
+	    </isNotEmpty>
+	    <isNotEmpty property="cltno" prepend="and">
+	        T.CLTNO = #cltno#
+	    </isNotEmpty>
+	    <isNotEmpty property="actDate" prepend="and">
+	        T.ACT_DATE = #actDate#
+	    </isNotEmpty>
+	    <isNotEmpty property="descrption" prepend="and">
+	        T.DESCRPTION = #descrption#
+	    </isNotEmpty>
+	    <isNotEmpty property="upfilename" prepend="and">
+	        T.UPFILENAME = #upfilename#
+	    </isNotEmpty>
+	    <isNotEmpty property="status" prepend="and">
+	        T.STATUS = #status#
+	    </isNotEmpty>
+	    <isNotEmpty property="approvePerson" prepend="and">
+	        T.APPROVE_PERSON = #approvePerson#
+	    </isNotEmpty>
+	    <isNotEmpty property="approveTime" prepend="and">
+	        T.APPROVE_TIME = #approveTime#
+	    </isNotEmpty>
+	    <isNotEmpty property="bizcaseid" prepend="and">
+	        T.BIZCASEID = #bizcaseid#
+	    </isNotEmpty>
+	    <isNotEmpty property="createPerson" prepend="and">
+	        T.CREATE_PERSON = #createPerson#
+	    </isNotEmpty>
+	    <isNotEmpty property="createTime" prepend="and">
+	        T.CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty property="updatePerson" prepend="and">
+	        T.UPDATE_PERSON = #updatePerson#
+	    </isNotEmpty>
+	    <isNotEmpty property="updateTime" prepend="and">
+	        T.UPDATE_TIME = #updateTime#
+	    </isNotEmpty>
+	</select>
+	<!-- 新增事务类型 -->
+	<insert id="saveAffairType" parameterClass="com.nstc.temp.model.AffairTypeModel">
+	    INSERT INTO TPS_AFFAIR_TYPE (
+	        AFFAIR_CODE,
+	        AFFAIR_NAME,
+	        DESCRIPTION,
+	        CREATE_PERSON,
+	        CREATE_TIME,
+	        UPDATE_PERSON,
+	        UPDATE_TIME,
+	        OPEN_STATE
+	    ) VALUES(
+	        #affairCode#,
+	        #affairName#,
+	        #description#,
+	        #createPerson#,
+	        #createTime#,
+	        #updatePerson#,
+	        #updateTime#,
+	        #openState#
+	    )
+	</insert>
+	<!-- 删除事务类型 -->
+	<delete id="deleteAffairTypeById" parameterClass="java.lang.Integer">
+	    delete TPS_AFFAIR_TYPE WHERE AFFAIR_CODE = #affairCode#
+	</delete>
+	<!-- 修改事务类型 -->
+	<update id="updateAffairType" parameterClass="com.nstc.temp.model.AffairTypeModel">
+	    UPDATE TPS_AFFAIR_TYPE SET
+	    AFFAIR_CODE = #affairCode#
+	    <isNotEmpty prepend="," property="affairName">
+	        AFFAIR_NAME = #affairName#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="description">
+	        DESCRIPTION = #description#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createPerson">
+	        CREATE_PERSON = #createPerson#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createTime">
+	        CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="updatePerson">
+	        UPDATE_PERSON = #updatePerson#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="updateTime">
+	        UPDATE_TIME = #updateTime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="openState">
+	        OPEN_STATE = #openState#
+	    </isNotEmpty>
+	    WHERE AFFAIR_CODE = #affairCode#
+	</update>
+	<!-- 查询事务类型 -->
+	<select id="getAffairTypeList" parameterClass="com.nstc.temp.model.AffairTypeModel" resultClass="com.nstc.temp.model.AffairTypeModel">
+	    SELECT
+	        T.AFFAIR_CODE AS "affairCode",
+	        T.AFFAIR_NAME AS "affairName",
+	        T.DESCRIPTION AS "description",
+	        T.CREATE_PERSON AS "createPerson",
+	        T.CREATE_TIME AS "createTime",
+	        T.UPDATE_PERSON AS "updatePerson",
+	        T.UPDATE_TIME AS "updateTime",
+	        T.OPEN_STATE AS "openState"
+	    FROM TPS_AFFAIR_TYPE T WHERE 1 = 1
+	    <isNotEmpty property="affairCode" prepend="and">
+	        T.AFFAIR_CODE = #affairCode#
+	    </isNotEmpty>
+	    <isNotEmpty property="affairName" prepend="and">
+	        T.AFFAIR_NAME = #affairName#
+	    </isNotEmpty>
+	    <isNotEmpty property="description" prepend="and">
+	        T.DESCRIPTION = #description#
+	    </isNotEmpty>
+	    <isNotEmpty property="createPerson" prepend="and">
+	        T.CREATE_PERSON = #createPerson#
+	    </isNotEmpty>
+	    <isNotEmpty property="createTime" prepend="and">
+	        T.CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty property="updatePerson" prepend="and">
+	        T.UPDATE_PERSON = #updatePerson#
+	    </isNotEmpty>
+	    <isNotEmpty property="updateTime" prepend="and">
+	        T.UPDATE_TIME = #updateTime#
+	    </isNotEmpty>
+	    <isNotEmpty property="openState" prepend="and">
+	        T.OPEN_STATE = #openState#
+	    </isNotEmpty>
+	</select>
+		
+</sqlMap>

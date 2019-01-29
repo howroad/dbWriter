@@ -88,7 +88,8 @@
         /
 
  ###2.1生成的XML文件如下
-         <!-- 新增事务申请 -->
+              
+        <!-- 新增事务申请 -->
         <insert id="saveAffair" parameterClass="com.nstc.temp.model.Affair">
             <selectKey resultClass="java.lang.Integer" keyProperty="id">
                 SELECT TPS_AFFAIR_SEQ.NEXTVAL AS id FROM DUAL

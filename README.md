@@ -33,6 +33,7 @@
         #主键必须是number格式，否则不能运行！
 
 ###1.2生成的TAB文件如下
+        
         DECLARE
             CNT INTEGER;
         BEGIN
@@ -67,6 +68,7 @@
             END IF;
         END;
         /
+        
 ###1.2生成的SEQ文件如下
         DECLARE
             CNT INTEGER;

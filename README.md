@@ -70,6 +70,7 @@
         /
         
 ###1.2生成的SEQ文件如下
+        
         DECLARE
             CNT INTEGER;
         BEGIN
@@ -85,6 +86,7 @@
             END IF;
         END;
         /
+
  ###2.1生成的XML文件如下
          <!-- 新增事务申请 -->
         <insert id="saveAffair" parameterClass="com.nstc.temp.model.Affair">

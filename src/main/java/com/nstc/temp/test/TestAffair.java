@@ -17,7 +17,6 @@ public class TestAffair {
         PrintStream out = System.out;
         Affair save = DataUtil.getObj(Affair.class);
         //TODO 放入外键
-        save.setAffairCode("260");
         Integer id = dao.saveAffair(save);
         Affair idScope = DataUtil.getIdScope(Affair.class,id);
         List<Affair> list = dao.getAffairList(idScope);
@@ -25,20 +24,19 @@ public class TestAffair {
 
         Affair scope = DataUtil.getScope(Affair.class);
         //TODO 放入外键
-        scope.setAffairCode("260");
         List<Affair> queryList = dao.getAffairList(scope);
-        if(!queryList.isEmpty()) {out.println("查询成功..." + queryList);}else {out.println("查询失败！");return;}
+        if(!queryList.isEmpty() && queryList.size() == 1) {out.println("查询成功..." + queryList);}else {out.println("查询失败！");return;}
 
         if(id == null) {System.out.println("id为空，请手动测试修改和删除！记得删掉新增的记录！");return;}
-        Affair update = DataUtil.getUpdateModel(Affair.class,0);
+
+        Affair update = DataUtil.getUpdateModel(Affair.class,id);
         //TODO 放入外键
-        update.setAffairCode("260");
         dao.updateAffair(update);
-        List<Affair> updateList = dao.getAffairList(update);
+        List<Affair> updateList = dao.getAffairList(idScope);
         out.println("修改成功...: " + updateList);
 
-        dao.deleteAffairById(0);
-        List<Affair> listAfterDelete = dao.getAffairList(update);
+        dao.deleteAffairById(id);
+        List<Affair> listAfterDelete = dao.getAffairList(idScope);
         if(listAfterDelete.isEmpty()) {System.out.println("删除成功！...");}else {System.out.println("删除失败！");}
     }
 }

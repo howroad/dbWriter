@@ -16,8 +16,6 @@ import oracle.sql.TIMESTAMP;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2018年12月26日 下午4:56:49
@@ -114,7 +112,7 @@ public class Table {
                 Object object = iterator.next();
                 String value = getInsertValue(object, lineList.get(index++));
                 last = !iterator.hasNext();
-                if(first) {
+                if(DbSettings.dealSEQ && first) {
                     if(last) {
                         out.print(seqNext);
                     }else {
@@ -247,20 +245,38 @@ public class Table {
      */
     public void writeDao(PrintWriter out) {
         writeSaveDao(out);
+        out.println();
         writeDeleteDao(out);
+        out.println();
         writeUpdateDao(out);
+        out.println();
         writeGetDao(out);
+        
         out.println();
+        out.println();
+        out.println();
+        
         writeSaveDaoImpl(out,DAO);
-        writeDeleteDaoImpl(out,DAO);
-        writeUpdateDaoImpl(out,DAO);
-        writeGetDaoImpl(out,DAO);
         out.println();
+        writeDeleteDaoImpl(out,DAO);
+        out.println();
+        writeUpdateDaoImpl(out,DAO);
+        out.println();
+        writeGetDaoImpl(out,DAO);
+        
+        out.println();
+        out.println();
+        out.println();
+        
         writeSaveDaoImpl(out,SERVICE);
+        out.println();
         writeDeleteDaoImpl(out,SERVICE);
+        out.println();
         writeUpdateDaoImpl(out,SERVICE);
+        out.println();
         writeGetDaoImpl(out,SERVICE);
         out.println();
+
         writeTestUnit(out);
     }
     /**
@@ -273,8 +289,11 @@ public class Table {
      */
     public void writeXml(PrintWriter out) {
         writeSaveXml(out);
+        out.println();
         writeDeleteXml(out);
+        out.println();
         writeUpdateXml(out);
+        out.println();
         writeGetXml(out);
     }
     /**
@@ -288,9 +307,11 @@ public class Table {
 	private void writeSaveXml(PrintWriter out) {
 		out.println("<!-- 新增" + tableRemart + " -->");
 		out.println("<insert id=\"save" + getEntityName() + "\" parameterClass=\""+ getEntityClassPath() + "\">");
-		out.println(TAB + "<selectKey resultClass=\"java.lang.Integer\" keyProperty=\"" + lineList.get(0).getParamName() + "\">");
-		out.println(TABTAB + "SELECT " + getSeqName() + ".NEXTVAL AS " + lineList.get(0).getParamName() + " FROM DUAL");
-		out.println(TAB + "</selectKey>");
+		if(DbSettings.dealSEQ) {
+		    out.println(TAB + "<selectKey resultClass=\"java.lang.Integer\" keyProperty=\"" + lineList.get(0).getParamName() + "\">");
+		    out.println(TABTAB + "SELECT " + getSeqName() + ".NEXTVAL AS " + lineList.get(0).getParamName() + " FROM DUAL");
+		    out.println(TAB + "</selectKey>");
+		}
 		out.println(TAB + "INSERT INTO " + tableName + " (");
 		for (ListIterator<Line> iterator = lineList.listIterator(); iterator.hasNext();) {
 			Line line = (Line) iterator.next();
@@ -437,6 +458,9 @@ public class Table {
 	 * @since：2018年12月28日 下午6:28:52
 	 */
 	private void writeSaveDaoImpl(PrintWriter out,int type) {
+	    if(DbSettings.implCommont) {
+	        commont(out, SAVE);
+	    }
 		out.println("public Integer save" + getEntityName() + "(" + getClassName() + " model) {");
 		if(DAO == type) {
 		    out.println(TAB + "return (Integer)getSqlMapClientTemplate().insert(getStatement(\"save" + getEntityName() +"\"),model);");
@@ -467,6 +491,9 @@ public class Table {
 	 * @since：2018年12月28日 下午6:29:31
 	 */
 	private void writeDeleteDaoImpl(PrintWriter out,int type) {
+       if(DbSettings.implCommont) {
+            commont(out, DELETE);
+        }
 		out.println("public void delete" + getEntityName() + "ById (Integer id) {");
 		if(DAO == type) {
 		    out.println(TAB + "getSqlMapClientTemplate().delete(getStatement(\"delete" + getEntityName() + "ById\"),id);");
@@ -497,6 +524,9 @@ public class Table {
 	 * @since：2018年12月28日 下午6:29:51
 	 */
 	private void writeUpdateDaoImpl(PrintWriter out,int type) {
+       if(DbSettings.implCommont) {
+            commont(out, UPDATE);
+        }	    
 		out.println("public void update" + getEntityName() + "(" + getClassName() + " model) {");
 		if(DAO == type) {
 		    out.println(TAB + "getSqlMapClientTemplate().update(getStatement(\"update" + getEntityName() + "\"),model);");
@@ -527,6 +557,9 @@ public class Table {
 	 * @since：2018年12月28日 下午6:30:29
 	 */
 	private void writeGetDaoImpl(PrintWriter out,int type) {
+       if(DbSettings.implCommont) {
+            commont(out, GET);
+        }   	    
 		out.println("public List<" + getClassName() + "> get" + getEntityName() + "List(" + getClassName() + " scope) {");
 		if(DAO == type) {
 		    //out.println(TAB + "return getSqlMapClientTemplate().queryForList(getStatement(\"get" + getEntityName() + "List\"),scope);");

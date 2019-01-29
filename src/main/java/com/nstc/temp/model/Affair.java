@@ -3,8 +3,8 @@ package com.nstc.temp.model;
 import java.util.Date;
 
 /** 事务申请 */
-public class AffairModel {
-    /** id主键 */
+public class Affair {
+    /** ID主键 */
     private Integer id;
     /** 事务类型代码 */
     private String affairCode;
@@ -13,22 +13,24 @@ public class AffairModel {
     /** 期望处理日期 */
     private Date actDate;
     /** 事务描述 */
-    private String descrption;
+    private String description;
     /** 附件名称 */
     private String upfilename;
     /** 状态 0：保存、1：提交、2：审批通过、3：驳回 */
     private Integer status;
-    /** 审批人userno */
+    /** 审批人USERNO */
     private String approvePerson;
     /** 审批时间 */
     private Date approveTime;
-    /** 工作流id */
+    /** 审批意见 */
+    private String approveOpinion;
+    /** 工作流ID */
     private Integer bizcaseid;
-    /** 记录创建人（申请人）userno */
+    /** 记录创建人（申请人）USERNO */
     private String createPerson;
     /** 记录创建时间（申请时间） */
     private Date createTime;
-    /** 记录修改人userno */
+    /** 记录修改人USERNO */
     private String updatePerson;
     /** 记录修改时间 */
     private Date updateTime;
@@ -56,11 +58,11 @@ public class AffairModel {
     public void setActDate(Date actDate) {
         this.actDate = actDate;
     }
-    public String getDescrption() {
-        return descrption;
+    public String getDescription() {
+        return description;
     }
-    public void setDescrption(String descrption) {
-        this.descrption = descrption;
+    public void setDescription(String description) {
+        this.description = description;
     }
     public String getUpfilename() {
         return upfilename;
@@ -85,6 +87,12 @@ public class AffairModel {
     }
     public void setApproveTime(Date approveTime) {
         this.approveTime = approveTime;
+    }
+    public String getApproveOpinion() {
+        return approveOpinion;
+    }
+    public void setApproveOpinion(String approveOpinion) {
+        this.approveOpinion = approveOpinion;
     }
     public Integer getBizcaseid() {
         return bizcaseid;
@@ -116,14 +124,5 @@ public class AffairModel {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
-    public String toString() {
-        return "AffairModel [id=" + id + ", affairCode=" + affairCode + ", cltno=" + cltno + ", actDate=" + actDate
-                + ", descrption=" + descrption + ", upfilename=" + upfilename + ", status=" + status
-                + ", approvePerson=" + approvePerson + ", approveTime=" + approveTime + ", bizcaseid=" + bizcaseid
-                + ", createPerson=" + createPerson + ", createTime=" + createTime + ", updatePerson=" + updatePerson
-                + ", updateTime=" + updateTime + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-                + ", toString()=" + super.toString() + "]";
-    }
-    
     
 }

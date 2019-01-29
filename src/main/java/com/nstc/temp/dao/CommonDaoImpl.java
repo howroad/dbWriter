@@ -3,20 +3,13 @@ package com.nstc.temp.dao;
 import java.util.Arrays;
 import java.util.List;
 
-import com.nstc.temp.model.AffairModel;
-import com.nstc.temp.model.AffairTypeModel;
-import com.nstc.temp.model.Blend;
-import com.nstc.temp.model.BusinessLogModel;
-import com.nstc.temp.model.BusinessModel;
-import com.nstc.temp.model.NatureModel;
-import com.nstc.temp.model.WarehouseBill;
+import com.nstc.temp.model.Affair;
+import com.nstc.temp.model.AffairType;
 
 /**
  * <p>Title: Guarantee2DaoImpl.java</p>
  *
  * <p>Description: </p>
- *
- * <p>Company: 北京九恒星科技股份有限公司</p>
  *
  * @author luhao
  * 
@@ -24,104 +17,95 @@ import com.nstc.temp.model.WarehouseBill;
  * 
  */
 public class CommonDaoImpl extends BaseDao implements ICommonDao {
-    
-    public Integer saveBusiness(BusinessModel model) {
-        return (Integer)getSqlMapClientTemplate().insert(getStatement("saveBusiness"),model);
-    }
-    public void deleteBusinessById (Integer id) {
-        getSqlMapClientTemplate().delete(getStatement("deleteBusinessById"),id);
-    }
-    public void updateBusiness(BusinessModel model) {
-        getSqlMapClientTemplate().update(getStatement("updateBusiness"),model);
-    }
-    public List<BusinessModel> getBusinessList(BusinessModel scope) {
-        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getBusinessList"),scope);
-        List<BusinessModel> resultList = Arrays.asList(list.toArray(new BusinessModel[0]));
-        return resultList;
-    }
-    public Integer saveBusinessLog(BusinessLogModel model) {
-        return (Integer)getSqlMapClientTemplate().insert(getStatement("saveBusinessLog"),model);
-    }
-    public void deleteBusinessLogById (Integer id) {
-        getSqlMapClientTemplate().delete(getStatement("deleteBusinessLogById"),id);
-    }
-    public void updateBusinessLog(BusinessLogModel model) {
-        getSqlMapClientTemplate().update(getStatement("updateBusinessLog"),model);
-    }
-    public List<BusinessLogModel> getBusinessLogList(BusinessLogModel scope) {
-        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getBusinessLogList"),scope);
-        List<BusinessLogModel> resultList = Arrays.asList(list.toArray(new BusinessLogModel[0]));
-        return resultList;
-    }
-    public Integer saveNature(NatureModel model) {
-        return (Integer)getSqlMapClientTemplate().insert(getStatement("saveNature"),model);
-    }
-    public void deleteNatureById (Integer id) {
-        getSqlMapClientTemplate().delete(getStatement("deleteNatureById"),id);
-    }
-    public void updateNature(NatureModel model) {
-        getSqlMapClientTemplate().update(getStatement("updateNature"),model);
-    }
-    public List<NatureModel> getNatureList(NatureModel scope) {
-        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getNatureList"),scope);
-        List<NatureModel> resultList = Arrays.asList(list.toArray(new NatureModel[0]));
-        return resultList;
-    }
 
-    public Integer saveAffair(AffairModel model) {
+    /**
+    * 新增事务申请
+    * @param model 事务申请实体
+    * @author luhao
+    * @return 事务申请主键
+    * @since 2019-01-29 11:44:00
+    */
+    public Integer saveAffair(Affair model) {
         return (Integer)getSqlMapClientTemplate().insert(getStatement("saveAffair"),model);
     }
+    
+    /**
+    * 删除事务申请
+    * @param id 事务申请主键
+    * @author luhao
+    * @since 2019-01-29 11:44:00
+    */
     public void deleteAffairById (Integer id) {
         getSqlMapClientTemplate().delete(getStatement("deleteAffairById"),id);
     }
-    public void updateAffair(AffairModel model) {
+    
+    /**
+    * 修改事务申请
+    * @param model 事务申请实体
+    * @author luhao
+    * @since 2019-01-29 11:44:00
+    */
+    public void updateAffair(Affair model) {
         getSqlMapClientTemplate().update(getStatement("updateAffair"),model);
     }
-    public List<AffairModel> getAffairList(AffairModel scope) {
+    
+    /**
+    * 查询事务申请
+    * @param scope 事务申请查询条件
+    * @author luhao
+    * @return 事务申请集合
+    * @since 2019-01-29 11:44:00
+    */
+    public List<Affair> getAffairList(Affair scope) {
         List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getAffairList"),scope);
-        List<AffairModel> resultList = Arrays.asList(list.toArray(new AffairModel[0]));
+        List<Affair> resultList = Arrays.asList(list.toArray(new Affair[0]));
         return resultList;
     }
-    public Integer saveAffairType(AffairTypeModel model) {
+       
+    
+    
+    /**
+    * 新增事务类型
+    * @param model 事务类型实体
+    * @author luhao
+    * @return 事务类型主键
+    * @since 2019-01-29 11:44:01
+    */
+    public Integer saveAffairType(AffairType model) {
         return (Integer)getSqlMapClientTemplate().insert(getStatement("saveAffairType"),model);
     }
+    
+    /**
+    * 删除事务类型
+    * @param id 事务类型主键
+    * @author luhao
+    * @since 2019-01-29 11:44:01
+    */
     public void deleteAffairTypeById (Integer id) {
         getSqlMapClientTemplate().delete(getStatement("deleteAffairTypeById"),id);
     }
-    public void updateAffairType(AffairTypeModel model) {
+    
+    /**
+    * 修改事务类型
+    * @param model 事务类型实体
+    * @author luhao
+    * @since 2019-01-29 11:44:01
+    */
+    public void updateAffairType(AffairType model) {
         getSqlMapClientTemplate().update(getStatement("updateAffairType"),model);
     }
-    public List<AffairTypeModel> getAffairTypeList(AffairTypeModel scope) {
+    
+    /**
+    * 查询事务类型
+    * @param scope 事务类型查询条件
+    * @author luhao
+    * @return 事务类型集合
+    * @since 2019-01-29 11:44:01
+    */
+    public List<AffairType> getAffairTypeList(AffairType scope) {
         List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getAffairTypeList"),scope);
-        List<AffairTypeModel> resultList = Arrays.asList(list.toArray(new AffairTypeModel[0]));
+        List<AffairType> resultList = Arrays.asList(list.toArray(new AffairType[0]));
         return resultList;
     }
-    public Integer saveWarehouseBill(WarehouseBill model) {
-        return (Integer)getSqlMapClientTemplate().insert(getStatement("saveWarehouseBill"),model);
-    }
-    public void deleteWarehouseBillById (Integer id) {
-        getSqlMapClientTemplate().delete(getStatement("deleteWarehouseBillById"),id);
-    }
-    public void updateWarehouseBill(WarehouseBill model) {
-        getSqlMapClientTemplate().update(getStatement("updateWarehouseBill"),model);
-    }
-    public List<WarehouseBill> getWarehouseBillList(WarehouseBill scope) {
-        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getWarehouseBillList"),scope);
-        List<WarehouseBill> resultList = Arrays.asList(list.toArray(new WarehouseBill[0]));
-        return resultList;
-    }
-    public Integer saveBlend(Blend model) {
-        return (Integer)getSqlMapClientTemplate().insert(getStatement("saveBlend"),model);
-    }
-    public void deleteBlendById (Integer id) {
-        getSqlMapClientTemplate().delete(getStatement("deleteBlendById"),id);
-    }
-    public void updateBlend(Blend model) {
-        getSqlMapClientTemplate().update(getStatement("updateBlend"),model);
-    }
-    public List<Blend> getBlendList(Blend scope) {
-        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("getBlendList"),scope);
-        List<Blend> resultList = Arrays.asList(list.toArray(new Blend[0]));
-        return resultList;
-    }
+    
 }

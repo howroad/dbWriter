@@ -8,8 +8,6 @@ import java.util.Properties;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2019年1月24日 下午4:55:14
@@ -30,6 +28,9 @@ public class DbSettings {
     public static String appNo = "";
     public static String[] tablesFromDB = null;
     public static int SEQ_DIR = 1;
+    public static boolean implCommont = false;
+    public static boolean dealSEQ = true;
+    public static boolean autoRunTest = false;
     
     static{
         Properties pro = new Properties();
@@ -63,6 +64,9 @@ public class DbSettings {
         appNo = pro.getProperty("appNo");
         tablesFromDB = stringToArray(pro.getProperty("tablesFromDB"));
         SEQ_DIR = Integer.valueOf(pro.getProperty("SEQ_DIR"));
+        implCommont = "true".equalsIgnoreCase(pro.getProperty("implCommont"));
+        dealSEQ = "true".equalsIgnoreCase(pro.getProperty("dealSEQ"));
+        autoRunTest = "true".equalsIgnoreCase(pro.getProperty("autoRunTest"));
     }
     
     public static String[] stringToArray(String str) {

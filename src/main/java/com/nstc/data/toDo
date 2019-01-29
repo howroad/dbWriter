@@ -1,7 +1,5 @@
 通过properties来控制各种参数
-xml中的换行
-实现类中的注释
-
+主键必须是数字类型NUMBER的
 使用流程 db ctms_blend
 1.properties两个文件都看下
 2.start

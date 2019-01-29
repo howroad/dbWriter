@@ -2,24 +2,24 @@ package com.nstc.temp.model;
 
 import java.util.Date;
 
-/** äº‹åŠ¡ç±»å‹ */
-public class AffairTypeModel {
-    /** äº‹åŠ¡ç¼–å· */
+/** ÊÂÎñÀàĞÍ */
+public class AffairType {
+    /** ÊÂÎñ±àºÅ */
     private String affairCode;
-    /** äº‹åŠ¡åç§° */
+    /** ÊÂÎñÃû³Æ */
     private String affairName;
-    /** æè¿° */
-    private String description;
-    /** è®°å½•åˆ›å»ºäººuserno */
+    /** ¼ÇÂ¼´´½¨ÈËUSERNO */
     private String createPerson;
-    /** è®°å½•åˆ›å»ºæ—¶é—´ */
+    /** ¼ÇÂ¼´´½¨Ê±¼ä */
     private Date createTime;
-    /** è®°å½•ä¿®æ”¹äººuserno */
+    /** ¼ÇÂ¼ĞŞ¸ÄÈËUSERNO */
     private String updatePerson;
-    /** è®°å½•ä¿®æ”¹æ—¶é—´ */
+    /** ¼ÇÂ¼ĞŞ¸ÄÊ±¼ä */
     private Date updateTime;
-    /** æ˜¯å¦å¼€å¯1å¼€å¯0ä¸å¼€å¯ */
+    /** ÊÇ·ñ¿ªÆô1¿ªÆô0²»¿ªÆô */
     private Integer openState;
+    /** ÃèÊö */
+    private String affairDescription;
     public String getAffairCode() {
         return affairCode;
     }
@@ -31,12 +31,6 @@ public class AffairTypeModel {
     }
     public void setAffairName(String affairName) {
         this.affairName = affairName;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
     }
     public String getCreatePerson() {
         return createPerson;
@@ -68,10 +62,11 @@ public class AffairTypeModel {
     public void setOpenState(Integer openState) {
         this.openState = openState;
     }
-    public String toString() {
-        return "AffairTypeModel [affairCode=" + affairCode + ", affairName=" + affairName + ", description="
-                + description + ", createPerson=" + createPerson + ", createTime=" + createTime + ", updatePerson="
-                + updatePerson + ", updateTime=" + updateTime + ", openState=" + openState + "]";
+    public String getAffairDescription() {
+        return affairDescription;
+    }
+    public void setAffairDescription(String affairDescription) {
+        this.affairDescription = affairDescription;
     }
     
 }

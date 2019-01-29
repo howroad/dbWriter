@@ -32,10 +32,6 @@ import oracle.jdbc.driver.OracleConnection;
  * Description:
  * </p>
  *
- * <p>
- * Company: 北京九恒星科技股份有限公司
- * </p>
- *
  * @author luhao
  * 
  * @since：2018年12月21日 下午1:24:52
@@ -240,6 +236,9 @@ public class WriteUtil {
         return resultList;
     }
     public void buildSeq(Table table) {
+        if(!DbSettings.dealSEQ) {
+            return;
+        }
         PrintWriter out = null;
         String filName = DbSettings.PATH + table.getSeqName() + ".SEQ";
         try {

@@ -18,10 +18,6 @@ import com.ibatis.sqlmap.client.SqlMapClientBuilder;
  * Description:
  * </p>
  *
- * <p>
- * Company: 北京九恒星科技股份有限公司
- * </p>
- *
  * @author luhao
  * 
  * @since：2018年12月27日 上午10:29:54

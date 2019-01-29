@@ -2,6 +2,8 @@ package com.nstc.data;
 
 import java.util.List;
 
+import com.nstc.temp.test.RunTest;
+
 /**
  * <p>
  * Title: Start.java
@@ -9,10 +11,6 @@ import java.util.List;
  *
  * <p>
  * Description:
- * </p>
- *
- * <p>
- * Company: 北京九恒星科技股份有限公司
  * </p>
  *
  * @author luhao
@@ -48,7 +46,8 @@ public class Start {
                 wt.buildDate(table);
                 wt.buildCreateFromDB(table);
                 System.out.println(table.getTableName() + " complete...");
-
+                RunTest.buildClassAndRun(table.getEntityName(),DbSettings.autoRunTest);
+                System.out.println(table.getTableName() + "testBean complete...");
             } 
         }
         System.out.println("end...");

@@ -19,8 +19,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2018年12月24日 下午2:57:12

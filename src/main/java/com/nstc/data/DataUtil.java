@@ -8,8 +8,6 @@ import java.util.Date;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2018年12月27日 下午12:43:46

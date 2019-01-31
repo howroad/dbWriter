@@ -3,8 +3,11 @@ package com.nstc.data;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -38,6 +41,11 @@ import oracle.jdbc.driver.OracleConnection;
  * 
  */
 public class WriteUtil {
+
+    private static String[] FILE_LAST_KEY = new String[] {"}","}","</sqlMap>"};
+    public static int DAO_INTERFACE = 0;
+    public static int DAO_IMPL = 1;
+    public static int XML = 2;
 
     static {
         try {
@@ -265,13 +273,24 @@ public class WriteUtil {
     public void buildJavaBean(Table table) {
         PrintWriter out = null;
         String filName = DbSettings.PATH  + table.getJaveBeanName();
+        PrintWriter outThis = null;
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeJaveBean(out);
+           if(DbSettings.autoRunTest) {
+               String fileNameThis = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\model\\" + table.getJaveBeanName();
+               outThis = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileNameThis, false), "GBK"));
+               table.writeJaveBean(outThis);
+           }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            out.close();
+            if (out != null) {
+                out.close();
+            }
+            if (outThis != null) {
+                outThis.close();
+            }
         }
     }
     public void buildDao(Table table) {
@@ -328,5 +347,80 @@ public class WriteUtil {
         }
         reString = sb.toString();
         return reString;
+    }
+    
+    public static List<String> getLineList(File file){
+        List<String> lineList = new ArrayList<String>();
+        BufferedReader in = null ;
+        try {
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String line = null;
+            while((line = in.readLine()) != null) {
+                lineList.add(new String(line));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return lineList;
+    }
+    public static int getLastKeyLineNum(List<String> lineList,String key) {
+        int num = -1;
+        for (int i = 0; i < lineList.size(); i++) {
+            String str = lineList.get(i);
+            if(str != null && str.contains(key)) {
+                num = i;
+            }
+        }
+        return num;
+    }
+    
+    public static void writeFileInsertKey(File file,Table table,int fileType) {
+        List<String> lineList = getLineList(file);
+        for (String string : lineList) {
+            if(string.contains("save" + table.getEntityName())) {
+                return;
+            }
+        }
+        int index = getLastKeyLineNum(lineList, FILE_LAST_KEY[fileType]);
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(file);
+            for (int i = 0; i < index; i++) {
+                out.println(lineList.get(i));
+            }
+            if(DAO_INTERFACE == fileType) {
+                table.writeDaoInterface(out);
+            }else if(DAO_IMPL == fileType) {
+                table.writeDaoImpl(out);
+            }else if(XML == fileType) {
+                table.writeXml(out);
+            }
+            for(int i = index ; i < lineList.size() ; i++) {
+                out.println(lineList.get(i));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally{
+            if(out != null) {
+                out.close();
+            }
+        }
+    }
+}
+class TabPrintWriter extends PrintWriter{
+    public TabPrintWriter(File file) throws FileNotFoundException {
+        super(file);
+    }
+    
+    public void println(String str) {
+        super.println(Table.TAB + str);
     }
 }

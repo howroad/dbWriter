@@ -251,7 +251,185 @@
 	        T.AFFAIR_DESCRIPTION = #affairDescription#
 	    </isNotEmpty>
 	</select>
-	
-	
-		
+
+    <!-- 新增单位事物类型工作流关系表 -->
+    <insert id="saveRCltAfftypeFlow" parameterClass="com.nstc.temp.model.RCltAfftypeFlow">
+        <selectKey resultClass="java.lang.Integer" keyProperty="id">
+            SELECT SEQ_TPS_R_CLT_AFFTYPE_FLOW.NEXTVAL AS id FROM DUAL
+        </selectKey>
+        INSERT INTO TPS_R_CLT_AFFTYPE_FLOW (
+            ID,
+            CLTNO,
+            AFFAIR_CODE,
+            FW_KEY
+        ) VALUES(
+            #id#,
+            #cltno#,
+            #affairCode#,
+            #fwKey#
+        )
+    </insert>
+
+    <!-- 删除单位事物类型工作流关系表 -->
+    <delete id="deleteRCltAfftypeFlowById" parameterClass="java.lang.Integer">
+        delete TPS_R_CLT_AFFTYPE_FLOW WHERE ID = #id#
+    </delete>
+
+    <!-- 修改单位事物类型工作流关系表 -->
+    <update id="updateRCltAfftypeFlow" parameterClass="com.nstc.temp.model.RCltAfftypeFlow">
+        UPDATE TPS_R_CLT_AFFTYPE_FLOW SET
+        ID = #id#
+        <isNotEmpty prepend="," property="cltno">
+            CLTNO = #cltno#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="affairCode">
+            AFFAIR_CODE = #affairCode#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="fwKey">
+            FW_KEY = #fwKey#
+        </isNotEmpty>
+        WHERE ID = #id#
+    </update>
+
+    <!-- 查询单位事物类型工作流关系表 -->
+    <select id="getRCltAfftypeFlowList" parameterClass="com.nstc.temp.model.RCltAfftypeFlow" resultClass="com.nstc.temp.model.RCltAfftypeFlow">
+        SELECT
+            T.ID AS "id",
+            T.CLTNO AS "cltno",
+            T.AFFAIR_CODE AS "affairCode",
+            T.FW_KEY AS "fwKey"
+        FROM TPS_R_CLT_AFFTYPE_FLOW T WHERE 1 = 1
+        <isNotEmpty property="id" prepend="and">
+            T.ID = #id#
+        </isNotEmpty>
+        <isNotEmpty property="cltno" prepend="and">
+            T.CLTNO = #cltno#
+        </isNotEmpty>
+        <isNotEmpty property="affairCode" prepend="and">
+            T.AFFAIR_CODE = #affairCode#
+        </isNotEmpty>
+        <isNotEmpty property="fwKey" prepend="and">
+            T.FW_KEY = #fwKey#
+        </isNotEmpty>
+    </select>
+    <!-- 新增测试学生表 -->
+    <insert id="saveStudent" parameterClass="com.nstc.temp.model.Student">
+        <selectKey resultClass="java.lang.Integer" keyProperty="studentId">
+            SELECT SEQ_TEST_STUDENT.NEXTVAL AS studentId FROM DUAL
+        </selectKey>
+        INSERT INTO TEST_STUDENT (
+            STUDENT_ID,
+            STUDENT_NAME,
+            STUDENT_AGE,
+            STUDENT_BIRTH
+        ) VALUES(
+            #studentId#,
+            #studentName#,
+            #studentAge#,
+            #studentBirth#
+        )
+    </insert>
+
+    <!-- 删除测试学生表 -->
+    <delete id="deleteStudentById" parameterClass="java.lang.Integer">
+        delete TEST_STUDENT WHERE STUDENT_ID = #studentId#
+    </delete>
+
+    <!-- 修改测试学生表 -->
+    <update id="updateStudent" parameterClass="com.nstc.temp.model.Student">
+        UPDATE TEST_STUDENT SET
+        STUDENT_ID = #studentId#
+        <isNotEmpty prepend="," property="studentName">
+            STUDENT_NAME = #studentName#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="studentAge">
+            STUDENT_AGE = #studentAge#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="studentBirth">
+            STUDENT_BIRTH = #studentBirth#
+        </isNotEmpty>
+        WHERE STUDENT_ID = #studentId#
+    </update>
+
+    <!-- 查询测试学生表 -->
+    <select id="getStudentList" parameterClass="com.nstc.temp.model.Student" resultClass="com.nstc.temp.model.Student">
+        SELECT
+            T.STUDENT_ID AS "studentId",
+            T.STUDENT_NAME AS "studentName",
+            T.STUDENT_AGE AS "studentAge",
+            T.STUDENT_BIRTH AS "studentBirth"
+        FROM TEST_STUDENT T WHERE 1 = 1
+        <isNotEmpty property="studentId" prepend="and">
+            T.STUDENT_ID = #studentId#
+        </isNotEmpty>
+        <isNotEmpty property="studentName" prepend="and">
+            T.STUDENT_NAME = #studentName#
+        </isNotEmpty>
+        <isNotEmpty property="studentAge" prepend="and">
+            T.STUDENT_AGE = #studentAge#
+        </isNotEmpty>
+        <isNotEmpty property="studentBirth" prepend="and">
+            T.STUDENT_BIRTH = #studentBirth#
+        </isNotEmpty>
+    </select>
+    <!-- 新增测试教师表 -->
+    <insert id="saveTeacher" parameterClass="com.nstc.temp.model.Teacher">
+        <selectKey resultClass="java.lang.Integer" keyProperty="teacherId">
+            SELECT SEQ_TEST_TEACHER.NEXTVAL AS teacherId FROM DUAL
+        </selectKey>
+        INSERT INTO TEST_TEACHER (
+            TEACHER_ID,
+            TEACHER_NAME,
+            TEACHER_AGE,
+            TEACHER_BIRTH
+        ) VALUES(
+            #teacherId#,
+            #teacherName#,
+            #teacherAge#,
+            #teacherBirth#
+        )
+    </insert>
+
+    <!-- 删除测试教师表 -->
+    <delete id="deleteTeacherById" parameterClass="java.lang.Integer">
+        delete TEST_TEACHER WHERE TEACHER_ID = #teacherId#
+    </delete>
+
+    <!-- 修改测试教师表 -->
+    <update id="updateTeacher" parameterClass="com.nstc.temp.model.Teacher">
+        UPDATE TEST_TEACHER SET
+        TEACHER_ID = #teacherId#
+        <isNotEmpty prepend="," property="teacherName">
+            TEACHER_NAME = #teacherName#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="teacherAge">
+            TEACHER_AGE = #teacherAge#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="teacherBirth">
+            TEACHER_BIRTH = #teacherBirth#
+        </isNotEmpty>
+        WHERE TEACHER_ID = #teacherId#
+    </update>
+
+    <!-- 查询测试教师表 -->
+    <select id="getTeacherList" parameterClass="com.nstc.temp.model.Teacher" resultClass="com.nstc.temp.model.Teacher">
+        SELECT
+            T.TEACHER_ID AS "teacherId",
+            T.TEACHER_NAME AS "teacherName",
+            T.TEACHER_AGE AS "teacherAge",
+            T.TEACHER_BIRTH AS "teacherBirth"
+        FROM TEST_TEACHER T WHERE 1 = 1
+        <isNotEmpty property="teacherId" prepend="and">
+            T.TEACHER_ID = #teacherId#
+        </isNotEmpty>
+        <isNotEmpty property="teacherName" prepend="and">
+            T.TEACHER_NAME = #teacherName#
+        </isNotEmpty>
+        <isNotEmpty property="teacherAge" prepend="and">
+            T.TEACHER_AGE = #teacherAge#
+        </isNotEmpty>
+        <isNotEmpty property="teacherBirth" prepend="and">
+            T.TEACHER_BIRTH = #teacherBirth#
+        </isNotEmpty>
+    </select>
 </sqlMap>

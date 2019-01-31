@@ -1,6 +1,7 @@
 package com.nstc.temp.test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -25,7 +26,7 @@ import com.nstc.data.Table;
  * 
  */
 public class RunTest {
-
+    
     public static void buildClassAndRun(String pathName,boolean autoRunTest) {
         PrintWriter out = null;
         //String path = Class.class.getClass().getResource("/").getPath() + "com/nstc/temp/test/Test" + pathName + ".java";
@@ -41,7 +42,13 @@ public class RunTest {
          }
         JavaCompiler javac;
         javac = ToolProvider.getSystemJavaCompiler();
-        int compilationResult = javac.run(null,null,null, "-g","-verbose",path);
+        int compilationResult = -1;
+        File outClassFile = new File(Class.class.getClass().getResource("/").getPath() + "com/nstc/temp/test/Test" + pathName + ".class");
+        try {
+            compilationResult = javac.run(null,new FileOutputStream(outClassFile),null, "-g","-verbose",path);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
         System.out.println(compilationResult);
         
         

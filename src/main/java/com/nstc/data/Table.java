@@ -1,4 +1,5 @@
 package com.nstc.data;
+import java.io.File;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -26,7 +27,7 @@ public class Table {
 	private String tableName;
 	private String tableRemart;
 	List<Line> lineList;
-	private final static String TAB = "    ";
+	public final static String TAB = "    ";
 	private final static String TABTAB = "        ";
 	//private final static String TABTABTAB = "            ";
 	private final static int SAVE = 0;
@@ -41,6 +42,41 @@ public class Table {
 	private final static int SERVICE = 5;
 	private final static String UNDER_LINE = "_";
 	private String appNo = null;
+	
+	
+    public void writeCommonFile() {
+        String xmlPath = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\dao\\TEMP_Common.xml";
+        String daoInterfacePath = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\dao\\ICommonDao.java";
+        String daoImplPath = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\dao\\CommonDaoImpl.java";
+        File daoInterface = new File(daoInterfacePath);
+        File daoImpl = new File(daoImplPath);
+        File xml = new File(xmlPath);
+        WriteUtil.writeFileInsertKey(xml, this, WriteUtil.XML);
+        WriteUtil.writeFileInsertKey(daoInterface, this, WriteUtil.DAO_INTERFACE);
+        WriteUtil.writeFileInsertKey(daoImpl, this, WriteUtil.DAO_IMPL);
+
+    }
+	/**
+	 * 是否有时间类型
+	 * @Description:
+	 * @return boolean
+	 * @author luhao
+	 * @since：2019年1月30日 下午4:44:48
+	 */
+	private boolean hasDateType() {
+	    if(lineList == null || lineList.isEmpty()) {
+	        throw new RuntimeException("无列表信息！");
+	    }
+	    for (Line line : lineList) {
+            if(line == null) {
+                throw new RuntimeException("Line中无信息！");
+            }
+            if("Date".equals(line.getParamType()) || Types.DATE == line.getColumnType() || Types.TIMESTAMP == line.getColumnType()) {
+                return true;
+            }
+        }
+	    return false;
+	}
 	/**
 	 * 获得插入语句的字段，例如to_date('','')
 	 * @Description:
@@ -226,12 +262,29 @@ public class Table {
 	 */
     public void writeJaveBean(PrintWriter out) {
         out.println("package com.nstc." + getAppNo().toLowerCase() + ".model;");
+        if(hasDateType()) {
+            out.println("import java.util.Date;"); 
+        }
         out.println("/** " + tableRemart + " */");
         out.println("public class " + getClassName() +" {");
         for(ListIterator<Line> iterator = lineList.listIterator();iterator.hasNext();) {
             Line line = iterator.next();
             out.println(TAB + line.commentLine());
             out.println(TAB + line.paramLine());
+        }
+        out.println();
+        for(ListIterator<Line> iterator = lineList.listIterator();iterator.hasNext();) {
+            Line line = iterator.next();
+            String paramName = line.getParamName();
+            String upName = paramName.substring(0,1).toUpperCase()+paramName.substring(1);
+            out.println(TAB + "public void set" + upName + "(" + line.getParamType() + line.getParamName() + "){");
+            out.println(TABTAB + "this." + line.getParamName() + " = " + line.getParamName() + ";");
+            out.println(TAB + "}");
+            out.println();
+            out.println(TAB + "public " + line.getParamType() + "get" + upName + "(){");
+            out.println(TABTAB + "return this." + line.getParamName() + ";");
+            out.println(TAB + "}");
+            out.println();
         }
         out.println("}");
     }
@@ -244,6 +297,21 @@ public class Table {
      * @since：2018年12月28日 下午6:26:22
      */
     public void writeDao(PrintWriter out) {
+        writeDaoInterface(out);
+        
+        out.println();
+        out.println();
+        
+        writeDaoImpl(out);
+        
+        out.println();
+        out.println();
+        
+        writeServiceImpl(out);
+
+        //writeTestUnit(out);
+    }
+    public void writeDaoInterface(PrintWriter out) {
         writeSaveDao(out);
         out.println();
         writeDeleteDao(out);
@@ -251,11 +319,10 @@ public class Table {
         writeUpdateDao(out);
         out.println();
         writeGetDao(out);
-        
         out.println();
-        out.println();
-        out.println();
-        
+    }
+    
+    public void writeDaoImpl(PrintWriter out) {
         writeSaveDaoImpl(out,DAO);
         out.println();
         writeDeleteDaoImpl(out,DAO);
@@ -263,11 +330,10 @@ public class Table {
         writeUpdateDaoImpl(out,DAO);
         out.println();
         writeGetDaoImpl(out,DAO);
-        
         out.println();
-        out.println();
-        out.println();
-        
+    }
+    
+    public void writeServiceImpl(PrintWriter out) {
         writeSaveDaoImpl(out,SERVICE);
         out.println();
         writeDeleteDaoImpl(out,SERVICE);
@@ -276,9 +342,8 @@ public class Table {
         out.println();
         writeGetDaoImpl(out,SERVICE);
         out.println();
-
-        writeTestUnit(out);
     }
+    
     /**
      * 输出xml中curd的语句
      * @Description:
@@ -305,40 +370,41 @@ public class Table {
      * @since：2018年12月28日 下午6:27:13
      */
 	private void writeSaveXml(PrintWriter out) {
-		out.println("<!-- 新增" + tableRemart + " -->");
-		out.println("<insert id=\"save" + getEntityName() + "\" parameterClass=\""+ getEntityClassPath() + "\">");
+	    
+		out.println(TAB + "<!-- 新增" + tableRemart + " -->");
+		out.println(TAB + "<insert id=\"save" + getEntityName() + "\" parameterClass=\""+ getEntityClassPath() + "\">");
 		if(DbSettings.dealSEQ) {
-		    out.println(TAB + "<selectKey resultClass=\"java.lang.Integer\" keyProperty=\"" + lineList.get(0).getParamName() + "\">");
-		    out.println(TABTAB + "SELECT " + getSeqName() + ".NEXTVAL AS " + lineList.get(0).getParamName() + " FROM DUAL");
-		    out.println(TAB + "</selectKey>");
+		    out.println(TAB + TAB + "<selectKey resultClass=\"java.lang.Integer\" keyProperty=\"" + lineList.get(0).getParamName() + "\">");
+		    out.println(TAB + TABTAB + "SELECT " + getSeqName() + ".NEXTVAL AS " + lineList.get(0).getParamName() + " FROM DUAL");
+		    out.println(TAB + TAB + "</selectKey>");
 		}
-		out.println(TAB + "INSERT INTO " + tableName + " (");
+		out.println(TAB + TAB + "INSERT INTO " + tableName + " (");
 		for (ListIterator<Line> iterator = lineList.listIterator(); iterator.hasNext();) {
 			Line line = (Line) iterator.next();
             if(!iterator.hasNext()) {
-            	out.println(TABTAB + line.getColumnName());
+            	out.println(TAB + TABTAB + line.getColumnName());
             }else {
-            	out.println(TABTAB + line.getColumnName() + ",");
+            	out.println(TAB + TABTAB + line.getColumnName() + ",");
             }
 		}
-		out.println(TAB + ") VALUES(");
+		out.println(TAB + TAB + ") VALUES(");
 		for (ListIterator<Line> iterator = lineList.listIterator(); iterator.hasNext();) {
             boolean first = false;
             first = !iterator.hasPrevious();
 			Line line = (Line) iterator.next();
             if(!iterator.hasNext()) {
-            	out.println(TABTAB + line.getSharpName());
+            	out.println(TAB + TABTAB + line.getSharpName());
             }else {
                 if(first) {
                     //out.println(TABTAB + seqNext + ",");
-                    out.println(TABTAB + line.getSharpName() + ",");
+                    out.println(TAB + TABTAB + line.getSharpName() + ",");
                 }else {
-                    out.println(TABTAB + line.getSharpName() + ",");
+                    out.println(TAB + TABTAB + line.getSharpName() + ",");
                 }
             }
 		}
-		out.println(TAB + ")");
-		out.println("</insert>");
+		out.println(TAB + TAB + ")");
+		out.println(TAB + "</insert>");
 	}
 	/**
 	 * 输出按照Id删除的xml语句
@@ -349,10 +415,10 @@ public class Table {
 	 * @since：2018年12月28日 下午6:27:36
 	 */
 	private void writeDeleteXml(PrintWriter out) {
-		out.println("<!-- 删除" + tableRemart + " -->");
-		out.println("<delete id=\"delete" + getEntityName() + "ById\" parameterClass=\"java.lang.Integer\">");
-		out.println(TAB + "delete " + tableName +" WHERE " + lineList.get(0).getColumnName() + " = " + lineList.get(0).getSharpName());
-		out.println("</delete>");		
+		out.println(TAB + "<!-- 删除" + tableRemart + " -->");
+		out.println(TAB + "<delete id=\"delete" + getEntityName() + "ById\" parameterClass=\"java.lang.Integer\">");
+		out.println(TAB + TAB + "delete " + tableName +" WHERE " + lineList.get(0).getColumnName() + " = " + lineList.get(0).getSharpName());
+		out.println(TAB + "</delete>");		
 	}
 	/**
 	 * 输出按照字段修改的语句
@@ -363,23 +429,23 @@ public class Table {
 	 * @since：2018年12月28日 下午6:27:47
 	 */
 	private void writeUpdateXml(PrintWriter out) {
-		out.println("<!-- 修改" + tableRemart + " -->");
-		out.println("<update id=\"update" + getEntityName() + "\" parameterClass=\"" + getEntityClassPath() + "\">");
-		out.println(TAB + "UPDATE " + tableName + " SET");
+		out.println(TAB + "<!-- 修改" + tableRemart + " -->");
+		out.println(TAB + "<update id=\"update" + getEntityName() + "\" parameterClass=\"" + getEntityClassPath() + "\">");
+		out.println(TAB + TAB + "UPDATE " + tableName + " SET");
 		for (ListIterator<Line> iterator = lineList.listIterator(); iterator.hasNext();) {
 		    boolean first = false;
 		    first = !iterator.hasPrevious();
 			Line line = (Line) iterator.next();
 			if(first) {
-			    out.println(TAB + line.getColumnName() + " = " + line.getSharpName());
+			    out.println(TAB + TAB + line.getColumnName() + " = " + line.getSharpName());
 			}else {
-			    out.println(TAB + "<isNotEmpty prepend=\",\" property=\"" + line.getParamName() + "\">");
-			    out.println(TABTAB + line.getColumnName() + " = " + line.getSharpName());
-			    out.println(TAB + "</isNotEmpty>");
+			    out.println(TAB + TAB + "<isNotEmpty prepend=\",\" property=\"" + line.getParamName() + "\">");
+			    out.println(TAB + TABTAB + line.getColumnName() + " = " + line.getSharpName());
+			    out.println(TAB + TAB + "</isNotEmpty>");
 			}
 		}
-		out.println(TAB + "WHERE " + lineList.get(0).getColumnName() + " = " + lineList.get(0).getSharpName());
-		out.println("</update>");
+		out.println(TAB + TAB + "WHERE " + lineList.get(0).getColumnName() + " = " + lineList.get(0).getSharpName());
+		out.println(TAB + "</update>");
 	}
 	/**
 	 * 输出保存的xml语句
@@ -390,26 +456,26 @@ public class Table {
 	 * @since：2018年12月28日 下午6:28:05
 	 */
 	private void writeGetXml(PrintWriter out) {
-		out.println("<!-- 查询" + tableRemart + " -->");
-		out.println("<select id=\""+"get"+getEntityName()+"List\" parameterClass=\"" + getEntityClassPath() + "\" resultClass=\"" + getEntityClassPath() + "\">");
-		out.println(TAB + "SELECT");
+		out.println(TAB + "<!-- 查询" + tableRemart + " -->");
+		out.println(TAB + "<select id=\""+"get"+getEntityName()+"List\" parameterClass=\"" + getEntityClassPath() + "\" resultClass=\"" + getEntityClassPath() + "\">");
+		out.println(TAB + TAB + "SELECT");
 		for (ListIterator<Line> iterator = lineList.listIterator(); iterator.hasNext();) {
             Line line = iterator.next();
             String printLine = "T." + line.getColumnName() + " AS " + "\"" + line.getParamName() + "\",";
             if(!iterator.hasNext()) {
                 printLine = printLine.replace(",", "");
             }
-            out.println(TABTAB + printLine);
+            out.println(TAB + TABTAB + printLine);
 		}
-		out.println(TAB + "FROM " + tableName + " T WHERE 1 = 1");
+		out.println(TAB + TAB + "FROM " + tableName + " T WHERE 1 = 1");
         for (ListIterator<Line> iterator = lineList.listIterator(); iterator.hasNext();) {
             Line line = iterator.next();
-            out.println(TAB + "<isNotEmpty property=\"" + line.getParamName() + "\" prepend=\"and\">");
+            out.println(TAB + TAB + "<isNotEmpty property=\"" + line.getParamName() + "\" prepend=\"and\">");
             String printLine = "T." + line.getColumnName() + " = " + line.getSharpName();
-            out.println(TABTAB + printLine);
-            out.println(TAB + "</isNotEmpty>");
+            out.println(TAB + TABTAB + printLine);
+            out.println(TAB + TAB + "</isNotEmpty>");
         }
-        out.println("</select>");
+        out.println(TAB + "</select>");
 	}
 	/**
 	 * 输出DAO接口的注释信息
@@ -424,17 +490,17 @@ public class Table {
         String comName = COM_NAME[type];
         String paramName = COM_PARAM[type];
         String paramType = COM_PARAM_TYPE[type];
-        out.println("/**");
-        out.println("* " + comName + tableRemart);
-        out.println("* @param " + paramName + " " + tableRemart + paramType);
-        out.println("* @author luhao");
+        out.println(TAB + "/**");
+        out.println(TAB + "* " + comName + tableRemart);
+        out.println(TAB + "* @param " + paramName + " " + tableRemart + paramType);
+        out.println(TAB + "* @author luhao");
         if(GET == type) {
-            out.println("* @return " + tableRemart + "集合");
+            out.println(TAB + "* @return " + tableRemart + "集合");
         }else if(SAVE == type){
-            out.println("* @return " + tableRemart + "主键");
+            out.println(TAB + "* @return " + tableRemart + "主键");
         }
-        out.println("* @since " + getNow());
-        out.println("*/");
+        out.println(TAB + "* @since " + getNow());
+        out.println(TAB + "*/");
 	}
 	/**
 	 * 输出dao保存接口
@@ -446,7 +512,7 @@ public class Table {
 	 */
 	private void writeSaveDao(PrintWriter out) {
 	    commont(out, SAVE);
-		out.println("public Integer save" + getEntityName() + "(" + getClassName() +" model);");
+		out.println(TAB + "public Integer save" + getEntityName() + "(" + getClassName() +" model);");
 	}
 	/**
 	 * 输出dao保存实现类
@@ -461,13 +527,13 @@ public class Table {
 	    if(DbSettings.implCommont) {
 	        commont(out, SAVE);
 	    }
-		out.println("public Integer save" + getEntityName() + "(" + getClassName() + " model) {");
+		out.println(TAB + "public Integer save" + getEntityName() + "(" + getClassName() + " model) {");
 		if(DAO == type) {
-		    out.println(TAB + "return (Integer)getSqlMapClientTemplate().insert(getStatement(\"save" + getEntityName() +"\"),model);");
+		    out.println(TAB + TAB + "return (Integer)getSqlMapClientTemplate().insert(getStatement(\"save" + getEntityName() +"\"),model);");
 		}else {
-		    out.println(TAB + "return getDaoFacade().getCommonDao().save" + getEntityName() + "(model);");
+		    out.println(TAB + TAB + "return getDaoFacade().getCommonDao().save" + getEntityName() + "(model);");
 		}
-		out.println("}");
+		out.println(TAB + "}");
 	}
 	/**
 	 * 输出dao删除接口
@@ -479,7 +545,7 @@ public class Table {
 	 */
 	private void writeDeleteDao(PrintWriter out) {
 	    commont(out, DELETE);
-		out.println("public void delete" + getEntityName() + "ById (Integer id);");
+		out.println(TAB + "public void delete" + getEntityName() + "ById (Integer id);");
 	}
 	/**
 	 * 生成dao删除的实现类
@@ -494,13 +560,13 @@ public class Table {
        if(DbSettings.implCommont) {
             commont(out, DELETE);
         }
-		out.println("public void delete" + getEntityName() + "ById (Integer id) {");
+		out.println(TAB + "public void delete" + getEntityName() + "ById (Integer id) {");
 		if(DAO == type) {
-		    out.println(TAB + "getSqlMapClientTemplate().delete(getStatement(\"delete" + getEntityName() + "ById\"),id);");
+		    out.println(TAB + TAB + "getSqlMapClientTemplate().delete(getStatement(\"delete" + getEntityName() + "ById\"),id);");
 		}else {
-		    out.println(TAB + "getDaoFacade().getCommonDao().delete" + getEntityName() + "ById(id);");
+		    out.println(TAB + TAB + "getDaoFacade().getCommonDao().delete" + getEntityName() + "ById(id);");
 		}
-		out.println("}");
+		out.println(TAB + "}");
 	}
 	/**
 	 * 生成dao修改的接口
@@ -512,7 +578,7 @@ public class Table {
 	 */
 	private void writeUpdateDao(PrintWriter out) {
 	    commont(out, UPDATE);
-		out.println("public void update" + getEntityName() + "(" + getClassName() + " model);");
+		out.println(TAB + "public void update" + getEntityName() + "(" + getClassName() + " model);");
 	}
 	/**
 	 * 生成DAO修改的实现类
@@ -527,13 +593,13 @@ public class Table {
        if(DbSettings.implCommont) {
             commont(out, UPDATE);
         }	    
-		out.println("public void update" + getEntityName() + "(" + getClassName() + " model) {");
+		out.println(TAB + "public void update" + getEntityName() + "(" + getClassName() + " model) {");
 		if(DAO == type) {
-		    out.println(TAB + "getSqlMapClientTemplate().update(getStatement(\"update" + getEntityName() + "\"),model);");
+		    out.println(TAB + TAB + "getSqlMapClientTemplate().update(getStatement(\"update" + getEntityName() + "\"),model);");
 		}else {
-		    out.println(TAB + "getDaoFacade().getCommonDao().update" + getEntityName() + "(model);");
+		    out.println(TAB + TAB + "getDaoFacade().getCommonDao().update" + getEntityName() + "(model);");
 		}
-		out.println("}");
+		out.println(TAB + "}");
 	}
 	/**
 	 * 输出保存的接口
@@ -545,7 +611,7 @@ public class Table {
 	 */
 	private void writeGetDao(PrintWriter out) {
 	    commont(out, GET);
-		out.println("public List<" + getClassName() +"> get" + getEntityName() + "List(" + getClassName() + " scope);");
+		out.println(TAB + "public List<" + getClassName() +"> get" + getEntityName() + "List(" + getClassName() + " scope);");
 	}
 	/**
 	 * 输出保存的实现类
@@ -560,17 +626,18 @@ public class Table {
        if(DbSettings.implCommont) {
             commont(out, GET);
         }   	    
-		out.println("public List<" + getClassName() + "> get" + getEntityName() + "List(" + getClassName() + " scope) {");
+		out.println(TAB + "public List<" + getClassName() + "> get" + getEntityName() + "List(" + getClassName() + " scope) {");
 		if(DAO == type) {
 		    //out.println(TAB + "return getSqlMapClientTemplate().queryForList(getStatement(\"get" + getEntityName() + "List\"),scope);");
-		    out.println(TAB + "List<?> list = getSqlMapClientTemplate().queryForList(getStatement(\"get" + getEntityName() + "List\"),scope);");
-		    out.println(TAB + "List<" + getClassName() + "> resultList = Arrays.asList(list.toArray(new " + getClassName() + "[0]));");
-		    out.println(TAB + "return resultList;");
+		    out.println(TAB + TAB + "List<?> list = getSqlMapClientTemplate().queryForList(getStatement(\"get" + getEntityName() + "List\"),scope);");
+		    out.println(TAB + TAB + "List<" + getClassName() + "> resultList = Arrays.asList(list.toArray(new " + getClassName() + "[0]));");
+		    out.println(TAB + TAB + "return resultList;");
 		}else {
-		    out.println(TAB + "return getDaoFacade().getCommonDao().get" + getEntityName() + "List(scope);");
+		    out.println(TAB + TAB + "return getDaoFacade().getCommonDao().get" + getEntityName() + "List(scope);");
 		}
-		out.println("}");
+		out.println(TAB + "}");
 	}
+	/*
 	private void writeTestUnit(PrintWriter out) {
 	    String EntityName = getEntityName();
 	    out.println("@Test");
@@ -596,6 +663,7 @@ public class Table {
         out.println(TAB + "if(listAfterDelete.isEmpty()) {System.out.println(\"删除成功！...\");}else {System.out.println(\"删除失败！\");}");
         out.println("}");
 	}
+	*/
 	/**
 	 * 获得字符串格式的当前的时间
 	 * @Description:

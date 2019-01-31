@@ -46,6 +46,9 @@ public class Start {
                 wt.buildDate(table);
                 wt.buildCreateFromDB(table);
                 System.out.println(table.getTableName() + " complete...");
+                if(DbSettings.autoRunTest) {
+                    table.writeCommonFile();
+                }
                 RunTest.buildClassAndRun(table.getEntityName(),DbSettings.autoRunTest);
                 System.out.println(table.getTableName() + "testBean complete...");
             } 

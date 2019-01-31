@@ -29,7 +29,6 @@ public class Table {
 	List<Line> lineList;
 	public final static String TAB = "    ";
 	private final static String TABTAB = "        ";
-	//private final static String TABTABTAB = "            ";
 	private final static int SAVE = 0;
 	private final static int DELETE = 1;
 	private final static int UPDATE = 2;
@@ -637,37 +636,9 @@ public class Table {
 		}
 		out.println(TAB + "}");
 	}
-	/*
-	private void writeTestUnit(PrintWriter out) {
-	    String EntityName = getEntityName();
-	    out.println("@Test");
-	    out.println("public void test" + EntityName + "(){");
-	    out.println(TAB + "PrintStream out = System.out;");
-        out.println(TAB + String.format("%sModel saveModel = DataUtil.getObj(%sModel.class);", EntityName, EntityName));
-        out.println(TAB + String.format("Integer id = dao.save%s(saveModel);", EntityName));
-        out.println(TAB + String.format("%sModel idScope = DataUtil.getIdScope(%sModel.class,id);", EntityName, EntityName));
-        out.println(TAB + String.format("List<%sModel> list = dao.get%sList(idScope);", EntityName, EntityName));
-        out.println(TAB + "if(!list.isEmpty()) {out.println(\"插入成功！\" + list.get(0));}else {out.println(\"插入或查询失败！\");return;}");
-        out.println();
-        out.println(TAB + String.format("%sModel scope = DataUtil.getScope(%sModel.class);", EntityName, EntityName));
-        out.println(TAB + String.format("List<%sModel> queryList = dao.get%sList(scope);", EntityName, EntityName));
-        out.println(TAB + "if(!queryList.isEmpty() && queryList.size() == 1) {out.println(\"查询成功...\" + queryList);}else {out.println(\"查询失败！\");return;}");
-        out.println();
-        out.println(TAB + String.format("%sModel updateModel = DataUtil.getUpdateModel(%sModel.class,id);", EntityName,EntityName));
-        out.println(TAB + String.format("dao.update%s(updateModel);", EntityName));
-        out.println(TAB + String.format("List<%sModel> updateList = dao.get%sList(idScope);", EntityName, EntityName));
-        out.println(TAB + "out.println(\"修改成功...: \" + updateList);");
-        out.println();
-        out.println(TAB + String.format("dao.delete%sById(id);", EntityName));
-        out.println(TAB + String.format("List<%sModel> listAfterDelete = dao.get%sList(idScope);", EntityName, EntityName));
-        out.println(TAB + "if(listAfterDelete.isEmpty()) {System.out.println(\"删除成功！...\");}else {System.out.println(\"删除失败！\");}");
-        out.println("}");
-	}
-	*/
 	/**
 	 * 获得字符串格式的当前的时间
 	 * @Description:
-	 * @return
 	 * @return String
 	 * @author luhao
 	 * @since：2018年12月28日 下午6:30:40

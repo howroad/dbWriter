@@ -39,7 +39,7 @@ public class Start {
                 if(tableName.toUpperCase().startsWith("UM_")) {
                     continue;
                 }
-                Table table = wt.buildTableFromDB(tableName,DbSettings.appNo);
+                Table table = TableBuilder.buildTableFromDB(tableName);
                 wt.buildJavaBean(table);
                 wt.buildDao(table);
                 wt.buildXml(table);

@@ -6,3 +6,15 @@
 3.复制.java到model目录
 4.将xml和Dao复制到相应的位置
 5.执行AutoTest
+
+//TODO
+结构调整1/2
+
+//TODO
+生成SCOPE
+生成其他的SQL方法(gdtXXXByIds,getXXXList,查询支持分页)
+生成BUSINESS（SaveAndSubmitXXXBusiness,DeleteXXXByIdsBusiness,QueryXXXListBusiness,QueryXXXByIdBusiness,SubmitXXXByIdsBusiness，查询支持分页）
+生成连表查询
+生成VIEW
+生成BUILDER
+生成工作流的方法

@@ -13,7 +13,7 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
 import com.nstc.data.DbSettings;
-import com.nstc.data.Table;
+import com.nstc.data.TableContans;
 
 /**
  * <p>Title: TestNature.java</p>
@@ -90,28 +90,28 @@ public class RunTest {
         out.println(tabtab + "ICommonDao dao = new CommonDaoImpl();");
         out.println(tabtab + "PropertyConfigurator.configure(ClassLoader.getSystemResource(\"com/nstc/temp/dao/log4j.properties\"));");
         out.println(tabtab + "PrintStream out = System.out;");
-        out.println(tabtab + String.format("%1$s save%2$s = DataUtil.getObj(%1$s%2$s.class);", entityName,Table.PO));
+        out.println(tabtab + String.format("%1$s save%2$s = DataUtil.getObj(%1$s%2$s.class);", entityName,TableContans.PO));
         out.println(tabtab + "//TODO 放入外键");
-        out.println(tabtab + String.format("Integer id = dao.save%1$s(save%2$s);", entityName,Table.PO));
-        out.println(tabtab + String.format("%1$s%2$s idScope = DataUtil.getIdScope(%1$s%2$s.class,id);", entityName,Table.PO));
-        out.println(tabtab + String.format("List<%1$s%2$s> list = dao.get%1$sList(idScope);", entityName,Table.PO));
+        out.println(tabtab + String.format("Integer id = dao.save%1$s(save%2$s);", entityName,TableContans.PO));
+        out.println(tabtab + String.format("%1$s%2$s idScope = DataUtil.getIdScope(%1$s%2$s.class,id);", entityName,TableContans.PO));
+        out.println(tabtab + String.format("List<%1$s%2$s> list = dao.get%1$sList(idScope);", entityName,TableContans.PO));
         out.println(tabtab + "if(!list.isEmpty()) {out.println(\"插入成功！\" + list.get(0));}else {out.println(\"插入或查询失败！\");return;}");
         out.println();
-        out.println(tabtab + String.format("%1$s%2$s scope = DataUtil.getScope(%1$s%2$s.class);", entityName,Table.PO));
+        out.println(tabtab + String.format("%1$s%2$s scope = DataUtil.getScope(%1$s%2$s.class);", entityName,TableContans.PO));
         out.println(tabtab + "//TODO 放入外键");
-        out.println(tabtab + String.format("List<%1$s%2$s> queryList = dao.get%1$sList(scope);", entityName,Table.PO));
+        out.println(tabtab + String.format("List<%1$s%2$s> queryList = dao.get%1$sList(scope);", entityName,TableContans.PO));
         out.println(tabtab + "if(!queryList.isEmpty() && queryList.size() == 1) {out.println(\"查询成功...\" + queryList);}else {out.println(\"查询失败！\");return;}");
         out.println();
         out.println(tabtab + "if(id == null) {System.out.println(\"id为空，请手动测试修改和删除！记得删掉新增的记录！\");return;}");
         out.println();
-        out.println(tabtab + String.format("%1$s%2$s update%2$s = DataUtil.getUpdateModel(%1$s%2$s.class,id);", entityName,Table.PO));
+        out.println(tabtab + String.format("%1$s%2$s update%2$s = DataUtil.getUpdateModel(%1$s%2$s.class,id);", entityName,TableContans.PO));
         out.println(tabtab + "//TODO 放入外键");
-        out.println(tabtab + String.format("dao.update%1$s(update%2$s);", entityName,Table.PO));
-        out.println(tabtab + String.format("List<%1$s%2$s> updateList = dao.get%1$sList(idScope);", entityName,Table.PO));
+        out.println(tabtab + String.format("dao.update%1$s(update%2$s);", entityName,TableContans.PO));
+        out.println(tabtab + String.format("List<%1$s%2$s> updateList = dao.get%1$sList(idScope);", entityName,TableContans.PO));
         out.println(tabtab + "out.println(\"修改成功...: \" + updateList);");
         out.println();
         out.println(tabtab + String.format("dao.delete%1$sById(id);", entityName));
-        out.println(tabtab + String.format("List<%1$s%2$s> listAfterDelete = dao.get%1$sList(idScope);", entityName,Table.PO));
+        out.println(tabtab + String.format("List<%1$s%2$s> listAfterDelete = dao.get%1$sList(idScope);", entityName,TableContans.PO));
         out.println(tabtab + "if(listAfterDelete.isEmpty()) {System.out.println(\"删除成功！...\");}else {System.out.println(\"删除失败！\");}");
         out.println(tab + "}");
         out.println("}");

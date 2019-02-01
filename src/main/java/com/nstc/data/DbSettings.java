@@ -31,6 +31,7 @@ public class DbSettings {
     public static boolean implCommont = false;
     public static boolean dealSEQ = true;
     public static boolean autoRunTest = false;
+    public static String prefix = "";
     
     static{
         Properties pro = new Properties();
@@ -67,6 +68,7 @@ public class DbSettings {
         implCommont = "true".equalsIgnoreCase(pro.getProperty("implCommont"));
         dealSEQ = "true".equalsIgnoreCase(pro.getProperty("dealSEQ"));
         autoRunTest = "true".equalsIgnoreCase(pro.getProperty("autoRunTest"));
+        prefix = pro.getProperty("prefix");
     }
     
     public static String[] stringToArray(String str) {

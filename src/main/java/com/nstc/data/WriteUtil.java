@@ -127,7 +127,7 @@ public class WriteUtil {
                         tableList.add(table);
                     }
                     tempLineList = new ArrayList<Line>();
-                    tempTable = new Table(columnName, commont, tempLineList,appNo);
+                    tempTable = new Table(columnName, commont, tempLineList);
                 }else {
                     tempLineList.add(new Line(columnName, type, commont));
                 }
@@ -170,6 +170,7 @@ public class WriteUtil {
                 int decimalDigits = rs.getInt("DECIMAL_DIGITS");
                 // 注释
                 String remark = rs.getString("REMARKS");
+                System.out.println(rs.getInt("COLUMN_SIZE"));
                 //java 解析会出现精度错误
                 if(decimalDigits == -127 && rs.getInt("COLUMN_SIZE") == 0) {
                     decimalDigits = 0;
@@ -190,7 +191,7 @@ public class WriteUtil {
                 e.printStackTrace();
             }
         }
-        return new Table(tableName, tableRemark, lineList,appNo);
+        return new Table(tableName, tableRemark, lineList);
     }
     public void buildDate(Table table) {
         PrintWriter out = null;
@@ -421,6 +422,6 @@ class TabPrintWriter extends PrintWriter{
     }
     
     public void println(String str) {
-        super.println(Table.TAB + str);
+        super.println(TableContans.TAB + str);
     }
 }

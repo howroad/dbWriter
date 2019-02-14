@@ -1,4 +1,7 @@
-package com.nstc.util;
+package com.nstc.dbwriter.util;
+
+import java.util.List;
+
 /**
  * <p>Title: ValidateUtil.java</p>
  *
@@ -15,6 +18,16 @@ public class ValidateUtil {
     public static void checkEmpty(String str) {
         if(str == null || str.length() == 0) {
             throw new RuntimeException("参数值（" + str + "）不合法！");
+        }
+    }
+    public static void checkEmpty(List<?> list) {
+        if(list == null || list.isEmpty()) {
+            throw new RuntimeException("参数值（" + list + "）不合法！");
+        }
+    }
+    public static void checkNull(Object obj) {
+        if(obj == null) {
+            throw new RuntimeException("参数值不合法！");
         }
     }
 }

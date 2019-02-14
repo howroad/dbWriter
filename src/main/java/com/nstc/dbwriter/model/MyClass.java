@@ -1,13 +1,12 @@
 
-package com.nstc.model;
+package com.nstc.dbwriter.model;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.CaseFormat;
-import com.nstc.data.Table;
-import com.nstc.data.TableContans;
+import com.nstc.dbwriter.config.TableContans;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package com.nstc.data;
+package com.nstc.dbwriter.model;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.CaseFormat;
-import com.nstc.model.MyClass;
-import com.nstc.model.MyParam;
+import com.nstc.dbwriter.config.DbSettings;
 
 import oracle.jdbc.driver.OracleConnection;
 

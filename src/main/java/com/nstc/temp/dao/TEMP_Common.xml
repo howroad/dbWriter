@@ -1,377 +1,167 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="TEMP.CommonDaoImpl">
-	<!-- 新增事务申请 -->
-	<insert id="saveAffair" parameterClass="com.nstc.temp.model.Affair">
-	    INSERT INTO TPS_AFFAIR (
-	        ID,
-	        AFFAIR_CODE,
-	        CLTNO,
-	        ACT_DATE,
-	        DESCRIPTION,
-	        UPFILENAME,
-	        STATUS,
-	        APPROVE_PERSON,
-	        APPROVE_TIME,
-	        APPROVE_OPINION,
-	        BIZCASEID,
-	        CREATE_PERSON,
-	        CREATE_TIME,
-	        UPDATE_PERSON,
-	        UPDATE_TIME
-	    ) VALUES(
-	        #id#,
-	        #affairCode#,
-	        #cltno#,
-	        #actDate#,
-	        #description#,
-	        #upfilename#,
-	        #status#,
-	        #approvePerson#,
-	        #approveTime#,
-	        #approveOpinion#,
-	        #bizcaseid#,
-	        #createPerson#,
-	        #createTime#,
-	        #updatePerson#,
-	        #updateTime#
-	    )
-	</insert>
-	
-	<!-- 删除事务申请 -->
-	<delete id="deleteAffairById" parameterClass="java.lang.Integer">
-	    delete TPS_AFFAIR WHERE ID = #id#
-	</delete>
-	
-	<!-- 修改事务申请 -->
-	<update id="updateAffair" parameterClass="com.nstc.temp.model.Affair">
-	    UPDATE TPS_AFFAIR SET
-	    ID = #id#
-	    <isNotEmpty prepend="," property="affairCode">
-	        AFFAIR_CODE = #affairCode#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="cltno">
-	        CLTNO = #cltno#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="actDate">
-	        ACT_DATE = #actDate#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="description">
-	        DESCRIPTION = #description#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="upfilename">
-	        UPFILENAME = #upfilename#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="status">
-	        STATUS = #status#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="approvePerson">
-	        APPROVE_PERSON = #approvePerson#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="approveTime">
-	        APPROVE_TIME = #approveTime#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="approveOpinion">
-	        APPROVE_OPINION = #approveOpinion#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="bizcaseid">
-	        BIZCASEID = #bizcaseid#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="createPerson">
-	        CREATE_PERSON = #createPerson#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="createTime">
-	        CREATE_TIME = #createTime#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="updatePerson">
-	        UPDATE_PERSON = #updatePerson#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="updateTime">
-	        UPDATE_TIME = #updateTime#
-	    </isNotEmpty>
-	    WHERE ID = #id#
-	</update>
-	
-	<!-- 查询事务申请 -->
-	<select id="getAffairList" parameterClass="com.nstc.temp.model.Affair" resultClass="com.nstc.temp.model.Affair">
-	    SELECT
-	        T.ID AS "id",
-	        T.AFFAIR_CODE AS "affairCode",
-	        T.CLTNO AS "cltno",
-	        T.ACT_DATE AS "actDate",
-	        T.DESCRIPTION AS "description",
-	        T.UPFILENAME AS "upfilename",
-	        T.STATUS AS "status",
-	        T.APPROVE_PERSON AS "approvePerson",
-	        T.APPROVE_TIME AS "approveTime",
-	        T.APPROVE_OPINION AS "approveOpinion",
-	        T.BIZCASEID AS "bizcaseid",
-	        T.CREATE_PERSON AS "createPerson",
-	        T.CREATE_TIME AS "createTime",
-	        T.UPDATE_PERSON AS "updatePerson",
-	        T.UPDATE_TIME AS "updateTime"
-	    FROM TPS_AFFAIR T WHERE 1 = 1
-	    <isNotEmpty property="id" prepend="and">
-	        T.ID = #id#
-	    </isNotEmpty>
-	    <isNotEmpty property="affairCode" prepend="and">
-	        T.AFFAIR_CODE = #affairCode#
-	    </isNotEmpty>
-	    <isNotEmpty property="cltno" prepend="and">
-	        T.CLTNO = #cltno#
-	    </isNotEmpty>
-	    <isNotEmpty property="actDate" prepend="and">
-	        T.ACT_DATE = #actDate#
-	    </isNotEmpty>
-	    <isNotEmpty property="description" prepend="and">
-	        T.DESCRIPTION = #description#
-	    </isNotEmpty>
-	    <isNotEmpty property="upfilename" prepend="and">
-	        T.UPFILENAME = #upfilename#
-	    </isNotEmpty>
-	    <isNotEmpty property="status" prepend="and">
-	        T.STATUS = #status#
-	    </isNotEmpty>
-	    <isNotEmpty property="approvePerson" prepend="and">
-	        T.APPROVE_PERSON = #approvePerson#
-	    </isNotEmpty>
-	    <isNotEmpty property="approveTime" prepend="and">
-	        T.APPROVE_TIME = #approveTime#
-	    </isNotEmpty>
-	    <isNotEmpty property="approveOpinion" prepend="and">
-	        T.APPROVE_OPINION = #approveOpinion#
-	    </isNotEmpty>
-	    <isNotEmpty property="bizcaseid" prepend="and">
-	        T.BIZCASEID = #bizcaseid#
-	    </isNotEmpty>
-	    <isNotEmpty property="createPerson" prepend="and">
-	        T.CREATE_PERSON = #createPerson#
-	    </isNotEmpty>
-	    <isNotEmpty property="createTime" prepend="and">
-	        T.CREATE_TIME = #createTime#
-	    </isNotEmpty>
-	    <isNotEmpty property="updatePerson" prepend="and">
-	        T.UPDATE_PERSON = #updatePerson#
-	    </isNotEmpty>
-	    <isNotEmpty property="updateTime" prepend="and">
-	        T.UPDATE_TIME = #updateTime#
-	    </isNotEmpty>
-	</select>
-	
-		<!-- 新增事务类型 -->
-	<insert id="saveAffairType" parameterClass="com.nstc.temp.model.AffairType">
-	    INSERT INTO TPS_AFFAIR_TYPE (
-	        AFFAIR_CODE,
-	        AFFAIR_NAME,
-	        CREATE_PERSON,
-	        CREATE_TIME,
-	        UPDATE_PERSON,
-	        UPDATE_TIME,
-	        OPEN_STATE,
-	        AFFAIR_DESCRIPTION
-	    ) VALUES(
-	        #affairCode#,
-	        #affairName#,
-	        #createPerson#,
-	        #createTime#,
-	        #updatePerson#,
-	        #updateTime#,
-	        #openState#,
-	        #affairDescription#
-	    )
-	</insert>
-	
-	<!-- 删除事务类型 -->
-	<delete id="deleteAffairTypeById" parameterClass="java.lang.Integer">
-	    delete TPS_AFFAIR_TYPE WHERE AFFAIR_CODE = #affairCode#
-	</delete>
-	
-	<!-- 修改事务类型 -->
-	<update id="updateAffairType" parameterClass="com.nstc.temp.model.AffairType">
-	    UPDATE TPS_AFFAIR_TYPE SET
-	    AFFAIR_CODE = #affairCode#
-	    <isNotEmpty prepend="," property="affairName">
-	        AFFAIR_NAME = #affairName#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="createPerson">
-	        CREATE_PERSON = #createPerson#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="createTime">
-	        CREATE_TIME = #createTime#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="updatePerson">
-	        UPDATE_PERSON = #updatePerson#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="updateTime">
-	        UPDATE_TIME = #updateTime#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="openState">
-	        OPEN_STATE = #openState#
-	    </isNotEmpty>
-	    <isNotEmpty prepend="," property="affairDescription">
-	        AFFAIR_DESCRIPTION = #affairDescription#
-	    </isNotEmpty>
-	    WHERE AFFAIR_CODE = #affairCode#
-	</update>
-	
-	<!-- 查询事务类型 -->
-	<select id="getAffairTypeList" parameterClass="com.nstc.temp.model.AffairType" resultClass="com.nstc.temp.model.AffairType">
-	    SELECT
-	        T.AFFAIR_CODE AS "affairCode",
-	        T.AFFAIR_NAME AS "affairName",
-	        T.CREATE_PERSON AS "createPerson",
-	        T.CREATE_TIME AS "createTime",
-	        T.UPDATE_PERSON AS "updatePerson",
-	        T.UPDATE_TIME AS "updateTime",
-	        T.OPEN_STATE AS "openState",
-	        T.AFFAIR_DESCRIPTION AS "affairDescription"
-	    FROM TPS_AFFAIR_TYPE T WHERE 1 = 1
-	    <isNotEmpty property="affairCode" prepend="and">
-	        T.AFFAIR_CODE = #affairCode#
-	    </isNotEmpty>
-	    <isNotEmpty property="affairName" prepend="and">
-	        T.AFFAIR_NAME = #affairName#
-	    </isNotEmpty>
-	    <isNotEmpty property="createPerson" prepend="and">
-	        T.CREATE_PERSON = #createPerson#
-	    </isNotEmpty>
-	    <isNotEmpty property="createTime" prepend="and">
-	        T.CREATE_TIME = #createTime#
-	    </isNotEmpty>
-	    <isNotEmpty property="updatePerson" prepend="and">
-	        T.UPDATE_PERSON = #updatePerson#
-	    </isNotEmpty>
-	    <isNotEmpty property="updateTime" prepend="and">
-	        T.UPDATE_TIME = #updateTime#
-	    </isNotEmpty>
-	    <isNotEmpty property="openState" prepend="and">
-	        T.OPEN_STATE = #openState#
-	    </isNotEmpty>
-	    <isNotEmpty property="affairDescription" prepend="and">
-	        T.AFFAIR_DESCRIPTION = #affairDescription#
-	    </isNotEmpty>
-	</select>
 
-    <!-- 新增单位事物类型工作流关系表 -->
-    <insert id="saveRCltAfftypeFlow" parameterClass="com.nstc.temp.model.RCltAfftypeFlow">
+    <!-- 新增事务申请 -->
+    <insert id="saveAffair" parameterClass="com.nstc.temp.model.Affair">
         <selectKey resultClass="java.lang.Integer" keyProperty="id">
-            SELECT SEQ_TPS_R_CLT_AFFTYPE_FLOW.NEXTVAL AS id FROM DUAL
+            SELECT SEQ_TPS_AFFAIR.NEXTVAL AS id FROM DUAL
         </selectKey>
-        INSERT INTO TPS_R_CLT_AFFTYPE_FLOW (
+        INSERT INTO TPS_AFFAIR (
             ID,
-            CLTNO,
             AFFAIR_CODE,
-            FW_KEY
+            CLTNO,
+            ACT_DATE,
+            DESCRIPTION,
+            UPFILENAME,
+            STATUS,
+            APPROVE_PERSON,
+            APPROVE_TIME,
+            APPROVE_OPINION,
+            BIZCASEID,
+            CREATE_PERSON,
+            CREATE_TIME,
+            UPDATE_PERSON,
+            UPDATE_TIME
         ) VALUES(
             #id#,
-            #cltno#,
             #affairCode#,
-            #fwKey#
+            #cltno#,
+            #actDate#,
+            #description#,
+            #upfilename#,
+            #status#,
+            #approvePerson#,
+            #approveTime#,
+            #approveOpinion#,
+            #bizcaseid#,
+            #createPerson#,
+            #createTime#,
+            #updatePerson#,
+            #updateTime#
         )
     </insert>
 
-    <!-- 删除单位事物类型工作流关系表 -->
-    <delete id="deleteRCltAfftypeFlowById" parameterClass="java.lang.Integer">
-        delete TPS_R_CLT_AFFTYPE_FLOW WHERE ID = #id#
+    <!-- 删除事务申请 -->
+    <delete id="deleteAffairById" parameterClass="java.lang.Integer">
+        delete TPS_AFFAIR WHERE ID = #id#
     </delete>
 
-    <!-- 修改单位事物类型工作流关系表 -->
-    <update id="updateRCltAfftypeFlow" parameterClass="com.nstc.temp.model.RCltAfftypeFlow">
-        UPDATE TPS_R_CLT_AFFTYPE_FLOW SET
+    <!-- 修改事务申请 -->
+    <update id="updateAffair" parameterClass="com.nstc.temp.model.Affair">
+        UPDATE TPS_AFFAIR SET
         ID = #id#
-        <isNotEmpty prepend="," property="cltno">
-            CLTNO = #cltno#
-        </isNotEmpty>
         <isNotEmpty prepend="," property="affairCode">
             AFFAIR_CODE = #affairCode#
         </isNotEmpty>
-        <isNotEmpty prepend="," property="fwKey">
-            FW_KEY = #fwKey#
+        <isNotEmpty prepend="," property="cltno">
+            CLTNO = #cltno#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="actDate">
+            ACT_DATE = #actDate#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="description">
+            DESCRIPTION = #description#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="upfilename">
+            UPFILENAME = #upfilename#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="status">
+            STATUS = #status#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="approvePerson">
+            APPROVE_PERSON = #approvePerson#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="approveTime">
+            APPROVE_TIME = #approveTime#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="approveOpinion">
+            APPROVE_OPINION = #approveOpinion#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="bizcaseid">
+            BIZCASEID = #bizcaseid#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="createPerson">
+            CREATE_PERSON = #createPerson#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="createTime">
+            CREATE_TIME = #createTime#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="updatePerson">
+            UPDATE_PERSON = #updatePerson#
+        </isNotEmpty>
+        <isNotEmpty prepend="," property="updateTime">
+            UPDATE_TIME = #updateTime#
         </isNotEmpty>
         WHERE ID = #id#
     </update>
 
-    <!-- 查询单位事物类型工作流关系表 -->
-    <select id="getRCltAfftypeFlowList" parameterClass="com.nstc.temp.model.RCltAfftypeFlow" resultClass="com.nstc.temp.model.RCltAfftypeFlow">
+    <!-- 查询事务申请 -->
+    <select id="getAffairList" parameterClass="com.nstc.temp.model.Affair" resultClass="com.nstc.temp.model.Affair">
         SELECT
             T.ID AS "id",
-            T.CLTNO AS "cltno",
             T.AFFAIR_CODE AS "affairCode",
-            T.FW_KEY AS "fwKey"
-        FROM TPS_R_CLT_AFFTYPE_FLOW T WHERE 1 = 1
+            T.CLTNO AS "cltno",
+            T.ACT_DATE AS "actDate",
+            T.DESCRIPTION AS "description",
+            T.UPFILENAME AS "upfilename",
+            T.STATUS AS "status",
+            T.APPROVE_PERSON AS "approvePerson",
+            T.APPROVE_TIME AS "approveTime",
+            T.APPROVE_OPINION AS "approveOpinion",
+            T.BIZCASEID AS "bizcaseid",
+            T.CREATE_PERSON AS "createPerson",
+            T.CREATE_TIME AS "createTime",
+            T.UPDATE_PERSON AS "updatePerson",
+            T.UPDATE_TIME AS "updateTime"
+        FROM TPS_AFFAIR T WHERE 1 = 1
         <isNotEmpty property="id" prepend="and">
             T.ID = #id#
-        </isNotEmpty>
-        <isNotEmpty property="cltno" prepend="and">
-            T.CLTNO = #cltno#
         </isNotEmpty>
         <isNotEmpty property="affairCode" prepend="and">
             T.AFFAIR_CODE = #affairCode#
         </isNotEmpty>
-        <isNotEmpty property="fwKey" prepend="and">
-            T.FW_KEY = #fwKey#
+        <isNotEmpty property="cltno" prepend="and">
+            T.CLTNO = #cltno#
+        </isNotEmpty>
+        <isNotEmpty property="actDate" prepend="and">
+            T.ACT_DATE = #actDate#
+        </isNotEmpty>
+        <isNotEmpty property="description" prepend="and">
+            T.DESCRIPTION = #description#
+        </isNotEmpty>
+        <isNotEmpty property="upfilename" prepend="and">
+            T.UPFILENAME = #upfilename#
+        </isNotEmpty>
+        <isNotEmpty property="status" prepend="and">
+            T.STATUS = #status#
+        </isNotEmpty>
+        <isNotEmpty property="approvePerson" prepend="and">
+            T.APPROVE_PERSON = #approvePerson#
+        </isNotEmpty>
+        <isNotEmpty property="approveTime" prepend="and">
+            T.APPROVE_TIME = #approveTime#
+        </isNotEmpty>
+        <isNotEmpty property="approveOpinion" prepend="and">
+            T.APPROVE_OPINION = #approveOpinion#
+        </isNotEmpty>
+        <isNotEmpty property="bizcaseid" prepend="and">
+            T.BIZCASEID = #bizcaseid#
+        </isNotEmpty>
+        <isNotEmpty property="createPerson" prepend="and">
+            T.CREATE_PERSON = #createPerson#
+        </isNotEmpty>
+        <isNotEmpty property="createTime" prepend="and">
+            T.CREATE_TIME = #createTime#
+        </isNotEmpty>
+        <isNotEmpty property="updatePerson" prepend="and">
+            T.UPDATE_PERSON = #updatePerson#
+        </isNotEmpty>
+        <isNotEmpty property="updateTime" prepend="and">
+            T.UPDATE_TIME = #updateTime#
         </isNotEmpty>
     </select>
-    <!-- 新增测试学生表 -->
-    <insert id="saveStudent" parameterClass="com.nstc.temp.model.Student">
-        <selectKey resultClass="java.lang.Integer" keyProperty="studentId">
-            SELECT SEQ_TEST_STUDENT.NEXTVAL AS studentId FROM DUAL
-        </selectKey>
-        INSERT INTO TEST_STUDENT (
-            STUDENT_ID,
-            STUDENT_NAME,
-            STUDENT_AGE,
-            STUDENT_BIRTH
-        ) VALUES(
-            #studentId#,
-            #studentName#,
-            #studentAge#,
-            #studentBirth#
-        )
-    </insert>
-
-    <!-- 删除测试学生表 -->
-    <delete id="deleteStudentById" parameterClass="java.lang.Integer">
-        delete TEST_STUDENT WHERE STUDENT_ID = #studentId#
-    </delete>
-
-    <!-- 修改测试学生表 -->
-    <update id="updateStudent" parameterClass="com.nstc.temp.model.Student">
-        UPDATE TEST_STUDENT SET
-        STUDENT_ID = #studentId#
-        <isNotEmpty prepend="," property="studentName">
-            STUDENT_NAME = #studentName#
-        </isNotEmpty>
-        <isNotEmpty prepend="," property="studentAge">
-            STUDENT_AGE = #studentAge#
-        </isNotEmpty>
-        <isNotEmpty prepend="," property="studentBirth">
-            STUDENT_BIRTH = #studentBirth#
-        </isNotEmpty>
-        WHERE STUDENT_ID = #studentId#
-    </update>
-
-    <!-- 查询测试学生表 -->
-    <select id="getStudentList" parameterClass="com.nstc.temp.model.Student" resultClass="com.nstc.temp.model.Student">
-        SELECT
-            T.STUDENT_ID AS "studentId",
-            T.STUDENT_NAME AS "studentName",
-            T.STUDENT_AGE AS "studentAge",
-            T.STUDENT_BIRTH AS "studentBirth"
-        FROM TEST_STUDENT T WHERE 1 = 1
-        <isNotEmpty property="studentId" prepend="and">
-            T.STUDENT_ID = #studentId#
-        </isNotEmpty>
-        <isNotEmpty property="studentName" prepend="and">
-            T.STUDENT_NAME = #studentName#
-        </isNotEmpty>
-        <isNotEmpty property="studentAge" prepend="and">
-            T.STUDENT_AGE = #studentAge#
-        </isNotEmpty>
-        <isNotEmpty property="studentBirth" prepend="and">
-            T.STUDENT_BIRTH = #studentBirth#
-        </isNotEmpty>
-    </select>
+    
     <!-- 新增测试教师表 -->
     <insert id="saveTeacher" parameterClass="com.nstc.temp.model.Teacher">
         <selectKey resultClass="java.lang.Integer" keyProperty="teacherId">

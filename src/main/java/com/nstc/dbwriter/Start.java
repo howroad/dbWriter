@@ -1,7 +1,11 @@
-package com.nstc.data;
+package com.nstc.dbwriter;
 
 import java.util.List;
 
+import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.model.Table;
+import com.nstc.dbwriter.model.TableBuilder;
+import com.nstc.dbwriter.util.WriteUtil;
 import com.nstc.temp.test.RunTest;
 
 /**

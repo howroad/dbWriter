@@ -1,8 +1,10 @@
-package com.nstc.model;
+package com.nstc.dbwriter.model;
+
+import java.util.Map;
 
 import javax.lang.model.element.Modifier;
 
-import com.nstc.data.TableContans;
+import com.nstc.dbwriter.config.TableContans;
 
 /**
  * <p>Title: MyParam.java</p>
@@ -16,11 +18,12 @@ import com.nstc.data.TableContans;
  * @since：2019年2月1日 下午1:38:11
  * 
  */
-public class MyParam extends FileWriter {
+public class MyParam extends FileWriter implements MapContent{
     private String modifier = Modifier.PRIVATE.toString();
     private MyType type;
     private String paramName;
     private String paramRemark;
+    private Map<String, String> map;
     
     public MyParam(String paramName,String paramRemark,int dateType, int columnSize , int decimalDigits) {
         super();
@@ -65,6 +68,14 @@ public class MyParam extends FileWriter {
 
     public void setParamRemark(String paramRemark) {
         this.paramRemark = paramRemark;
+    }
+
+    public Map<String, String> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+        this.map = map;
     }
     
     

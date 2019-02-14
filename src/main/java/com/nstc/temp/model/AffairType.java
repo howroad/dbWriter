@@ -2,23 +2,23 @@ package com.nstc.temp.model;
 
 import java.util.Date;
 
-/** ÊÂÎñÀàÐÍ */
+/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 public class AffairType {
-    /** ÊÂÎñ±àºÅ */
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     private String affairCode;
-    /** ÊÂÎñÃû³Æ */
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     private String affairName;
-    /** ¼ÇÂ¼´´½¨ÈËUSERNO */
+    /** ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½USERNO */
     private String createPerson;
-    /** ¼ÇÂ¼´´½¨Ê±¼ä */
+    /** ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ */
     private Date createTime;
-    /** ¼ÇÂ¼ÐÞ¸ÄÈËUSERNO */
+    /** ï¿½ï¿½Â¼ï¿½Þ¸ï¿½ï¿½ï¿½USERNO */
     private String updatePerson;
-    /** ¼ÇÂ¼ÐÞ¸ÄÊ±¼ä */
+    /** ï¿½ï¿½Â¼ï¿½Þ¸ï¿½Ê±ï¿½ï¿½ */
     private Date updateTime;
-    /** ÊÇ·ñ¿ªÆô1¿ªÆô0²»¿ªÆô */
+    /** ï¿½Ç·ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     private Integer openState;
-    /** ÃèÊö */
+    /** ï¿½ï¿½ï¿½ï¿½ */
     private String affairDescription;
     public String getAffairCode() {
         return affairCode;

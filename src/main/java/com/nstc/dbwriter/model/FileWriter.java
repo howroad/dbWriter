@@ -1,10 +1,10 @@
-package com.nstc.model;
+package com.nstc.dbwriter.model;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.nstc.data.TableContans;
+import com.nstc.dbwriter.config.TableContans;
 
 /**
  * <p>Title: FileWriter.java</p>

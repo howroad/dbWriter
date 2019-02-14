@@ -1,4 +1,4 @@
-package com.nstc.data;
+package com.nstc.dbwriter.util;
 
 
 import java.io.BufferedReader;
@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.ListIterator;
 
 import com.google.common.base.CaseFormat;
+import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.TableContans;
+import com.nstc.dbwriter.model.Line;
+import com.nstc.dbwriter.model.Table;
 
 import oracle.jdbc.driver.OracleConnection;
 

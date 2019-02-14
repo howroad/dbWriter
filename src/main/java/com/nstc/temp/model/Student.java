@@ -1,14 +1,14 @@
 package com.nstc.temp.model;
 import java.util.Date;
-/** 测试学生表 */
+/** 锟斤拷锟斤拷学锟斤拷锟斤拷 */
 public class Student {
-    /** 学生表主键 */
+    /** 学锟斤拷锟斤拷锟斤拷锟斤拷 */
     private Integer studentId;
-    /** 学生姓名 */
+    /** 学锟斤拷锟斤拷锟斤拷 */
     private String studentName;
-    /** 学生年龄 */
+    /** 学锟斤拷锟斤拷锟斤拷 */
     private Integer studentAge;
-    /** 学生生日 */
+    /** 学锟斤拷锟斤拷锟斤拷 */
     private Date studentBirth;
 
     public void setStudentId(Integer studentId){

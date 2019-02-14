@@ -1,7 +1,6 @@
 package com.nstc.temp.test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -12,8 +11,8 @@ import java.net.URLClassLoader;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
-import com.nstc.data.DbSettings;
-import com.nstc.data.TableContans;
+import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.TableContans;
 
 /**
  * <p>Title: TestNature.java</p>
@@ -28,27 +27,27 @@ import com.nstc.data.TableContans;
 public class RunTest {
     
     public static void buildClassAndRun(String pathName,boolean autoRunTest) {
-        PrintWriter out = null;
-        //String path = Class.class.getClass().getResource("/").getPath() + "com/nstc/temp/test/Test" + pathName + ".java";
+        PrintWriter code = null;
+        PrintWriter tempCode = null;
         String path = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\test\\Test" + pathName + ".java";
+        String classPath = Class.class.getClass().getResource("/").getPath() + "com/nstc/temp/test/Test" + pathName + ".java";
         System.out.println(path);
         try {
-            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(path, false), "UTF8"));
-            writeJava(out,pathName);
+            code = new PrintWriter(new OutputStreamWriter(new FileOutputStream(path, false), "UTF8"));
+            tempCode = new PrintWriter(new OutputStreamWriter(new FileOutputStream(classPath, false), "UTF8"));
+            writeJava(code,pathName);
+            writeJava(tempCode,pathName);
          } catch (Exception e) {
              e.printStackTrace();
          } finally {
-             out.close();
+             code.close();
+             tempCode.close();
          }
         JavaCompiler javac;
         javac = ToolProvider.getSystemJavaCompiler();
         int compilationResult = -1;
-        File outClassFile = new File(Class.class.getClass().getResource("/").getPath() + "com/nstc/temp/test/Test" + pathName + ".class");
-        try {
-            compilationResult = javac.run(null,new FileOutputStream(outClassFile),null, "-g","-verbose",path);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        }
+        compilationResult = javac.run(null,null,null, "-g","-verbose",path);
+        
         System.out.println(compilationResult);
         
         
@@ -57,6 +56,7 @@ public class RunTest {
         }
         
         File file = new File(Class.class.getClass().getResource("/").getPath() + "com/nstc/temp/test/"); 
+        
         URLClassLoader classloader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         try {
             Method add = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
@@ -79,7 +79,8 @@ public class RunTest {
         out.println("import org.apache.log4j.PropertyConfigurator;");
         out.println("import com.nstc.temp.dao.*;");
         out.println("import com.nstc.temp.model.*;");
-        out.println("import com.nstc.data.*;");
+        //out.println("import com.nstc.data.*;");
+        out.println("import com.nstc.dbwriter.util.DataUtil;");
         out.println("public class Test" + entityName + " {");
         out.println();
         out.println(tab + "public static void main(String[] args) {"); 

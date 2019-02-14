@@ -1,13 +1,13 @@
 package com.nstc.temp.model;
-/** µ¥Î»ÊÂÎïÀàÐÍ¹¤×÷Á÷¹ØÏµ±í */
+/** ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ */
 public class RCltAfftypeFlow {
-    /** ¹ØÏµ±íÖ÷¼ü */
+    /** ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     private Integer id;
-    /** µ¥Î»±àºÅ */
+    /** ï¿½ï¿½Î»ï¿½ï¿½ï¿½ */
     private String cltno;
-    /** ÊÂÎïÀàÐÍ±àºÅ */
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í±ï¿½ï¿½ */
     private String affairCode;
-    /** Á÷³Ì±àºÅ */
+    /** ï¿½ï¿½ï¿½Ì±ï¿½ï¿½ */
     private String fwKey;
 
     public void setId(Integer id){

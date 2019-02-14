@@ -1,4 +1,4 @@
-package com.nstc.data;
+package com.nstc.dbwriter.model;
 import java.io.File;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -7,9 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import com.google.common.base.CaseFormat;
-import com.nstc.model.MyClass;
+import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.TableContans;
+import com.nstc.dbwriter.util.WriteUtil;
 
 import oracle.sql.TIMESTAMP;
 /**
@@ -23,12 +26,14 @@ import oracle.sql.TIMESTAMP;
  * @since：2018年12月26日 下午4:56:49
  *
  */
-public class Table {
+public class Table implements MapContent{
     
 	private String tableName;
 	private String tableRemart;
 	List<Line> lineList;
 	private MyClass model;
+	private Map<String, String> map;
+	private List<MyParam> paramList;
 
     public Table(String tableName, String tableRemark, List<Line> lineList) {
         super();
@@ -806,134 +811,21 @@ public class Table {
     public String toString() {
         return "Table [tableName=" + tableName + ", tableRemart=" + tableRemart + ", lineList=" + lineList + "]";
     }
+
+    public Map<String, String> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+        this.map = map;
+    }
+
+    public List<MyParam> getParamList() {
+        return paramList;
+    }
+
+    public void setParamList(List<MyParam> paramList) {
+        this.paramList = paramList;
+    }
 	
-}
-class Line{
-    private String columnName;
-    private String paramName;
-    private int columnType;
-    private int decimalDigits;
-    private String remark;
-    private String columnTypeName;
-    private final static String DATE = "DATE";
-    private final static String TIMESTAMP = "TIMESTAMP";
-    private final static String NUMBER = "NUMBER";
-    private final static String VARCHAR2 = "VARCHAR2";
-    private final static String PARENTHE= "(";
-    
-    public String paramLine() {
-        StringBuffer sb = new StringBuffer("private ");
-        paramName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
-        sb.append(getParamType()).append(paramName).append(";");
-        return sb.toString();
-    }
-    public String commentLine() {
-        StringBuffer sb = new StringBuffer("/** ");
-        sb.append(remark).append(" */");
-        return sb.toString();
-    }
-
-    public Line(String columnName, String paramName, int columnType, int decimalDigits, String remark) {
-        super();
-        this.columnName = columnName.toUpperCase();
-        this.paramName = paramName;
-        this.columnType = columnType;
-        this.decimalDigits = decimalDigits;
-        this.remark = remark == null || "null".equals(remark) ? "" : remark; 
-    }
-    
-    public Line(String columnName, String type, String remark) {
-        super();
-        this.columnName = columnName.toUpperCase();
-        this.remark = remark == null || "null".equals(remark) ? "" : remark; 
-        this.columnTypeName = type.toUpperCase();
-        this.paramName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
-        String columnType = type.trim().toUpperCase();
-        if(DATE.equals(columnType)) {
-            this.columnType = Types.DATE;
-            this.decimalDigits = 0;
-        }else if(TIMESTAMP.equals(columnType)) {
-            this.columnType = Types.TIMESTAMP;
-            this.decimalDigits = 0;
-        }else if(columnType.startsWith(NUMBER)) {
-            if(!columnType.contains(PARENTHE)) {
-                this.columnType = Types.DECIMAL;
-                this.decimalDigits = 0;
-            }else {
-                this.columnType = Types.DECIMAL;
-                this.decimalDigits = 2;
-            }
-        }else if(columnType.startsWith(VARCHAR2)) {
-            this.columnType = Types.VARCHAR;
-            this.decimalDigits = 0;
-        }else {
-            throw new RuntimeException("未知类型！");
-        }
-    }
-    public String getColumnName() {
-        return columnName;
-    }
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
-    }
-    public String getParamName() {
-        return paramName;
-    }
-    public void setParamName(String paramName) {
-        this.paramName = paramName;
-    }
-
-    public int getColumnType() {
-        return columnType;
-    }
-
-    public void setColumnType(int columnType) {
-        this.columnType = columnType;
-    }
-
-    public int getDecimalDigits() {
-        return decimalDigits;
-    }
-
-    public void setDecimalDigits(int decimalDigits) {
-        this.decimalDigits = decimalDigits;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-    public String getColumnTypeName() {
-        return columnTypeName;
-    }
-    public void setColumnTypeName(String columnTypeName) {
-        this.columnTypeName = columnTypeName;
-    }
-    public String getSharpName(){
-        return "#" + this.paramName + "#";
-    }
-    public String getParamType() {
-        String paramType = null;
-        if (Types.DECIMAL == columnType) {
-            if (decimalDigits == 0) {
-                paramType = "Integer ";
-            } else {
-                paramType = "Double ";
-            }
-        } else if (Types.VARCHAR == columnType) {
-            paramType = "String ";
-        } else if (Types.TIMESTAMP == columnType || Types.DATE == columnType) {
-            paramType = "Date ";
-        } else {
-            throw new RuntimeException("未知类型！");
-        }
-        return paramType;
-    }
-    @Override
-    public String toString() {
-        return "Line [columnName=" + columnName + ", paramName=" + paramName + ", columnType=" + columnType
-                + ", decimalDigits=" + decimalDigits + ", remark=" + remark + "]";
-    }
 }

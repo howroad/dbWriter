@@ -1,4 +1,4 @@
-package com.nstc.util;
+package com.nstc.dbwriter.util;
 /**
  * <p>Title: TypeEnum.java</p>
  *

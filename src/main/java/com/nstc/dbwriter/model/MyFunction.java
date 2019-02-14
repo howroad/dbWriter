@@ -1,4 +1,4 @@
-package com.nstc.model;
+package com.nstc.dbwriter.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.lang.model.element.Modifier;
 
-import com.nstc.data.TableContans;
+import com.nstc.dbwriter.config.TableContans;
 
 /**
  * <p>Title: MyFunction.java</p>

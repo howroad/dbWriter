@@ -1,7 +1,5 @@
 package com.nstc.temp.model;
-
 import java.util.Date;
-
 /** 事务申请 */
 public class Affair {
     /** ID主键 */
@@ -34,95 +32,125 @@ public class Affair {
     private String updatePerson;
     /** 记录修改时间 */
     private Date updateTime;
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
+
+    public void setId(Integer id){
         this.id = id;
     }
-    public String getAffairCode() {
-        return affairCode;
+
+    public Integer getId(){
+        return this.id;
     }
-    public void setAffairCode(String affairCode) {
+
+    public void setAffairCode(String affairCode){
         this.affairCode = affairCode;
     }
-    public String getCltno() {
-        return cltno;
+
+    public String getAffairCode(){
+        return this.affairCode;
     }
-    public void setCltno(String cltno) {
+
+    public void setCltno(String cltno){
         this.cltno = cltno;
     }
-    public Date getActDate() {
-        return actDate;
+
+    public String getCltno(){
+        return this.cltno;
     }
-    public void setActDate(Date actDate) {
+
+    public void setActDate(Date actDate){
         this.actDate = actDate;
     }
-    public String getDescription() {
-        return description;
+
+    public Date getActDate(){
+        return this.actDate;
     }
-    public void setDescription(String description) {
+
+    public void setDescription(String description){
         this.description = description;
     }
-    public String getUpfilename() {
-        return upfilename;
+
+    public String getDescription(){
+        return this.description;
     }
-    public void setUpfilename(String upfilename) {
+
+    public void setUpfilename(String upfilename){
         this.upfilename = upfilename;
     }
-    public Integer getStatus() {
-        return status;
+
+    public String getUpfilename(){
+        return this.upfilename;
     }
-    public void setStatus(Integer status) {
+
+    public void setStatus(Integer status){
         this.status = status;
     }
-    public String getApprovePerson() {
-        return approvePerson;
+
+    public Integer getStatus(){
+        return this.status;
     }
-    public void setApprovePerson(String approvePerson) {
+
+    public void setApprovePerson(String approvePerson){
         this.approvePerson = approvePerson;
     }
-    public Date getApproveTime() {
-        return approveTime;
+
+    public String getApprovePerson(){
+        return this.approvePerson;
     }
-    public void setApproveTime(Date approveTime) {
+
+    public void setApproveTime(Date approveTime){
         this.approveTime = approveTime;
     }
-    public String getApproveOpinion() {
-        return approveOpinion;
+
+    public Date getApproveTime(){
+        return this.approveTime;
     }
-    public void setApproveOpinion(String approveOpinion) {
+
+    public void setApproveOpinion(String approveOpinion){
         this.approveOpinion = approveOpinion;
     }
-    public Integer getBizcaseid() {
-        return bizcaseid;
+
+    public String getApproveOpinion(){
+        return this.approveOpinion;
     }
-    public void setBizcaseid(Integer bizcaseid) {
+
+    public void setBizcaseid(Integer bizcaseid){
         this.bizcaseid = bizcaseid;
     }
-    public String getCreatePerson() {
-        return createPerson;
+
+    public Integer getBizcaseid(){
+        return this.bizcaseid;
     }
-    public void setCreatePerson(String createPerson) {
+
+    public void setCreatePerson(String createPerson){
         this.createPerson = createPerson;
     }
-    public Date getCreateTime() {
-        return createTime;
+
+    public String getCreatePerson(){
+        return this.createPerson;
     }
-    public void setCreateTime(Date createTime) {
+
+    public void setCreateTime(Date createTime){
         this.createTime = createTime;
     }
-    public String getUpdatePerson() {
-        return updatePerson;
+
+    public Date getCreateTime(){
+        return this.createTime;
     }
-    public void setUpdatePerson(String updatePerson) {
+
+    public void setUpdatePerson(String updatePerson){
         this.updatePerson = updatePerson;
     }
-    public Date getUpdateTime() {
-        return updateTime;
+
+    public String getUpdatePerson(){
+        return this.updatePerson;
     }
-    public void setUpdateTime(Date updateTime) {
+
+    public void setUpdateTime(Date updateTime){
         this.updateTime = updateTime;
     }
-    
+
+    public Date getUpdateTime(){
+        return this.updateTime;
+    }
+
 }

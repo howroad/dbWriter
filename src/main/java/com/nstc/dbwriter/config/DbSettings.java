@@ -1,4 +1,4 @@
-package com.nstc.data;
+package com.nstc.dbwriter.config;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 public class DbSettings {
     
-    private final static String SETTING_PATH = "\\src\\main\\java\\com\\nstc\\data\\settings.properties";
+    private final static String SETTING_PATH = "\\src\\main\\java\\com\\nstc\\dbwriter\\config\\settings.properties";
     private final static String SQLMAP_PATH = "\\src\\main\\java\\com\\nstc\\temp\\dao\\SqlMap.properties";
     
     public static String PATH = "C:/Users/Administrator/Desktop/model/";

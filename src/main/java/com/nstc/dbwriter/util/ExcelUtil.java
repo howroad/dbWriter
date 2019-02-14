@@ -1,4 +1,4 @@
-package com.nstc.data;
+package com.nstc.dbwriter.util;
 
 import java.io.File;
 import java.io.FileInputStream;

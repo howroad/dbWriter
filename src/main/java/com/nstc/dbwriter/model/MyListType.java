@@ -1,4 +1,4 @@
-package com.nstc.model;
+package com.nstc.dbwriter.model;
 
 import java.sql.Types;
 

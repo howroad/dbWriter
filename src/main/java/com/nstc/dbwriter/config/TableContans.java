@@ -1,4 +1,4 @@
-package com.nstc.data;
+package com.nstc.dbwriter.config;
 /**
  * <p>Title: TableContans.java</p>
  *

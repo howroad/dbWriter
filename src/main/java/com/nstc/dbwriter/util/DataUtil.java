@@ -1,4 +1,4 @@
-package com.nstc.data;
+package com.nstc.dbwriter.util;
 
 import java.lang.reflect.Field;
 import java.util.Date;

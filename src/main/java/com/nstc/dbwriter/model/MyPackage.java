@@ -1,8 +1,8 @@
-package com.nstc.model;
+package com.nstc.dbwriter.model;
 
-import com.nstc.data.DbSettings;
-import com.nstc.data.TableContans;
-import com.nstc.util.ValidateUtil;
+import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.TableContans;
+import com.nstc.dbwriter.util.ValidateUtil;
 
 /**
  * <p>Title: MyPackage.java</p>

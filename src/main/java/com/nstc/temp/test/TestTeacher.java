@@ -4,7 +4,7 @@ import java.util.List;
 import org.apache.log4j.PropertyConfigurator;
 import com.nstc.temp.dao.*;
 import com.nstc.temp.model.*;
-import com.nstc.data.*;
+import com.nstc.dbwriter.util.DataUtil;
 public class TestTeacher {
 
     public static void main(String[] args) {

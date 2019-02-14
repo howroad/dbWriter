@@ -1,6 +1,8 @@
 package com.nstc.dbwriter.config;
 
 import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -32,6 +34,7 @@ public class DbSettings {
     public static boolean dealSEQ = true;
     public static boolean autoRunTest = false;
     public static String prefix = "";
+    public static Map<String,String> map = new HashMap<String,String>();
     
     static{
         Properties pro = new Properties();
@@ -69,6 +72,9 @@ public class DbSettings {
         dealSEQ = "true".equalsIgnoreCase(pro.getProperty("dealSEQ"));
         autoRunTest = "true".equalsIgnoreCase(pro.getProperty("autoRunTest"));
         prefix = pro.getProperty("prefix");
+        
+        map.put("groupId",pro.getProperty("groupId"));
+        //TODO ...
     }
     
     public static String[] stringToArray(String str) {

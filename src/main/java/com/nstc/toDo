@@ -20,3 +20,6 @@
 生成VIEW
 生成BUILDER
 生成工作流的方法
+
+//TODO
+sqlMap.properties 放到config目录

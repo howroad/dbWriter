@@ -1,0 +1,19 @@
+package $common{groupId}.$common{appNo}.$table{poPackage};
+
+$table{import}
+
+/** $table{remark} */
+public class $table{entityName} {
+
+    
+    @{start}
+    /** $param{paramRemark} */
+    private $param{paramType} $param{paramName};
+    $common{line}
+    @{end}
+
+    @{geterSeter}
+    
+	@{toString}
+    
+}

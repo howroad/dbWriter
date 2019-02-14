@@ -1,0 +1,156 @@
+	<!-- 新增${remark} -->
+	<insert id="save${entityName}" parameterClass="#{groupId}.#{appNo}.${poPackage}.${entityName}">
+	    INSERT INTO ${tableName} (
+	        ID,
+	        AFFAIR_CODE,
+	        CLTNO,
+	        ACT_DATE,
+	        DESCRIPTION,
+	        UPFILENAME,
+	        STATUS,
+	        APPROVE_PERSON,
+	        APPROVE_TIME,
+	        APPROVE_OPINION,
+	        BIZCASEID,
+	        CREATE_PERSON,
+	        CREATE_TIME,
+	        UPDATE_PERSON,
+	        UPDATE_TIME
+	    ) VALUES(
+	        #id#,
+	        #affairCode#,
+	        #cltno#,
+	        #actDate#,
+	        #description#,
+	        #upfilename#,
+	        #status#,
+	        #approvePerson#,
+	        #approveTime#,
+	        #approveOpinion#,
+	        #bizcaseid#,
+	        #createPerson#,
+	        #createTime#,
+	        #updatePerson#,
+	        #updateTime#
+	    )
+	</insert>
+	
+	<!-- 根据主键删除${remark} -->
+	<delete id="delete${entityName}ById" parameterClass="java.lang.Integer">
+	    delete ${tableName} WHERE ID = #id#
+	</delete>
+	
+	<!-- 修改${remark} -->
+	<update id="update${entityName}" parameterClass="#{groupId}.#{appNo}.${poPackage}.${entityName}">
+	    UPDATE ${tableName} SET
+	    ID = #id#
+	    <isNotEmpty prepend="," property="affairCode">
+	        AFFAIR_CODE = #affairCode#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="cltno">
+	        CLTNO = #cltno#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="actDate">
+	        ACT_DATE = #actDate#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="description">
+	        DESCRIPTION = #description#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="upfilename">
+	        UPFILENAME = #upfilename#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="status">
+	        STATUS = #status#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="approvePerson">
+	        APPROVE_PERSON = #approvePerson#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="approveTime">
+	        APPROVE_TIME = #approveTime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="approveOpinion">
+	        APPROVE_OPINION = #approveOpinion#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="bizcaseid">
+	        BIZCASEID = #bizcaseid#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createPerson">
+	        CREATE_PERSON = #createPerson#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="createTime">
+	        CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="updatePerson">
+	        UPDATE_PERSON = #updatePerson#
+	    </isNotEmpty>
+	    <isNotEmpty prepend="," property="updateTime">
+	        UPDATE_TIME = #updateTime#
+	    </isNotEmpty>
+	    WHERE ID = #id#
+	</update>
+	
+	<!-- 查询${remark}列表 -->
+	<select id="get${entityName}List" parameterClass="#{groupId}.#{appNo}.${poPackage}.${entityName}" resultClass="#{groupId}.#{appNo}.${poPackage}.${entityName}">
+	    SELECT
+	        T.ID AS "id",
+	        T.AFFAIR_CODE AS "affairCode",
+	        T.CLTNO AS "cltno",
+	        T.ACT_DATE AS "actDate",
+	        T.DESCRIPTION AS "description",
+	        T.UPFILENAME AS "upfilename",
+	        T.STATUS AS "status",
+	        T.APPROVE_PERSON AS "approvePerson",
+	        T.APPROVE_TIME AS "approveTime",
+	        T.APPROVE_OPINION AS "approveOpinion",
+	        T.BIZCASEID AS "bizcaseid",
+	        T.CREATE_PERSON AS "createPerson",
+	        T.CREATE_TIME AS "createTime",
+	        T.UPDATE_PERSON AS "updatePerson",
+	        T.UPDATE_TIME AS "updateTime"
+	    FROM ${tableName} T WHERE 1 = 1
+	    <isNotEmpty property="id" prepend="and">
+	        T.ID = #id#
+	    </isNotEmpty>
+	    <isNotEmpty property="affairCode" prepend="and">
+	        T.AFFAIR_CODE = #affairCode#
+	    </isNotEmpty>
+	    <isNotEmpty property="cltno" prepend="and">
+	        T.CLTNO = #cltno#
+	    </isNotEmpty>
+	    <isNotEmpty property="actDate" prepend="and">
+	        T.ACT_DATE = #actDate#
+	    </isNotEmpty>
+	    <isNotEmpty property="description" prepend="and">
+	        T.DESCRIPTION = #description#
+	    </isNotEmpty>
+	    <isNotEmpty property="upfilename" prepend="and">
+	        T.UPFILENAME = #upfilename#
+	    </isNotEmpty>
+	    <isNotEmpty property="status" prepend="and">
+	        T.STATUS = #status#
+	    </isNotEmpty>
+	    <isNotEmpty property="approvePerson" prepend="and">
+	        T.APPROVE_PERSON = #approvePerson#
+	    </isNotEmpty>
+	    <isNotEmpty property="approveTime" prepend="and">
+	        T.APPROVE_TIME = #approveTime#
+	    </isNotEmpty>
+	    <isNotEmpty property="approveOpinion" prepend="and">
+	        T.APPROVE_OPINION = #approveOpinion#
+	    </isNotEmpty>
+	    <isNotEmpty property="bizcaseid" prepend="and">
+	        T.BIZCASEID = #bizcaseid#
+	    </isNotEmpty>
+	    <isNotEmpty property="createPerson" prepend="and">
+	        T.CREATE_PERSON = #createPerson#
+	    </isNotEmpty>
+	    <isNotEmpty property="createTime" prepend="and">
+	        T.CREATE_TIME = #createTime#
+	    </isNotEmpty>
+	    <isNotEmpty property="updatePerson" prepend="and">
+	        T.UPDATE_PERSON = #updatePerson#
+	    </isNotEmpty>
+	    <isNotEmpty property="updateTime" prepend="and">
+	        T.UPDATE_TIME = #updateTime#
+	    </isNotEmpty>
+	</select>

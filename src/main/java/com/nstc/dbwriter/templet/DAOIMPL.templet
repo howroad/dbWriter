@@ -1,0 +1,43 @@
+    /**
+    * 新增${remark}
+    * @param model ${remark}实体
+    * @author #{author}
+    * @return ${remark}主键
+    * @since #{now}
+    */
+    public Integer save${entityName}(${entityName} model) {
+        return (Integer)getSqlMapClientTemplate().insert(getStatement("save${entityName}"),model);
+    }
+    
+    /**
+    * 根据主键删除${remark}
+    * @param id ${remark}主键
+    * @author #{author}
+    * @since #{now}
+    */
+    public void delete${entityName}ById (Integer id) {
+        getSqlMapClientTemplate().delete(getStatement("delete${entityName}ById"),id);
+    }
+    
+    /**
+    * 修改${remark}
+    * @param model ${remark}实体
+    * @author #{author}
+    * @since #{now}
+    */
+    public void update${entityName}(${entityName} model) {
+        getSqlMapClientTemplate().update(getStatement("update${entityName}"),model);
+    }
+    
+    /**
+    * 查询${remark}列表
+    * @param scope ${remark}查询条件
+    * @author #{author}
+    * @return ${remark}集合
+    * @since #{now}
+    */
+    public List<${entityName}> get${entityName}List(${entityName} scope) {
+        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("get${entityName}List"),scope);
+        List<${entityName}> resultList = Arrays.asList(list.toArray(new ${entityName}[0]));
+        return resultList;
+    }

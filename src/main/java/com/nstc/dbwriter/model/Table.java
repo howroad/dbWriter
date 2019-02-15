@@ -1,10 +1,10 @@
 package com.nstc.dbwriter.model;
-import java.io.File;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -12,7 +12,6 @@ import java.util.Map;
 import com.google.common.base.CaseFormat;
 import com.nstc.dbwriter.config.DbSettings;
 import com.nstc.dbwriter.config.TableContans;
-import com.nstc.dbwriter.util.WriteUtil;
 
 import oracle.sql.TIMESTAMP;
 /**
@@ -31,11 +30,10 @@ public class Table implements MapContent{
 	private String tableName;
 	private String tableRemart;
 	List<Line> lineList;
-	private MyClass model;
-	private Map<String, String> map;
+	private Map<String, String> map = new HashMap<String, String>();
 	private List<MyParam> paramList;
 
-    public Table(String tableName, String tableRemark, List<Line> lineList) {
+    public Table(String tableName, String tableRemark, List<Line> lineList,List<MyParam> paramList) {
         super();
         if (lineList == null) {
             throw new RuntimeException("无法创建Table对象，原因：无法获得属性信息。");
@@ -43,20 +41,24 @@ public class Table implements MapContent{
         this.tableName = tableName.toUpperCase();
         this.tableRemart = tableRemark == null || "null".equals(tableRemark) ? "" : tableRemark;
         this.lineList = lineList;
+        this.paramList = paramList;
+        init();
+        
+    }
+    private void init() {
+        if(hasDateType()) {
+            map.put("import", "import java.util.Date;");
+        }
+        map.put("entityName", getEntityName());
+        map.put("remark", this.tableRemart); 
+        map.put("now", getNow());
+        map.put("tableName", getTableName());
+        map.put("pkName",paramList.get(0).getParamName());
+        map.put("pkColumnName",paramList.get(0).getColumnName());
+        map.put("seqName", getSeqName());
     }
     
-    public void writeCommonFile() {
-        String xmlPath = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\dao\\TEMP_Common.xml";
-        String daoInterfacePath = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\dao\\ICommonDao.java";
-        String daoImplPath = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\dao\\CommonDaoImpl.java";
-        File daoInterface = new File(daoInterfacePath);
-        File daoImpl = new File(daoImplPath);
-        File xml = new File(xmlPath);
-        WriteUtil.writeFileInsertKey(xml, this, WriteUtil.XML);
-        WriteUtil.writeFileInsertKey(daoInterface, this, WriteUtil.DAO_INTERFACE);
-        WriteUtil.writeFileInsertKey(daoImpl, this, WriteUtil.DAO_IMPL);
 
-    }
 	/**
 	 * 是否有时间类型
 	 * @Description:
@@ -700,7 +702,7 @@ public class Table implements MapContent{
      * @author luhao
      * @since：2018年12月28日 下午6:31:36
      */
-    public String getJaveBeanName() {
+    public String getJaveBeanFileName() {
         return getEntityName() + TableContans.PO + ".java";
     }
     /**
@@ -795,17 +797,9 @@ public class Table implements MapContent{
 		this.tableRemart = tableRemart;
 	}
 	
-	public MyClass getModel() {
-        return model;
-    }
-
-    public void setModel(MyClass model) {
-        this.model = model;
-    }
-
     @Override
 	public Table clone() {
-	    return new Table(tableName, tableRemart, lineList);
+	    return new Table(tableName, tableRemart, lineList,paramList);
 	}
 	@Override
     public String toString() {

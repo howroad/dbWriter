@@ -22,4 +22,5 @@
 生成工作流的方法
 
 //TODO
-sqlMap.properties 放到config目录
+添加数据库语句的生成模版
+

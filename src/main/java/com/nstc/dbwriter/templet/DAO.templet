@@ -1,33 +1,33 @@
     /**
-    * 新增${remark}
-    * @param model ${remark}实体
-    * @author #{author}
-    * @return ${remark}主键
-    * @since #{now}
+    * 新增$table{remark}
+    * @param model $table{remark}实体
+    * @author $common{author}
+    * @return $table{remark}主键
+    * @since $table{now}
     */
-    public Integer save${entityName}(${entityName} model);
+    public Integer save$table{entityName}($table{entityName} model);
 
     /**
-    * 根据主键删除${remark}
-    * @param id ${remark}主键
-    * @author #{author}
-    * @since #{now}
+    * 根据主键删除$table{remark}
+    * @param id $table{remark}主键
+    * @author $common{author}
+    * @since $table{now}
     */
-    public void delete${entityName}ById (Integer id);
+    public void delete$table{entityName}ById (Integer id);
 
     /**
-    * 修改${remark}
-    * @param model ${remark}实体
-    * @author #{author}
-    * @since #{now}
+    * 修改$table{remark}
+    * @param model $table{remark}实体
+    * @author $common{author}
+    * @since $table{now}
     */
-    public void update${entityName}(${entityName} model);
+    public void update$table{entityName}($table{entityName} model);
 
     /**
-    * 查询${remark}列表
-    * @param scope ${remark}查询条件
-    * @author #{author}
-    * @return ${remark}集合
-    * @since #{now}
+    * 查询$table{remark}列表
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}集合
+    * @since $table{now}
     */
-    public List<${entityName}> get${entityName}List(${entityName} scope);
+    public List<$table{entityName}> get$table{entityName}List($table{entityName} scope);

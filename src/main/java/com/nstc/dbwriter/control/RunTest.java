@@ -1,4 +1,4 @@
-package com.nstc.temp.test;
+package com.nstc.dbwriter.control;
 
 import java.io.File;
 import java.io.FileOutputStream;

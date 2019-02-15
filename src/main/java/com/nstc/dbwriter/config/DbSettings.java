@@ -18,7 +18,7 @@ import java.util.Properties;
 public class DbSettings {
     
     private final static String SETTING_PATH = "\\src\\main\\java\\com\\nstc\\dbwriter\\config\\settings.properties";
-    private final static String SQLMAP_PATH = "\\src\\main\\java\\com\\nstc\\temp\\dao\\SqlMap.properties";
+    private final static String SQLMAP_PATH = "\\src\\main\\java\\com\\nstc\\dbwriter\\config\\SqlMap.properties";
     
     public static String PATH = "C:/Users/Administrator/Desktop/model/";
     public static String URL = "jdbc:oracle:thin:@192.168.20.33:1521:nstestsid";
@@ -35,6 +35,8 @@ public class DbSettings {
     public static boolean autoRunTest = false;
     public static String prefix = "";
     public static Map<String,String> map = new HashMap<String,String>();
+    public static Map<String, String> lastMap = new HashMap<String, String>();
+    public static boolean useTemplet = true;
     
     static{
         Properties pro = new Properties();
@@ -72,8 +74,15 @@ public class DbSettings {
         dealSEQ = "true".equalsIgnoreCase(pro.getProperty("dealSEQ"));
         autoRunTest = "true".equalsIgnoreCase(pro.getProperty("autoRunTest"));
         prefix = pro.getProperty("prefix");
+        useTemplet = "true".equalsIgnoreCase(pro.getProperty("useTemplet"));
         
-        map.put("groupId",pro.getProperty("groupId"));
+        map.put("groupId","com.nstc");
+        map.put("line", "");
+        map.put("appNo", appNo);
+        map.put("poPackage", "model");
+        map.put("author", "luhao");
+        map.put(",",",");
+        lastMap.put(",","");
         //TODO ...
     }
     

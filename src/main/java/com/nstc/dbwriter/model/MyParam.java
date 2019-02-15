@@ -1,10 +1,9 @@
 package com.nstc.dbwriter.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import javax.lang.model.element.Modifier;
-
-import com.nstc.dbwriter.config.TableContans;
+import com.google.common.base.CaseFormat;
 
 /**
  * <p>Title: MyParam.java</p>
@@ -19,31 +18,28 @@ import com.nstc.dbwriter.config.TableContans;
  * 
  */
 public class MyParam extends FileWriter implements MapContent{
-    private String modifier = Modifier.PRIVATE.toString();
-    private MyType type;
+    
     private String paramName;
     private String paramRemark;
-    private Map<String, String> map;
+    private String columnName;
+    private MyType type;
+    private Map<String, String> map = new HashMap<String, String>();
     
-    public MyParam(String paramName,String paramRemark,int dateType, int columnSize , int decimalDigits) {
+    public MyParam(String paramName,String columnName, String paramRemark,int dateType, int columnSize , int decimalDigits) {
         super();
         this.type = new MyType(dateType, columnSize, decimalDigits);
         this.paramName = paramName;
         this.paramRemark = paramRemark;
-        StringBuffer comment = new StringBuffer("/** ").append(paramRemark).append(" */");
-        addLineTab(comment);
-        StringBuffer line = new StringBuffer(modifier).append(TableContans.SPACE)
-                .append(type.getParamTypeName()).append(TableContans.SPACE).append(paramName)
-                .append(TableContans.SEMC);
-        addLineTab(line);
+        this.columnName = columnName;
+        init();
     }
-
-    public String getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(String modifier) {
-        this.modifier = modifier;
+    
+    private void init() {
+        map.put("paramName", this.paramName);
+        map.put("paramRemark", this.paramRemark);
+        map.put("paramType", this.type.getParamTypeName());
+        map.put("bigName", CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, this.paramName));
+        map.put("columnName",this.columnName);
     }
 
     public MyType getType() {
@@ -76,6 +72,14 @@ public class MyParam extends FileWriter implements MapContent{
 
     public void setMap(Map<String, String> map) {
         this.map = map;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
     }
     
     

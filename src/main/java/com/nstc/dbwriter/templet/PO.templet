@@ -1,19 +1,24 @@
-package $common{groupId}.$common{appNo}.$table{poPackage};
+package $common{groupId}.$common{appNo}.$common{poPackage};
 
 $table{import}
 
 /** $table{remark} */
 public class $table{entityName} {
-
     
     @{start}
     /** $param{paramRemark} */
     private $param{paramType} $param{paramName};
-    $common{line}
+    
     @{end}
 
-    @{geterSeter}
-    
-	@{toString}
+    @{start}
+    public void set$param{bigName}($param{paramType} $param{paramName}){
+        this.$param{paramName} = $param{paramName};
+    }
+
+    public $param{paramType} get$param{bigName}(){
+        return this.$param{paramName};
+    }
+    @{end}
     
 }

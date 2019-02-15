@@ -1,12 +1,11 @@
-package com.nstc.dbwriter;
+package com.nstc.dbwriter.control;
 
 import java.util.List;
 
+import com.nstc.dbwriter.builder.TableBuilder;
 import com.nstc.dbwriter.config.DbSettings;
 import com.nstc.dbwriter.model.Table;
-import com.nstc.dbwriter.model.TableBuilder;
 import com.nstc.dbwriter.util.WriteUtil;
-import com.nstc.temp.test.RunTest;
 
 /**
  * <p>
@@ -24,14 +23,13 @@ import com.nstc.temp.test.RunTest;
  */
 public class Start {
     public static void main(String[] args) {
-        WriteUtil wt = new WriteUtil();
         
         if(DbSettings.fromExcel) {
-            List<Table> tables = wt.buildTableFromExcel(DbSettings.appNo);
+            List<Table> tables = WriteUtil.buildTableFromExcel(DbSettings.appNo);
             for (int i = 0; i < tables.size(); i++) {
                 Table table = tables.get(i);
-                wt.buildTab(table);
-                wt.buildSeq(table);
+                WriteUtil.buildTab(table);
+                WriteUtil.buildSeq(table);
                 System.out.println(table.getTableName() + " complete...");
     
             }
@@ -44,15 +42,30 @@ public class Start {
                     continue;
                 }
                 Table table = TableBuilder.buildTableFromDB(tableName);
-                wt.buildJavaBean(table);
-                wt.buildDao(table);
-                wt.buildXml(table);
-                wt.buildDate(table);
-                wt.buildCreateFromDB(table);
+                if(DbSettings.useTemplet) {
+                    //使用模版生成
+                    WriteUtil.buildJavaBeanByTemplet(table);
+                    WriteUtil.buildAllTemplet(table);
+                }else {
+                    //老方法
+                    WriteUtil.buildJavaBean(table);
+                    WriteUtil.buildDao(table);
+                    WriteUtil.buildXml(table);
+                    WriteUtil.buildDate(table);
+                    WriteUtil.buildCreateFromDB(table);
+                }
+                
+                
                 System.out.println(table.getTableName() + " complete...");
                 if(DbSettings.autoRunTest) {
-                    table.writeCommonFile();
+                    if(DbSettings.useTemplet) {
+                        WriteUtil.writeCommonFileByTemplet(table);
+                    }else {
+                        WriteUtil.writeCommonFile(table);
+                    }
                 }
+                System.out.println(table.getTableName() + "insert...Done");
+                
                 RunTest.buildClassAndRun(table.getEntityName(),DbSettings.autoRunTest);
                 System.out.println(table.getTableName() + "testBean complete...");
             } 

@@ -1,4 +1,4 @@
-package com.nstc.dbwriter.model;
+package com.nstc.dbwriter.builder;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -10,6 +10,9 @@ import java.util.List;
 
 import com.google.common.base.CaseFormat;
 import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.model.Line;
+import com.nstc.dbwriter.model.MyParam;
+import com.nstc.dbwriter.model.Table;
 
 import oracle.jdbc.driver.OracleConnection;
 
@@ -60,7 +63,7 @@ public class TableBuilder {
                 //精度
                 int columnSize = rs.getInt("COLUMN_SIZE");
                 
-                MyParam param = new MyParam(paramName, remark, columnType, columnSize, decimalDigits);
+                MyParam param = new MyParam(paramName, columnName, remark, columnType, columnSize, decimalDigits);
                 paramList.add(param);
                 //java 解析会出现精度错误
                 if(decimalDigits == -127 && rs.getInt("COLUMN_SIZE") == 0) {
@@ -85,10 +88,11 @@ public class TableBuilder {
                 e.printStackTrace();
             }
         }
-        Table table = new Table(tableName, tableRemark, lineList);
+        Table table = new Table(tableName, tableRemark, lineList,paramList);
+        /*
         MyClass clz = new MyClass(tableName, paramList, table);
-        table.setModel(clz);
         clz.write();
+        */
         return table;
     }
 }

@@ -1,9 +1,8 @@
 package com.nstc.dbwriter.util;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,26 +25,13 @@ import com.nstc.dbwriter.model.Table;
  */
 public class CodeUtil {
 	private CodeUtil() {}
-    public static void main(String[] args) {
-    	List<String> lineList = new ArrayList<String>();
-    	lineList.add("package #{groupId}.#{appNo}.${poPackage};");
-    	lineList.add("${import}");
-    	lineList.add("/** ${remark} */");
-    	lineList.add("public class $table{entityName} {");
-    	lineList.add("@{start}");
-    	lineList.add("/** $param{paramRemark} */");
-    	lineList.add("private $param{paramType} $param{paramName};");
-    	lineList.add("$common{line}");
-    	lineList.add("@{end}");
-        Map<String,String> tokens = new HashMap<String,String>(); 
-        tokens.put("groupId", "com.nstc"); 
-        tokens.put("appNo", "temp");
-        tokens.put("poPackage", "model");
-	}
     
-    public static void writeTemplet(List<String> lineList,Table table,PrintWriter out) {
+    public static List<String> buildNewLine(List<String> lineList,Table table) {
+        List<String> result = new ArrayList<String>();
     	/** 循环标识 */
     	boolean loop = false;
+    	/** 是否取消第一个 */
+    	boolean clearFirst = false;
     	/** 循环体 */
         List<String> loopLine = new ArrayList<String>();
         String outStr = null;
@@ -55,12 +41,26 @@ public class CodeUtil {
     			// 遇到结束标识 解析循环体中的模板
     			if(line.matches("^.*\\@\\{end\\}$")) {
     				loop = false;
-    				for (MyParam param : table.getParamList()) {
-        				for (String string : loopLine) {
-    						outStr = writeTemplate(string, param.getMap(), "param");
-    						out.println(outStr);
-    					}
-					}
+    				for (ListIterator<MyParam> iterator = table.getParamList().listIterator(); iterator.hasNext();) {
+                        if(!iterator.hasPrevious() && clearFirst) {
+                            iterator.next();
+                            continue;
+                        }
+    				    MyParam param = iterator.next();
+    				    // 清除第一个属性信息
+    				    if(clearFirst && !iterator.hasPrevious()) {
+    				        continue;
+    				    }
+                        for (String string : loopLine) {
+                            outStr = replaceTemplet(string, param.getMap(), "param");
+                            if(iterator.hasNext()) {
+                                outStr = replaceTemplet(outStr, DbSettings.map, "split");
+                            }else {
+                                outStr = replaceTemplet(outStr, DbSettings.lastMap, "split");
+                            }
+                            result.add(outStr);
+                        }                       
+                    }
     			// 不是结束标识，继续添加循环体
     			}else {
     				loopLine.add(line);
@@ -69,16 +69,22 @@ public class CodeUtil {
     		}else if(line.matches("^.*\\@\\{start\\}$")) {
     			loopLine.clear();
 				loop = true;
+				clearFirst = false;
+    		}else if(line.matches("^.*\\@\\{startFrom2\\}$")) {
+                loopLine.clear();
+                loop = true;
+                clearFirst = true;
 			// 不是循环，解析模板	
 			} else {
-				outStr = writeTemplate(line, DbSettings.map, "common");
-				outStr = writeTemplate(line, table.getMap(), "table");
-				out.println(outStr);
+				outStr = replaceTemplet(line, DbSettings.map, "common");
+				outStr = replaceTemplet(outStr, table.getMap(), "table");
+				result.add(outStr);
 			}
 		}
+    	return result;
     }
     
-    public static String writeTemplate(String template,Map<String,String> tokens,String type) {
+    public static String replaceTemplet(String template,Map<String,String> tokens,String type) {
 
         //生成匹配模式的正则表达式 
         String patternString = "\\$"+ type + "\\{(" + StringUtils.join(tokens.keySet(), "|") + ")\\}"; 

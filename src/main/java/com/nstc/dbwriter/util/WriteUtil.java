@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -13,7 +14,6 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.sql.Clob;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.google.common.base.CaseFormat;
-import com.nstc.dbwriter.config.DbSettings;
-import com.nstc.dbwriter.config.TableContans;
-import com.nstc.dbwriter.model.Line;
-import com.nstc.dbwriter.model.Table;
+import org.apache.commons.lang3.StringUtils;
 
-import oracle.jdbc.driver.OracleConnection;
+import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.model.Line;
+import com.nstc.dbwriter.model.MyParam;
+import com.nstc.dbwriter.model.Table;
 
 /**
  * <p>
@@ -60,8 +60,7 @@ public class WriteUtil {
         }
     }
 
-
-    public void buildCreateFromDB(Table table) {
+    public static void buildCreateFromDB(Table table) {
         PrintWriter out = null;
         String filName = DbSettings.PATH  + table.getTableName() + "_FROMDB" + ".TAB";
         try {
@@ -73,7 +72,7 @@ public class WriteUtil {
             out.close();
         }        
     }
-    public String getCreateFromDB(String tableName) {
+    public static String getCreateFromDB(String tableName) {
         tableName = tableName.toUpperCase();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -108,7 +107,7 @@ public class WriteUtil {
         return result;       
     }
     
-    public List<Table> buildTableFromExcel(String appNo) {
+    public static List<Table> buildTableFromExcel(String appNo) {
         ExcelUtil importExcelUtil=new ExcelUtil();
         //excel 导入数据demo
         File file = new File(DbSettings.EXCEL_PATH);
@@ -117,6 +116,7 @@ public class WriteUtil {
         
         Table tempTable = null;
         List<Line> tempLineList = null;
+        List<MyParam> tempParamList = null;
         try {
             dataList = importExcelUtil.importExcel(file);
             for (ListIterator<List<String>> iterator = dataList.listIterator(); iterator.hasNext();) {
@@ -131,9 +131,12 @@ public class WriteUtil {
                         tableList.add(table);
                     }
                     tempLineList = new ArrayList<Line>();
-                    tempTable = new Table(columnName, commont, tempLineList);
+                    tempParamList = new ArrayList<MyParam>();
+                    tempTable = new Table(columnName, commont, tempLineList,tempParamList);
                 }else {
                     tempLineList.add(new Line(columnName, type, commont));
+                    //TODO columnInfo
+                    //tempParamList.add(new MyParam(paramName, paramRemark, dateType, columnSize, decimalDigits));
                 }
                 if(!iterator.hasNext()) {
                     tempTable.setLineList(tempLineList);
@@ -146,6 +149,7 @@ public class WriteUtil {
         }
         return tableList;
     }
+    /*
     public Table buildTableFromDB(String tableName,String appNo) {
         tableName = tableName.toUpperCase();
         Connection conn = null;
@@ -197,7 +201,8 @@ public class WriteUtil {
         }
         return new Table(tableName, tableRemark, lineList);
     }
-    public void buildDate(Table table) {
+    */
+    public static void buildDate(Table table) {
         PrintWriter out = null;
         String filName = DbSettings.PATH  + table.getTableName() + ".SQL";
         try {
@@ -210,7 +215,7 @@ public class WriteUtil {
             out.close();
         }        
     }
-    public List<List<Object>> getData(String tableName) {
+    public static List<List<Object>> getData(String tableName) {
         tableName = tableName.toUpperCase();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -248,7 +253,7 @@ public class WriteUtil {
         }
         return resultList;
     }
-    public void buildSeq(Table table) {
+    public static void buildSeq(Table table) {
         if(!DbSettings.dealSEQ) {
             return;
         }
@@ -263,7 +268,7 @@ public class WriteUtil {
             out.close();
         }       
     }
-    public void buildTab(Table table) {
+    public static void buildTab(Table table) {
         PrintWriter out = null;
         String filName = DbSettings.PATH  + table.getTableName() + ".TAB";
         try {
@@ -275,15 +280,16 @@ public class WriteUtil {
             out.close();
         }
     }
-    public void buildJavaBean(Table table) {
+    
+    public static void buildJavaBean(Table table) {
         PrintWriter out = null;
-        String filName = DbSettings.PATH  + table.getJaveBeanName();
+        String filName = DbSettings.PATH  + table.getJaveBeanFileName();
         PrintWriter outThis = null;
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeJaveBean(out);
            if(DbSettings.autoRunTest) {
-               String fileNameThis = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\model\\" + table.getJaveBeanName();
+               String fileNameThis = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\model\\" + table.getJaveBeanFileName();
                outThis = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileNameThis, false), "GBK"));
                table.writeJaveBean(outThis);
            }
@@ -298,7 +304,36 @@ public class WriteUtil {
             }
         }
     }
-    public void buildDao(Table table) {
+    
+    public static void buildJavaBeanByTemplet(Table table) {
+        File templet = new File(InnerSettings.PO_TEMPLET_PATH);
+        File outFile = new File(InnerSettings.TEST_MODEL_DIR + table.getJaveBeanFileName());
+        WriteUtil.writeFileByTemplet(templet, outFile, table);
+    }
+    
+    public static void buildAllTemplet(Table table) {
+        // 根据路径创建File对象
+        File temletDir = new File(InnerSettings.TEMPLET_DIR);
+        // 到的文件名列表
+        if (temletDir.exists() && temletDir.isDirectory()) {
+            File[] files = temletDir.listFiles(new FilenameFilter() {
+                public boolean accept(File dir, String name) {
+                    return name.endsWith(".templet");
+                }
+            });
+            for (File file : files) {
+                String fileName = file.getName();
+                String outName = StringUtils.contains(fileName, "IBATIS") ? table.getEntityName() + ".xml" : 
+                    table.getEntityName() + fileName.replace(".templet", ".out");
+                File outPath = new File(InnerSettings.TEMPLET_OUT_DIR + outName);
+                writeFileByTemplet(file, outPath, table);
+            }
+            
+        }
+
+    }
+    
+    public static void buildDao(Table table) {
         PrintWriter out = null;
         String filName = DbSettings.PATH + table.getDaoName();
         try {
@@ -310,7 +345,7 @@ public class WriteUtil {
             out.close();
         } 
     }
-    public void buildXml(Table table) {
+    public static void buildXml(Table table) {
         PrintWriter out = null;
         String filName = DbSettings.PATH + table.getXmlName();
         try {
@@ -331,7 +366,7 @@ public class WriteUtil {
      * @author net
      * @since：2018年12月26日 下午4:57:21
      */
-    private String clobToString(Clob sc) {
+    private static String clobToString(Clob sc) {
         String reString = "";
         //得到流
         StringBuffer sb = null;
@@ -387,7 +422,7 @@ public class WriteUtil {
         return num;
     }
     
-    public static void writeFileInsertKey(File file,Table table,int fileType) {
+    public static void insertFileByTable(File file,Table table,int fileType) {
         List<String> lineList = getLineList(file);
         for (String string : lineList) {
             if(string.contains("save" + table.getEntityName())) {
@@ -419,13 +454,82 @@ public class WriteUtil {
             }
         }
     }
-}
-class TabPrintWriter extends PrintWriter{
-    public TabPrintWriter(File file) throws FileNotFoundException {
-        super(file);
+
+    public static void insertFileByList(File file, List<String> list, Table table, int fileType) {
+        List<String> lineList = getLineList(file);
+        for (String string : lineList) {
+            if(string.contains("save" + table.getEntityName())) {
+                return;
+            }
+        }
+        int index = getLastKeyLineNum(lineList, FILE_LAST_KEY[fileType]);
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(file);
+            for (int i = 0; i < index; i++) {
+                out.println(lineList.get(i));
+            }
+            for(String line : list) {
+                out.println(line);
+            }
+            for(int i = index ; i < lineList.size() ; i++) {
+                out.println(lineList.get(i));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally{
+            if(out != null) {
+                out.close();
+            }
+        }
+    }    
+    public static void writeCommonFile(Table table) {
+        File daoInterface = new File(InnerSettings.ICOMMONDAO_PATH);
+        File daoImpl = new File(InnerSettings.COMMONDAOIMPL_PATH);
+        File xml = new File(InnerSettings.COMMON_XML_PATH);
+        
+        WriteUtil.insertFileByTable(xml, table, WriteUtil.XML);
+        WriteUtil.insertFileByTable(daoInterface, table, WriteUtil.DAO_INTERFACE);
+        WriteUtil.insertFileByTable(daoImpl, table, WriteUtil.DAO_IMPL);
+    }
+    public static void writeCommonFileByTemplet(Table table) {
+        List<String> lineList = null;
+        List<String> resultList = null;
+        
+        lineList = getLineList(new File(InnerSettings.DAO_TEMPLET_PATH));
+        resultList = CodeUtil.buildNewLine(lineList, table);
+        insertFileByList(new File(InnerSettings.ICOMMONDAO_PATH), resultList, table, DAO_INTERFACE);
+        
+        lineList = getLineList(new File(InnerSettings.DAOIMPL_TEMPLET_PATH));
+        resultList = CodeUtil.buildNewLine(lineList, table);
+        insertFileByList(new File(InnerSettings.COMMONDAOIMPL_PATH), resultList, table, DAO_IMPL);
+        
+        lineList = getLineList(new File(InnerSettings.XML_TEMPLET_PATH));
+        resultList = CodeUtil.buildNewLine(lineList, table);
+        insertFileByList(new File(InnerSettings.COMMON_XML_PATH), resultList, table, XML);
+        
     }
     
-    public void println(String str) {
-        super.println(TableContans.TAB + str);
+    public static void writeFileByTemplet(File templet,File outFile, Table table) {
+        List<String> lineList = getLineList(templet);
+        List<String> resultList = CodeUtil.buildNewLine(lineList, table);
+        writeFile(resultList, outFile);
+    }
+    
+    public static void writeFile(List<String> lineList,File file) {
+        ValidateUtil.checkEmpty(lineList);
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(file);
+            for (String string : lineList) {
+                out.println(string);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            if(out != null) {
+                out.close();
+            }
+        }
     }
 }

@@ -28,8 +28,15 @@ public class Start {
             List<Table> tables = WriteUtil.buildTableFromExcel(DbSettings.appNo);
             for (int i = 0; i < tables.size(); i++) {
                 Table table = tables.get(i);
-                WriteUtil.buildTab(table);
-                WriteUtil.buildSeq(table);
+                if(DbSettings.useTemplet) {
+                    //使用模版生成
+                    WriteUtil.buildJavaBeanByTemplet(table);
+                    WriteUtil.buildAllTemplet(table);
+                }else {
+                    //老方法
+                    WriteUtil.buildTab(table);
+                    WriteUtil.buildSeq(table);
+                }
                 System.out.println(table.getTableName() + " complete...");
     
             }

@@ -42,10 +42,9 @@ public class Table implements MapContent{
         this.tableRemart = tableRemark == null || "null".equals(tableRemark) ? "" : tableRemark;
         this.lineList = lineList;
         this.paramList = paramList;
-        init();
         
     }
-    private void init() {
+    public void initMap() {
         if(hasDateType()) {
             map.put("import", "import java.util.Date;");
         }

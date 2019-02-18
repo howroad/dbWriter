@@ -42,10 +42,11 @@ public class MyType {
             columnTypeName = "VARCHAR2(" + columnSize + ")";
         } else if (Types.TIMESTAMP == dateType) {
             paramTypeName = "Date";
-            columnTypeName = "TIMESTAMP";
+            //columnTypeName = "TIMESTAMP";
+            columnTypeName = "DATE";
         } else if(Types.DATE == dateType) {
             paramTypeName = "Date";
-            columnTypeName = "Date";
+            columnTypeName = "DATE";
         } else {
             throw new RuntimeException("未知类型！");
         }

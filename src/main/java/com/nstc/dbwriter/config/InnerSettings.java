@@ -15,7 +15,6 @@ public class InnerSettings {
     public final static String TEST_MODEL_DIR = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\model\\";
     public final static String OUT_DIR = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\dbwriter\\templet\\out\\";
     public final static String TEMPLET_DIR = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\dbwriter\\templet\\";
-    public final static String TEMPLET_OUT_DIR = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\dbwriter\\templet\\out\\";
     public final static String TEST_DIR = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\test\\";
     public final static String TEMP_DAO_DIR = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\dao\\";
     

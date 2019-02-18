@@ -34,6 +34,9 @@ public class CodeUtil {
     	boolean clearFirst = false;
     	/** 循环体 */
         List<String> loopLine = new ArrayList<String>();
+        
+        table.initMap();
+        
         String outStr = null;
     	for (String line : lineList) {
     		//循环种
@@ -42,17 +45,15 @@ public class CodeUtil {
     			if(line.matches("^.*\\@\\{end\\}$")) {
     				loop = false;
     				for (ListIterator<MyParam> iterator = table.getParamList().listIterator(); iterator.hasNext();) {
+    				    // 清除第一个属性信息
                         if(!iterator.hasPrevious() && clearFirst) {
                             iterator.next();
                             continue;
                         }
     				    MyParam param = iterator.next();
-    				    // 清除第一个属性信息
-    				    if(clearFirst && !iterator.hasPrevious()) {
-    				        continue;
-    				    }
                         for (String string : loopLine) {
                             outStr = replaceTemplet(string, param.getMap(), "param");
+                            outStr = replaceTemplet(outStr, table.getMap(), "table");
                             if(iterator.hasNext()) {
                                 outStr = replaceTemplet(outStr, DbSettings.map, "split");
                             }else {

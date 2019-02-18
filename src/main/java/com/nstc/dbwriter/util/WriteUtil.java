@@ -136,7 +136,7 @@ public class WriteUtil {
                 }else {
                     tempLineList.add(new Line(columnName, type, commont));
                     //TODO columnInfo
-                    //tempParamList.add(new MyParam(paramName, paramRemark, dateType, columnSize, decimalDigits));
+                    tempParamList.add(new MyParam(commont, columnName, type));
                 }
                 if(!iterator.hasNext()) {
                     tempTable.setLineList(tempLineList);
@@ -314,6 +314,9 @@ public class WriteUtil {
     public static void buildAllTemplet(Table table) {
         // 根据路径创建File对象
         File temletDir = new File(InnerSettings.TEMPLET_DIR);
+        //创建文件夹
+        File dir = new File(InnerSettings.OUT_DIR + table.getTableName());
+        dir.mkdir();
         // 到的文件名列表
         if (temletDir.exists() && temletDir.isDirectory()) {
             File[] files = temletDir.listFiles(new FilenameFilter() {
@@ -325,7 +328,7 @@ public class WriteUtil {
                 String fileName = file.getName();
                 String outName = StringUtils.contains(fileName, "IBATIS") ? table.getEntityName() + ".xml" : 
                     table.getEntityName() + fileName.replace(".templet", ".out");
-                File outPath = new File(InnerSettings.TEMPLET_OUT_DIR + outName);
+                File outPath = new File(InnerSettings.OUT_DIR + table.getTableName()  + "\\" + outName);
                 writeFileByTemplet(file, outPath, table);
             }
             

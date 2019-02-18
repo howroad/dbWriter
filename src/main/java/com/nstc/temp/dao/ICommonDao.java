@@ -21,7 +21,7 @@ public interface ICommonDao {
     * @param model 测试教师表实体
     * @author luhao
     * @return 测试教师表主键
-    * @since 2019-02-15 17:38:33
+    * @since 2019-02-18 11:09:20
     */
     public Integer saveTeacher(Teacher model);
 
@@ -29,7 +29,7 @@ public interface ICommonDao {
     * 根据主键删除测试教师表
     * @param id 测试教师表主键
     * @author luhao
-    * @since 2019-02-15 17:38:33
+    * @since 2019-02-18 11:09:20
     */
     public void deleteTeacherById (Integer id);
 
@@ -37,7 +37,7 @@ public interface ICommonDao {
     * 修改测试教师表
     * @param model 测试教师表实体
     * @author luhao
-    * @since 2019-02-15 17:38:33
+    * @since 2019-02-18 11:09:20
     */
     public void updateTeacher(Teacher model);
 
@@ -46,7 +46,7 @@ public interface ICommonDao {
     * @param scope 测试教师表查询条件
     * @author luhao
     * @return 测试教师表集合
-    * @since 2019-02-15 17:38:33
+    * @since 2019-02-18 11:09:20
     */
     public List<Teacher> getTeacherList(Teacher scope);
 }

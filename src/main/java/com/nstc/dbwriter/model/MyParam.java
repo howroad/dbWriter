@@ -40,8 +40,8 @@ public class MyParam extends FileWriter implements MapContent{
     public MyParam(String paramRemark, String columnName,String typeStr) {
         super();
         this.paramRemark = paramRemark;
-        this.columnName = columnName;
-        this.paramName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
+        this.columnName = columnName.toUpperCase();
+        this.paramName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
         String columnType = typeStr.trim().toUpperCase();
         Matcher mat = Pattern.compile("(?<=\\()(\\S+)(?=\\))").matcher(typeStr);
         if("DATE".equals(columnType)) {

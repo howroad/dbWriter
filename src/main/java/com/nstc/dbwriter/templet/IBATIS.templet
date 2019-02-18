@@ -1,3 +1,31 @@
+    @{delete}
+    <!-- 分页 start -->
+    <sql id="pagingStartSql">
+        <isNotNull property="paging">
+            SELECT * FROM (SELECT N.*,ROWNUM AS R
+            FROM (
+        </isNotNull>
+    </sql>
+    <!-- 分页 end -->
+    <sql id="pagingEndSql">
+        <isNotNull property="paging">
+            ) N ) T
+            WHERE T.R > #paging.startRow#
+            AND T.R <![CDATA[<=]]>
+            (#paging.endRow#)
+        </isNotNull>
+    </sql>
+    <!-- 查询 $table{remark}公共SQL-->
+    <sql id="query$table{entityName}ScopeSQL">
+        FROM $table{tableName} T WHERE 1 = 1
+        @{start}
+        <isNotEmpty property="$param{paramName}" prepend="and">
+            T.$param{columnName} = #$param{paramName}#
+        </isNotEmpty>
+        @{end}       
+    </sql>
+    @{/delete} 
+       
     <!-- 新增$table{remark} -->
     <insert id="save$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
         <selectKey resultClass="java.lang.Integer" keyProperty="$table{pkName}">
@@ -43,4 +71,45 @@
             T.$param{columnName} = #$param{paramName}#
         </isNotEmpty>
         @{end}
+        ORDER BY T.$table{pkColumnName} ASC
     </select>
+    
+    <!-- 根据Id查询$table{remark} -->
+    <select id="get$table{entityName}ById" parameterClass="java.lang.Integer" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+        SELECT
+            @{start}
+            T.$param{columnName} AS "$param{paramName}"$split{,}
+            @{end}
+        FROM $table{tableName} T WHERE 
+        T.$table{pkColumnName} = #id#
+        AND ROWNUM = 1
+    </select>
+    
+    <!-- 根据Id删除$table{remark} -->
+    <delete id="delete$table{entityName}ByIds" parameterClass="java.util.ArrayList">
+        DELETE FROM $table{tableName} T WHERE  T.$table{pkColumnName} IN
+        <iterate open="(" close=")" conjunction=",">  
+            #ids[]#  
+        </iterate>
+    </delete>   
+
+    @{delete}
+    <!-- 查询$table{remark}记录数 -->
+    <select id="get$table{entityName}PageCount" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}Scope" resultClass="java.lang.Integer">
+        SELECT
+            COUNT(0)
+        <include refid="query$table{entityName}ScopeSQL" />
+    </select>         
+    
+    <!-- 查询$table{remark}分页列表 -->
+    <select id="get$table{entityName}PageList" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+        <include refid="pagingStartSql" />
+        SELECT
+            @{start}
+            T.$param{columnName} AS "$param{paramName}"$split{,}
+            @{end}
+        <include refid="query$table{entityName}ScopeSQL" />
+        ORDER BY T.$table{pkColumnName} ASC
+        <include refid="pagingEndSql" />
+    </select>
+    @{/delete}

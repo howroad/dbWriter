@@ -1,5 +1,3 @@
-通过properties来控制各种参数
-主键必须是数字类型NUMBER的
 使用流程 db ctms_blend
 1.properties两个文件都看下
 2.start
@@ -7,14 +5,8 @@
 4.将xml和Dao复制到相应的位置
 5.执行AutoTest
 
-//TODO
-结构调整1/2,
-生成的文件分文件夹
-是否使用模版导出
 
 //TODO
-生成SCOPE
-生成其他的SQL方法(gdtXXXByIds,getXXXList,查询支持分页)
 生成BUSINESS（SaveAndSubmitXXXBusiness,DeleteXXXByIdsBusiness,QueryXXXListBusiness,QueryXXXByIdBusiness,SubmitXXXByIdsBusiness，查询支持分页）
 生成连表查询
 生成VIEW

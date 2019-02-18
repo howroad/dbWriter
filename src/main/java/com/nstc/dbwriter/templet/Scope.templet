@@ -1,16 +1,19 @@
 package $common{groupId}.$common{appNo}.$common{poPackage};
 
 $table{import}
+import com.nstc.dbwriter.model.Paging;
 
-/** $table{remark} */
-public class $table{entityName} {
+/** $table{remark}查询条件 */
+public class $table{entityName}Scope {
     
     @{start}
     /** $param{paramRemark} */
     private $param{paramType} $param{paramName};
     
     @{end}
-
+    /** 分页对象 */
+    private Paging paging;
+    
     @{start}
     public void set$param{bigName}($param{paramType} $param{paramName}){
         this.$param{paramName} = $param{paramName};
@@ -19,5 +22,11 @@ public class $table{entityName} {
         return this.$param{paramName};
     }
     @{end}
+    public void setPaging(Paging paging) {
+        this.paging = paging;
+    }
+    public Paging getPaging() {
+        return paging;
+    }
     
 }

@@ -31,3 +31,41 @@
     * @since $table{now}
     */
     public List<$table{entityName}> get$table{entityName}List($table{entityName} scope);
+    
+    /**
+    * 根据Id查询$table{remark}
+    * @param id $table{remark}主键
+    * @author $common{author}
+    * @return $table{remark}
+    * @since $table{now}
+    */
+    public $table{entityName} get$table{entityName}ById(Integer id);
+    
+    /**
+    * 根据主键删除多个$table{remark}
+    * @param ids $table{remark}主键
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void delete$table{entityName}ByIds (List<Integer> ids);
+    
+        
+    @{delete}
+    /**
+    * 查询$table{remark}记录数
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}记录数
+    * @since $table{now}
+    */
+    public Integer get$table{entityName}PageCount($table{entityName}Scope scope);
+    
+    /**
+    * 查询$table{remark}分页列表
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}集合
+    * @since $table{now}
+    */
+    public List<$table{entityName}> get$table{entityName}PageList($table{entityName}Scope scope);
+    @{/delete}  

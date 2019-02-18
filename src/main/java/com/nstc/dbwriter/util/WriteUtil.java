@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.model.Line;
 import com.nstc.dbwriter.model.MyParam;
@@ -62,7 +60,7 @@ public class WriteUtil {
 
     public static void buildCreateFromDB(Table table) {
         PrintWriter out = null;
-        String filName = DbSettings.PATH  + table.getTableName() + "_FROMDB" + ".TAB";
+        String filName = CommonSettings.PATH  + table.getTableName() + "_FROMDB" + ".TAB";
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            out.println(getCreateFromDB(table.getTableName()));
@@ -80,7 +78,7 @@ public class WriteUtil {
         String sql = "select dbms_metadata.get_ddl('TABLE','" + tableName + "') from dual";
         String result = null;
         try {
-            conn = DriverManager.getConnection(DbSettings.URL, DbSettings.USER, DbSettings.PASSWORD);
+            conn = DriverManager.getConnection(CommonSettings.URL, CommonSettings.USER, CommonSettings.PASSWORD);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -110,7 +108,7 @@ public class WriteUtil {
     public static List<Table> buildTableFromExcel(String appNo) {
         ExcelUtil importExcelUtil=new ExcelUtil();
         //excel 导入数据demo
-        File file = new File(DbSettings.EXCEL_PATH);
+        File file = new File(CommonSettings.EXCEL_PATH);
         List<List<String>> dataList= null;
         List<Table> tableList = new ArrayList<Table>();
         
@@ -149,71 +147,21 @@ public class WriteUtil {
         }
         return tableList;
     }
-    /*
-    public Table buildTableFromDB(String tableName,String appNo) {
-        tableName = tableName.toUpperCase();
-        Connection conn = null;
-        DatabaseMetaData db = null;
-        ResultSet rs = null;
-        ResultSet rsTable = null;
-        String tableRemark = null;
-        List<Line> lineList = new ArrayList<Line>();
-        try {
-            conn = DriverManager.getConnection(DbSettings.URL, DbSettings.USER, DbSettings.PASSWORD);
-            ((OracleConnection) conn).setRemarksReporting(true);
-            db = conn.getMetaData();
-            rs = db.getColumns(null, DbSettings.USER, tableName.toUpperCase(), null);
-            rsTable = db.getTables(null, DbSettings.USER, tableName.toUpperCase(), new String[] {"TABLE"});
-            if(rsTable.next()) {
-                tableRemark = rsTable.getString("REMARKS");
-            }
-            while (rs.next()) {
-                // 列名
-                String columnName = rs.getString("COLUMN_NAME");
-                // 字段名称
-                String paramName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
-                // 数据类型
-                int columnType = rs.getInt("DATA_TYPE");
-                // 小数位数
-                int decimalDigits = rs.getInt("DECIMAL_DIGITS");
-                // 注释
-                String remark = rs.getString("REMARKS");
-                System.out.println(rs.getInt("COLUMN_SIZE"));
-                //java 解析会出现精度错误
-                if(decimalDigits == -127 && rs.getInt("COLUMN_SIZE") == 0) {
-                    decimalDigits = 0;
-                }
-                lineList.add(new Line(columnName, paramName, columnType, decimalDigits, remark));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            try {
-                if(rs!=null) {
-                    rs.close();
-                }
-                if(rsTable != null) {
-                    rsTable.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return new Table(tableName, tableRemark, lineList);
-    }
-    */
+
     public static void buildDate(Table table) {
         PrintWriter out = null;
-        String filName = DbSettings.PATH  + table.getTableName() + ".SQL";
+        String filName = CommonSettings.PATH + table.getTableName() + "\\fromDB\\" + table.getTableName() + ".SQL";
         try {
-           out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
-           List<List<Object>> dataList = getData(table.getTableName());
-           table.writeDate(out, dataList);
+            File dir = new File(CommonSettings.PATH + table.getTableName() + "\\fromDB\\");
+            dir.mkdirs();
+            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
+            List<List<Object>> dataList = getData(table.getTableName());
+            table.writeDate(out, dataList);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             out.close();
-        }        
+        }
     }
     public static List<List<Object>> getData(String tableName) {
         tableName = tableName.toUpperCase();
@@ -223,7 +171,7 @@ public class WriteUtil {
         String sql = "SELECT * FROM " + tableName + " WHERE ROWNUM <= 20";
         List<List<Object>> resultList = new ArrayList<List<Object>>();
         try {
-            conn = DriverManager.getConnection(DbSettings.URL, DbSettings.USER, DbSettings.PASSWORD);
+            conn = DriverManager.getConnection(CommonSettings.URL, CommonSettings.USER, CommonSettings.PASSWORD);
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             int count = rs.getMetaData().getColumnCount();
@@ -254,11 +202,11 @@ public class WriteUtil {
         return resultList;
     }
     public static void buildSeq(Table table) {
-        if(!DbSettings.dealSEQ) {
+        if(!CommonSettings.dealSEQ) {
             return;
         }
         PrintWriter out = null;
-        String filName = DbSettings.PATH + table.getSeqName() + ".SEQ";
+        String filName = CommonSettings.PATH + table.getSeqName() + ".SEQ";
         try {
             out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
             table.writeSEQ(out);
@@ -270,7 +218,7 @@ public class WriteUtil {
     }
     public static void buildTab(Table table) {
         PrintWriter out = null;
-        String filName = DbSettings.PATH  + table.getTableName() + ".TAB";
+        String filName = CommonSettings.PATH  + table.getTableName() + ".TAB";
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeCreateTable(out);
@@ -283,12 +231,12 @@ public class WriteUtil {
     
     public static void buildJavaBean(Table table) {
         PrintWriter out = null;
-        String filName = DbSettings.PATH  + table.getJaveBeanFileName();
+        String filName = CommonSettings.PATH  + table.getJaveBeanFileName();
         PrintWriter outThis = null;
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeJaveBean(out);
-           if(DbSettings.autoRunTest) {
+           if(CommonSettings.autoRunTest) {
                String fileNameThis = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\model\\" + table.getJaveBeanFileName();
                outThis = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileNameThis, false), "GBK"));
                table.writeJaveBean(outThis);
@@ -309,26 +257,39 @@ public class WriteUtil {
         File templet = new File(InnerSettings.PO_TEMPLET_PATH);
         File outFile = new File(InnerSettings.TEST_MODEL_DIR + table.getJaveBeanFileName());
         WriteUtil.writeFileByTemplet(templet, outFile, table);
+        if(CommonSettings.usePage) {
+            File Scopetemplet = new File(InnerSettings.SCOPE_TEMPLET_PATH);
+            File scopeOutFile = new File(InnerSettings.TEST_MODEL_DIR + table.getEntityName() + "Scope.java");
+            WriteUtil.writeFileByTemplet(Scopetemplet, scopeOutFile, table);
+        }
     }
     
-    public static void buildAllTemplet(Table table) {
+    public static void buildAllTemplet(Table table,String path) {
         // 根据路径创建File对象
         File temletDir = new File(InnerSettings.TEMPLET_DIR);
         //创建文件夹
-        File dir = new File(InnerSettings.OUT_DIR + table.getTableName());
-        dir.mkdir();
+        File dir = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path);
+        dir.mkdirs();
         // 到的文件名列表
         if (temletDir.exists() && temletDir.isDirectory()) {
             File[] files = temletDir.listFiles(new FilenameFilter() {
+                @Override
                 public boolean accept(File dir, String name) {
                     return name.endsWith(".templet");
                 }
             });
             for (File file : files) {
                 String fileName = file.getName();
-                String outName = StringUtils.contains(fileName, "IBATIS") ? table.getEntityName() + ".xml" : 
-                    table.getEntityName() + fileName.replace(".templet", ".out");
-                File outPath = new File(InnerSettings.OUT_DIR + table.getTableName()  + "\\" + outName);
+                String outName = InnerSettings.templetMap.get(fileName);
+                String newFileName = null;
+                if(outName == null) {
+                    newFileName = table.getEntityName() + fileName.replace(".templet", ".out");
+                }else {
+                    table.initMap();
+                    newFileName = CodeUtil.replaceTemplet(outName, table.getMap(), "table");
+                    newFileName = CodeUtil.replaceTemplet(newFileName, CommonSettings.map, "common");
+                }
+                File outPath = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path + newFileName);
                 writeFileByTemplet(file, outPath, table);
             }
             
@@ -338,7 +299,7 @@ public class WriteUtil {
     
     public static void buildDao(Table table) {
         PrintWriter out = null;
-        String filName = DbSettings.PATH + table.getDaoName();
+        String filName = CommonSettings.PATH + table.getDaoName();
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeDao(out);
@@ -350,7 +311,7 @@ public class WriteUtil {
     }
     public static void buildXml(Table table) {
         PrintWriter out = null;
-        String filName = DbSettings.PATH + table.getXmlName();
+        String filName = CommonSettings.PATH + table.getXmlName();
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), "GBK"));
            table.writeXml(out);

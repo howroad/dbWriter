@@ -11,7 +11,7 @@ import java.net.URLClassLoader;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
-import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.TableContans;
 
 /**
@@ -51,7 +51,7 @@ public class RunTest {
         System.out.println(compilationResult);
         
         
-        if(!DbSettings.autoRunTest || !DbSettings.dealSEQ) {
+        if(!CommonSettings.autoRunTest || !CommonSettings.dealSEQ) {
             return;
         }
         

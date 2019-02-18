@@ -11,7 +11,7 @@ package com.nstc.dbwriter.config;
  * @since：2019年2月1日 下午12:38:43
  * 
  */
-public abstract class TableContans {
+public interface TableContans {
     public final static String TAB = "    ";
     public final static String TABTAB = "        ";
     public final static int SAVE = 0;
@@ -29,4 +29,8 @@ public abstract class TableContans {
     public final static String SPACE = " ";
     public final static String MODELSTR = "model";
     public final static String SEMC = ";";
+    public final static String DATE = "DATE";
+    public final static String TIMESTAMP = "TIMESTAMP";
+    public final static String NUMBER = "NUMBER";
+    public final static String VARCHAR2 = "VARCHAR2";
 }

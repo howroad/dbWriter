@@ -10,7 +10,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import com.google.common.base.CaseFormat;
-import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.TableContans;
 
 import oracle.sql.TIMESTAMP;
@@ -150,7 +150,7 @@ public class Table implements MapContent{
                 Object object = iterator.next();
                 String value = getInsertValue(object, lineList.get(index++));
                 last = !iterator.hasNext();
-                if(DbSettings.dealSEQ && first) {
+                if(CommonSettings.dealSEQ && first) {
                     if(last) {
                         out.print(seqNext);
                     }else {
@@ -375,7 +375,7 @@ public class Table implements MapContent{
 	    
 		out.println(TableContans.TAB + "<!-- 新增" + tableRemart + " -->");
 		out.println(TableContans.TAB + "<insert id=\"save" + getEntityName() + "\" parameterClass=\""+ getEntityClassPath() + "\">");
-		if(DbSettings.dealSEQ) {
+		if(CommonSettings.dealSEQ) {
 		    out.println(TableContans.TAB + TableContans.TAB + "<selectKey resultClass=\"java.lang.Integer\" keyProperty=\"" + lineList.get(0).getParamName() + "\">");
 		    out.println(TableContans.TAB + TableContans.TABTAB + "SELECT " + getSeqName() + ".NEXTVAL AS " + lineList.get(0).getParamName() + " FROM DUAL");
 		    out.println(TableContans.TAB + TableContans.TAB + "</selectKey>");
@@ -526,7 +526,7 @@ public class Table implements MapContent{
 	 * @since：2018年12月28日 下午6:28:52
 	 */
 	private void writeSaveDaoImpl(PrintWriter out,int type) {
-	    if(DbSettings.implCommont) {
+	    if(CommonSettings.implCommont) {
 	        commont(out, TableContans.SAVE);
 	    }
 		out.println(TableContans.TAB + "public Integer save" + getEntityName() + "(" + getClassName() + " model) {");
@@ -559,7 +559,7 @@ public class Table implements MapContent{
 	 * @since：2018年12月28日 下午6:29:31
 	 */
 	private void writeDeleteDaoImpl(PrintWriter out,int type) {
-       if(DbSettings.implCommont) {
+       if(CommonSettings.implCommont) {
             commont(out, TableContans.DELETE);
         }
 		out.println(TableContans.TAB + "public void delete" + getEntityName() + "ById (Integer id) {");
@@ -592,7 +592,7 @@ public class Table implements MapContent{
 	 * @since：2018年12月28日 下午6:29:51
 	 */
 	private void writeUpdateDaoImpl(PrintWriter out,int type) {
-       if(DbSettings.implCommont) {
+       if(CommonSettings.implCommont) {
             commont(out, TableContans.UPDATE);
         }	    
 		out.println(TableContans.TAB + "public void update" + getEntityName() + "(" + getClassName() + " model) {");
@@ -625,7 +625,7 @@ public class Table implements MapContent{
 	 * @since：2018年12月28日 下午6:30:29
 	 */
 	private void writeGetDaoImpl(PrintWriter out,int type) {
-       if(DbSettings.implCommont) {
+       if(CommonSettings.implCommont) {
             commont(out, TableContans.GET);
         }   	    
 		out.println(TableContans.TAB + "public List<" + getClassName() + "> get" + getEntityName() + "List(" + getClassName() + " scope) {");
@@ -657,8 +657,8 @@ public class Table implements MapContent{
 	 */
     private String getAppNoUpper() {
         String appNo = null;
-        if(DbSettings.appNo.length() > 0) {
-            appNo =  DbSettings.appNo;
+        if(CommonSettings.appNo.length() > 0) {
+            appNo =  CommonSettings.appNo;
         }else if (tableName.contains(TableContans.UNDER_LINE)) {
             appNo = tableName.split(TableContans.UNDER_LINE)[0];
         } else {
@@ -673,8 +673,8 @@ public class Table implements MapContent{
      */
     private String getAppNoLower() {
         String appNo = null;
-        if(DbSettings.appNo.length() > 0) {
-            appNo =  DbSettings.appNo;
+        if(CommonSettings.appNo.length() > 0) {
+            appNo =  CommonSettings.appNo;
         }else if (tableName.contains(TableContans.UNDER_LINE)) {
             appNo = tableName.split(TableContans.UNDER_LINE)[0];
         } else {
@@ -726,7 +726,7 @@ public class Table implements MapContent{
      */
     public String getSeqName() {
         String seqName = null;
-        if(new Integer(0).equals(DbSettings.SEQ_DIR)) {
+        if(new Integer(0).equals(CommonSettings.SEQ_DIR)) {
             seqName = "SEQ_" + getTableName();
         }else {
             seqName = getTableName() + "_SEQ";
@@ -804,13 +804,9 @@ public class Table implements MapContent{
     public String toString() {
         return "Table [tableName=" + tableName + ", tableRemart=" + tableRemart + ", lineList=" + lineList + "]";
     }
-
+	@Override
     public Map<String, String> getMap() {
         return map;
-    }
-
-    public void setMap(Map<String, String> map) {
-        this.map = map;
     }
 
     public List<MyParam> getParamList() {

@@ -15,10 +15,9 @@ import java.util.Properties;
  * @since：2019年1月24日 下午4:55:14
  * 
  */
-public class DbSettings {
+public class CommonSettings {
     
     private final static String SETTING_PATH = "\\src\\main\\java\\com\\nstc\\dbwriter\\config\\settings.properties";
-    private final static String SQLMAP_PATH = "\\src\\main\\java\\com\\nstc\\dbwriter\\config\\SqlMap.properties";
     
     public static String PATH = "C:/Users/Administrator/Desktop/model/";
     public static String URL = "jdbc:oracle:thin:@192.168.20.33:1521:nstestsid";
@@ -37,12 +36,13 @@ public class DbSettings {
     public static Map<String,String> map = new HashMap<String,String>();
     public static Map<String, String> lastMap = new HashMap<String, String>();
     public static boolean useTemplet = true;
+    public static String FROM_DB = "fromDB\\";
+    public static String FROM_EXCEL = "fromExcel\\";
+    public static boolean usePage = true;
     
     static{
         Properties pro = new Properties();
-        Properties sqlMapPro = new Properties();
         FileInputStream in = null;
-        FileInputStream sqlMapIn = null;
         
         try {
             in = new FileInputStream(System.getProperty("user.dir") + SETTING_PATH);
@@ -52,18 +52,11 @@ public class DbSettings {
             e.printStackTrace();
         }
 
-        try {
-            sqlMapIn = new FileInputStream(System.getProperty("user.dir") + SQLMAP_PATH);
-            sqlMapPro.load(sqlMapIn);
-            sqlMapIn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         
         PATH = pro.getProperty("PATH");
-        URL = sqlMapPro.getProperty("url");
-        USER = sqlMapPro.getProperty("username");
-        PASSWORD = sqlMapPro.getProperty("password");
+        URL = pro.getProperty("url");
+        USER = pro.getProperty("username");
+        PASSWORD = pro.getProperty("password");
         EXCEL_PATH = pro.getProperty("EXCEL_PATH");
         fromExcel = "true".equalsIgnoreCase(pro.getProperty("fromExcel"));
         fromDatebase = "true".equalsIgnoreCase(pro.getProperty("fromDatebase"));
@@ -75,6 +68,7 @@ public class DbSettings {
         autoRunTest = "true".equalsIgnoreCase(pro.getProperty("autoRunTest"));
         prefix = pro.getProperty("prefix");
         useTemplet = "true".equalsIgnoreCase(pro.getProperty("useTemplet"));
+        usePage = "true".equalsIgnoreCase(pro.getProperty("usePage"));
         
         map.put("groupId","com.nstc");
         map.put("line", "");

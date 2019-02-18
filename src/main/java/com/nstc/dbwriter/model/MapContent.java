@@ -15,6 +15,12 @@ package com.nstc.dbwriter.model;
 import java.util.Map;
 
 public interface MapContent {
+    /**
+     * 获得替换Map
+     * @Description:
+     * @return Map<String,String>
+     * @author luhao
+     * @since：2019年2月18日 下午3:03:38
+     */
     Map<String, String> getMap();
-    void setMap(Map<String, String> map);
 }

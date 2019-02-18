@@ -3,7 +3,7 @@ package com.nstc.dbwriter.control;
 import java.util.List;
 
 import com.nstc.dbwriter.builder.TableBuilder;
-import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.model.Table;
 import com.nstc.dbwriter.util.WriteUtil;
 
@@ -24,14 +24,13 @@ import com.nstc.dbwriter.util.WriteUtil;
 public class Start {
     public static void main(String[] args) {
         
-        if(DbSettings.fromExcel) {
-            List<Table> tables = WriteUtil.buildTableFromExcel(DbSettings.appNo);
+        if(CommonSettings.fromExcel) {
+            List<Table> tables = WriteUtil.buildTableFromExcel(CommonSettings.appNo);
             for (int i = 0; i < tables.size(); i++) {
                 Table table = tables.get(i);
-                if(DbSettings.useTemplet) {
+                if(CommonSettings.useTemplet) {
                     //使用模版生成
-                    WriteUtil.buildJavaBeanByTemplet(table);
-                    WriteUtil.buildAllTemplet(table);
+                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL);
                 }else {
                     //老方法
                     WriteUtil.buildTab(table);
@@ -42,17 +41,17 @@ public class Start {
             }
         }
         
-        if(DbSettings.fromDatebase) {
-            String[] tablesFromDB = DbSettings.tablesFromDB;
+        if(CommonSettings.fromDatebase) {
+            String[] tablesFromDB = CommonSettings.tablesFromDB;
             for (String tableName : tablesFromDB) {
                 if(tableName.toUpperCase().startsWith("UM_")) {
                     continue;
                 }
                 Table table = TableBuilder.buildTableFromDB(tableName);
-                if(DbSettings.useTemplet) {
+                if(CommonSettings.useTemplet) {
                     //使用模版生成
-                    WriteUtil.buildJavaBeanByTemplet(table);
-                    WriteUtil.buildAllTemplet(table);
+                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB);
+                    WriteUtil.buildDate(table);
                 }else {
                     //老方法
                     WriteUtil.buildJavaBean(table);
@@ -64,8 +63,9 @@ public class Start {
                 
                 
                 System.out.println(table.getTableName() + " complete...");
-                if(DbSettings.autoRunTest) {
-                    if(DbSettings.useTemplet) {
+                if(CommonSettings.autoRunTest) {
+                    if(CommonSettings.useTemplet) {
+                        WriteUtil.buildJavaBeanByTemplet(table);
                         WriteUtil.writeCommonFileByTemplet(table);
                     }else {
                         WriteUtil.writeCommonFile(table);
@@ -73,7 +73,7 @@ public class Start {
                 }
                 System.out.println(table.getTableName() + "insert...Done");
                 
-                RunTest.buildClassAndRun(table.getEntityName(),DbSettings.autoRunTest);
+                RunTest.buildClassAndRun(table.getEntityName(),CommonSettings.autoRunTest);
                 System.out.println(table.getTableName() + "testBean complete...");
             } 
         }

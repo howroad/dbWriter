@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.CaseFormat;
-import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.model.Line;
 import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
@@ -41,11 +41,11 @@ public class TableBuilder {
         List<Line> lineList = new ArrayList<Line>();
         List<MyParam> paramList = new ArrayList<MyParam>();
         try {
-            conn = DriverManager.getConnection(DbSettings.URL, DbSettings.USER, DbSettings.PASSWORD);
+            conn = DriverManager.getConnection(CommonSettings.URL, CommonSettings.USER, CommonSettings.PASSWORD);
             ((OracleConnection) conn).setRemarksReporting(true);
             db = conn.getMetaData();
-            rs = db.getColumns(null, DbSettings.USER, tableName.toUpperCase(), null);
-            rsTable = db.getTables(null, DbSettings.USER, tableName.toUpperCase(), new String[] {"TABLE"});
+            rs = db.getColumns(null, CommonSettings.USER, tableName.toUpperCase(), null);
+            rsTable = db.getTables(null, CommonSettings.USER, tableName.toUpperCase(), new String[] {"TABLE"});
             if(rsTable.next()) {
                 tableRemark = rsTable.getString("REMARKS");
             }
@@ -89,10 +89,6 @@ public class TableBuilder {
             }
         }
         Table table = new Table(tableName, tableRemark, lineList,paramList);
-        /*
-        MyClass clz = new MyClass(tableName, paramList, table);
-        clz.write();
-        */
         return table;
     }
 }

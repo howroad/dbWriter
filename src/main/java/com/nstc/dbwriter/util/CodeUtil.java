@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.nstc.dbwriter.config.DbSettings;
+import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
 
@@ -37,12 +37,25 @@ public class CodeUtil {
         
         table.initMap();
         
+        boolean delete = false;
+        
         String outStr = null;
     	for (String line : lineList) {
+    	    if(line.matches("^.*\\@\\{\\/delete\\}.*$")) {
+                delete = false;
+                continue;
+            }
+    	    else if(line.matches("^.*\\@\\{delete\\}.*$")) {
+    	        delete = true;
+    	        continue;
+    	    }
+    	    else if(delete && !CommonSettings.usePage) {
+                continue;
+            }
     		//循环种
-    		if(loop) {
+    	    else if(loop) {
     			// 遇到结束标识 解析循环体中的模板
-    			if(line.matches("^.*\\@\\{end\\}$")) {
+    			if(line.matches("^.*\\@\\{end\\}.*$")) {
     				loop = false;
     				for (ListIterator<MyParam> iterator = table.getParamList().listIterator(); iterator.hasNext();) {
     				    // 清除第一个属性信息
@@ -55,9 +68,9 @@ public class CodeUtil {
                             outStr = replaceTemplet(string, param.getMap(), "param");
                             outStr = replaceTemplet(outStr, table.getMap(), "table");
                             if(iterator.hasNext()) {
-                                outStr = replaceTemplet(outStr, DbSettings.map, "split");
+                                outStr = replaceTemplet(outStr, CommonSettings.map, "split");
                             }else {
-                                outStr = replaceTemplet(outStr, DbSettings.lastMap, "split");
+                                outStr = replaceTemplet(outStr, CommonSettings.lastMap, "split");
                             }
                             result.add(outStr);
                         }                       
@@ -67,17 +80,17 @@ public class CodeUtil {
     				loopLine.add(line);
     			}
     		// 开始进入循环体，设置标识	
-    		}else if(line.matches("^.*\\@\\{start\\}$")) {
+    		}else if(line.matches("^.*\\@\\{start\\}.*$")) {
     			loopLine.clear();
 				loop = true;
 				clearFirst = false;
-    		}else if(line.matches("^.*\\@\\{startFrom2\\}$")) {
+    		}else if(line.matches("^.*\\@\\{startFrom2\\}.*$")) {
                 loopLine.clear();
                 loop = true;
                 clearFirst = true;
 			// 不是循环，解析模板	
 			} else {
-				outStr = replaceTemplet(line, DbSettings.map, "common");
+				outStr = replaceTemplet(line, CommonSettings.map, "common");
 				outStr = replaceTemplet(outStr, table.getMap(), "table");
 				result.add(outStr);
 			}

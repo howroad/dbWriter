@@ -85,4 +85,12 @@ class SqlMapClientTemplate {
         }
         return null;
     }
+    public Object queryForObject(String str,Object obj) {
+        try {
+            return sqlMapClient.queryForObject(str, obj);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; 
+    }
 }

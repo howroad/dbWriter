@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.CaseFormat;
+import com.nstc.dbwriter.config.TableContans;
 
 /**
  * <p>Title: MyParam.java</p>
@@ -20,7 +21,7 @@ import com.google.common.base.CaseFormat;
  * @since：2019年2月1日 下午1:38:11
  * 
  */
-public class MyParam extends FileWriter implements MapContent{
+public class MyParam implements MapContent{
     
     private String paramName;
     private String paramRemark;
@@ -44,18 +45,18 @@ public class MyParam extends FileWriter implements MapContent{
         this.paramName = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, columnName);
         String columnType = typeStr.trim().toUpperCase();
         Matcher mat = Pattern.compile("(?<=\\()(\\S+)(?=\\))").matcher(typeStr);
-        if("DATE".equals(columnType)) {
+        if(TableContans.DATE.equals(columnType)) {
             this.type = new MyType(Types.DATE,0,0);
-        }else if("TIMESTAMP".equals(columnType)) {
+        }else if(TableContans.TIMESTAMP.equals(columnType)) {
             this.type = new MyType(Types.TIMESTAMP,0,0);
-        }else if(columnType.startsWith("NUMBER")) {
+        }else if(columnType.startsWith(TableContans.NUMBER)) {
             if(mat.find()) {
                 String inner = mat.group();
                 this.type = new MyType(Types.DECIMAL,new Integer(inner.split(",")[0]),new Integer(inner.split(",")[1]));
             }else {
                 this.type = new MyType(Types.DECIMAL,0,0);
             }
-        }else if(columnType.startsWith("VARCHAR2")) {
+        }else if(columnType.startsWith(TableContans.VARCHAR2)) {
             if(mat.find()) {
                 this.type = new MyType(Types.VARCHAR,new Integer(mat.group()),0);
             }else {
@@ -97,13 +98,9 @@ public class MyParam extends FileWriter implements MapContent{
     public void setParamRemark(String paramRemark) {
         this.paramRemark = paramRemark;
     }
-
+    @Override
     public Map<String, String> getMap() {
         return map;
-    }
-
-    public void setMap(Map<String, String> map) {
-        this.map = map;
     }
 
     public String getColumnName() {

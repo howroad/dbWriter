@@ -20,4 +20,11 @@ public class $table{entityName} {
     }
     @{end}
     
+    public String toString() {
+        return "$table{entityName} ["
+                @{start}
+                + "$param{paramName} = " + $param{paramName} + "$split{,} "
+                @{end}
+                + "]";
+    }
 }

@@ -1,0 +1,57 @@
+package com.nstc.$common{appNo}.business;
+
+import java.util.Map;
+
+import com.nstc.tps.builder.AffairBuilder;
+import com.nstc.tps.enums.CommonFileTypeEnum;
+import com.nstc.tps.model.SaveModel.CommonSaveModel;
+import com.nstc.tps.scope.AffairScope;
+import com.nstc.util.CastUtil;
+
+/**
+ * 保存$table{remark}
+ * 
+ * <p>Title: SaveAffairApplyBusiness.java</p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author $common{author}
+ * 
+ * @since：$table{now}
+ * 
+ */
+public class Save$table{entityName}Business extends AbstractAffairBusiness{
+    
+    private Map<String, Object> xxx_xxx;
+    
+    public void doExecute() {
+        if (xxx_xxx != null) {
+            CommonSaveModel model = (Builder)
+            Integer saveFlag = CastUtil.toInteger(tps_affair_apply_form.get(SAVE_FLAG));
+            if (SAVE == saveFlag) {
+                // 保存
+                getLocator().get$table{entityName}Service().saveOrUpdate$table{entityName}(model);
+                setInfoMsg(SAVE_SUCCESS_MSG);
+            } else if (SUBMIT == saveFlag) {
+                // 保存并发起工作流
+                getLocator().getAffairService().saveOrUpdateAndSubmitAffair(model);
+                setInfoMsg(SUBMIT_SUCCESS_MSG);
+            }
+            // 待处理记录数量
+            AffairScope scope = AffairBuilder.buildAffTempListCountScope(getProfile());
+            Integer countAffairTempList = getLocator().getAffairService().getAffairTempListCount(scope);
+            putResult(PENDING, countAffairTempList); 
+        }
+    }
+
+    public Map<String, Object> getTps_affair_apply_form() {
+        return tps_affair_apply_form;
+    }
+
+    public void setTps_affair_apply_form(Map<String, Object> tps_affair_apply_form) {
+        this.tps_affair_apply_form = tps_affair_apply_form;
+    }
+    
+}

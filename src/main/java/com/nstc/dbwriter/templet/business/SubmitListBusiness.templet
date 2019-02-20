@@ -1,0 +1,56 @@
+package com.nstc.tps.business;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 批量提交事务申请到工作流
+ * 
+ * <p>Title: SumitAffairApplyListBusiness.java</p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author luhao
+ * 
+ * @since：2019年1月11日 下午2:21:36
+ *
+ */
+public class SumitAffairApplyListBusiness extends AbstractAffairBusiness{
+
+    private Map<String, Object> tps_affair_apply_temp_qry;
+    
+    private List<Map<String, Object>> tps_affair_apply_temp_list;
+    
+    public void doExecute() throws Exception {
+        // 获取选择的记录
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> selectRows = getGridSelectedRow(tps_affair_apply_temp_list);
+        List<Integer> affIds = selectAffIds(selectRows);
+        
+        // 提交到工作流
+        getLocator().getAffairService().submitAffairList(affIds);
+        putResult("tps_affair_apply_temp_qry", tps_affair_apply_temp_qry);
+        
+        putResult(REFRESH_FLAG, REFRESH);
+        setInfoMsg(SUBMIT_SUCCESS_MSG);
+    }
+
+    public Map<String, Object> getTps_affair_apply_temp_qry() {
+        return tps_affair_apply_temp_qry;
+    }
+
+    public void setTps_affair_apply_temp_qry(Map<String, Object> tps_affair_apply_temp_qry) {
+        this.tps_affair_apply_temp_qry = tps_affair_apply_temp_qry;
+    }
+
+    public List<Map<String, Object>> getTps_affair_apply_temp_list() {
+        return tps_affair_apply_temp_list;
+    }
+
+    public void setTps_affair_apply_temp_list(List<Map<String, Object>> tps_affair_apply_temp_list) {
+        this.tps_affair_apply_temp_list = tps_affair_apply_temp_list;
+    }
+    
+}

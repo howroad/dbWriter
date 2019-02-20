@@ -10,8 +10,8 @@
 Business｛
 增(保存/提交/修改saveXXXBusiness.java，批量提交SubmitXXXListBusiness.java)
 删(DeleteXXXByIdsBusiness.java)
-查(QueryXXXByIdBusiness.java/QueryXXXListBusiness.java)
-
+查(ShowXXXByIdBusiness.java/QueryXXXListBusiness.java)
+business模版需要修改
 ｝
 
 生成BUSINESS（SaveAndSubmitXXXBusiness,DeleteXXXByIdsBusiness,QueryXXXListBusiness,QueryXXXByIdBusiness,SubmitXXXByIdsBusiness，查询支持分页）

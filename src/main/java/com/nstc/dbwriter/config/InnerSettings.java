@@ -49,6 +49,12 @@ public class InnerSettings {
         templetMap.put("TABLE.templet", "$table{tableName}.TAB.out");
         templetMap.put("Scope.templet", "$table{entityName}Scope.java.out");
         templetMap.put("SERVICEIMPL.templet", "$table{entityName}ServiceImpl.java.out");
+        
+        templetMap.put("DeleteListBusiness.templet", "Delete$table{entityName}ListBusiness.java.out");
+        templetMap.put("QueryListBusiness.templet", "Query$table{entityName}ListBusiness.java.out");
+        templetMap.put("SaveBusiness.templet", "Save$table{entityName}Business.java.out");
+        templetMap.put("ShowBusiness.templet", "Show$table{entityName}Business.java.out");
+        templetMap.put("SubmitListBusiness.templet", "Submit$table{entityName}ListBusiness.java.out");
     }
     
     

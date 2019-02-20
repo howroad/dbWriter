@@ -49,6 +49,7 @@ public class Table implements MapContent{
             map.put("import", "import java.util.Date;");
         }
         map.put("entityName", getEntityName());
+        map.put("entityNameLow", getEntityName().toLowerCase());
         map.put("remark", this.tableRemart); 
         map.put("now", getNow());
         map.put("tableName", getTableName());

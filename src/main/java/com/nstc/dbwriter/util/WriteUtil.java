@@ -264,9 +264,9 @@ public class WriteUtil {
         }
     }
     
-    public static void buildAllTemplet(Table table,String path) {
+    public static void buildAllTemplet(Table table,String path,String templetDir) {
         // 根据路径创建File对象
-        File temletDir = new File(InnerSettings.TEMPLET_DIR);
+        File temletDir = new File(templetDir);
         //创建文件夹
         File dir = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path);
         dir.mkdirs();

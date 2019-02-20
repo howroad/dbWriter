@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.nstc.dbwriter.builder.TableBuilder;
 import com.nstc.dbwriter.config.CommonSettings;
+import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.model.Table;
 import com.nstc.dbwriter.util.WriteUtil;
 
@@ -30,7 +31,8 @@ public class Start {
                 Table table = tables.get(i);
                 if(CommonSettings.useTemplet) {
                     //使用模版生成
-                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL);
+                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR);
+                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR + "\\business");
                 }else {
                     //老方法
                     WriteUtil.buildTab(table);
@@ -50,7 +52,8 @@ public class Start {
                 Table table = TableBuilder.buildTableFromDB(tableName);
                 if(CommonSettings.useTemplet) {
                     //使用模版生成
-                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB);
+                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR);
+                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR + "\\business");
                     WriteUtil.buildDate(table);
                 }else {
                     //老方法

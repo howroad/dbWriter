@@ -1,0 +1,41 @@
+package com.nstc.$common{appNo}.business;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 批量删除$table{remark}
+ * 
+ * <p>Title: Delete$table{entityName}ListBusiness.java</p>
+ *
+ * <p>Description: 批量删除$table{remark}</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author $common{author}
+ * 
+ * @since：$table{now}
+ *
+ */
+public class Delete$table{entityName}ListBusiness extends Abstract$table{entityName}Business{
+
+    private Map<String, Object> $common{appNo}_$table{entityNameLow}_qry;
+    
+    private List<Map<String, Object>> $common{appNo}_$table{entityNameLow}_list;
+    
+    public void doExecute() throws Exception {
+        // 获取选择的记录
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> selectRows = getGridSelectedRow($common{appNo}_$table{entityNameLow}_list);
+        List<Integer> affIds = selectAffIds(selectRows);
+        
+        // 按照Ids删除事务申请
+        getLocator().get$table{entityName}Service().delete$table{entityName}ByIds(affIds);
+        
+        putResult("$common{appNo}_$table{entityNameLow}_qry", $common{appNo}_$table{entityNameLow}_qry);
+        putResult(REFRESH_FLAG, REFRESH);
+        setInfoMsg(DELETE_SUCCESS_MSG);
+    }
+
+    
+}

@@ -48,6 +48,9 @@ public class ClearTemp {
             File[] files = dir.listFiles();
             for (File file : files) {
                 if(file.isFile()) {
+                    if(".gitkeep".equals(file.getName())){
+                        continue;
+                    }
                     file.delete();
                 }else if(file.isDirectory()) {
                     clearDir(file);

@@ -48,7 +48,7 @@ public class InnerSettings {
         templetMap.put("SEQ.templet", "$table{tableName}_SEQ.PDC.out");
         templetMap.put("TABLE.templet", "$table{tableName}.TAB.out");
         templetMap.put("Scope.templet", "$table{entityName}Scope.java.out");
-        
+        templetMap.put("SERVICEIMPL.templet", "$table{entityName}ServiceImpl.java.out");
     }
     
     

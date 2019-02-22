@@ -1,0 +1,37 @@
+package com.nstc.temp.business;
+
+/**
+ * 批量提交账户表到工作流
+ * 
+ * <p>Title: SumitAmountListBusiness.java</p>
+ *
+ * <p>Description: 批量提交账户表到工作流</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author luhao
+ * 
+ * @since：2019-02-22 10:50:49
+ *
+ */
+public class SumitAmountListBusiness extends AbstractTEMPBusiness{
+
+    private Map<String, Object> $common{appNoLow}_amount_qry;
+    
+    private List<Map<String, Object>> $common{appNoLow}_amount_list;
+    
+    public void doExecute() throws Exception {
+        // 获取选择的记录
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> selectRows = getGridSelectedRow($common{appNoLow}_amount_list);
+        List<Integer> ids = selectByName(selectRows,"amountId");
+        
+        // 提交到工作流
+        getLocator().getAmountService().submitAmountList(ids);
+        putResult("$common{appNoLow}_amount_qry", $common{appNoLow}_amount_qry);
+        
+        putResult(REFRESH_FLAG, REFRESH);
+        setInfoMsg(SUBMIT_SUCCESS_MSG);
+    }
+
+}

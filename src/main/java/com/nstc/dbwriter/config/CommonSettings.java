@@ -73,6 +73,7 @@ public class CommonSettings {
         map.put("groupId","com.nstc");
         map.put("line", "");
         map.put("appNo", appNo);
+        map.put("appNoUpper",appNo.toUpperCase());
         map.put("poPackage", "model");
         map.put("author", "luhao");
         map.put(",",",");

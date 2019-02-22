@@ -35,8 +35,6 @@ public class CodeUtil {
     	/** 循环体 */
         List<String> loopLine = new ArrayList<String>();
         
-        table.initMap();
-        
         boolean delete = false;
         
         String outStr = null;

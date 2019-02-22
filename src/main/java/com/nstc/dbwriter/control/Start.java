@@ -32,7 +32,6 @@ public class Start {
                 if(CommonSettings.useTemplet) {
                     //使用模版生成
                     WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR);
-                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR + "\\business");
                 }else {
                     //老方法
                     WriteUtil.buildTab(table);
@@ -53,7 +52,6 @@ public class Start {
                 if(CommonSettings.useTemplet) {
                     //使用模版生成
                     WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR);
-                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR + "\\business");
                     WriteUtil.buildDate(table);
                 }else {
                     //老方法

@@ -1,0 +1,48 @@
+package com.nstc.$common{appNo}.business;
+
+/**
+ * 查询$table{remark}列表
+ * 
+ * <p>Title: Query$table{entityName}Business.java</p>
+ *
+ * <p>Description: 查询$table{remark}列表</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author $common{author}
+ * 
+ * @since：$table{now}
+ *
+ */
+public class Query$table{entityName}Business extends Abstract$common{appNoUpper}Business{
+    
+    private Map<String, Object> $common{appNoLow}_$table{entityNameLow}_qry;
+    
+    private List<Map<String, Object>> $common{appNoLow}_$table{entityNameLow}_list;
+    
+    @SuppressWarnings("unchecked")
+    public void doExecute() {
+        //初始化
+        init();
+
+        //查询
+        $table{entityName}Scope scope = ($table{entityName}Scope) BeanHelper.populate($table{entityName}Scope.class, $common{appNo}_$table{entityNameLow}_form);
+        List<$table{entityName}> list = getLocator().get$table{entityName}Service().get$table{entityName}List(scope);
+        $common{appNoLow}_$table{entityNameLow}_list = BeanHelper.describe(list);
+        
+        putResult("$common{appNoLow}_$table{entityNameLow}_qry", $common{appNoLow}_$table{entityNameLow}_qry);
+        putResult("$common{appNoLow}_$table{entityNameLow}_list", $common{appNoLow}_$table{entityNameLow}_list);
+    }
+
+
+    /**
+     * 初始化
+     * @author $common{author}
+     * @since：$table{now}
+     */
+    private void init() {
+        if($common{appNoLow}_$table{entityNameLow}_qry == null) {
+            $common{appNoLow}_$table{entityNameLow}_qry = new HashMap<String, Object>(16);
+        }
+    }
+}

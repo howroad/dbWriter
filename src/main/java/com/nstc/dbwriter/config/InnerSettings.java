@@ -28,7 +28,7 @@ public class InnerSettings {
     public final static String PO_TEMPLET_PATH = TEMPLET_DIR + "PO.templet";
     public final static String DAO_TEMPLET_PATH = TEMPLET_DIR + "DAO.templet";
     public final static String DAOIMPL_TEMPLET_PATH = TEMPLET_DIR + "DAOIMPL.templet";
-    public final static String XML_TEMPLET_PATH = TEMPLET_DIR + "IBATiS.templet";
+    public final static String XML_TEMPLET_PATH = TEMPLET_DIR + "db\\IBATiS.templet";
     public final static String SCOPE_TEMPLET_PATH = TEMPLET_DIR + "Scope.templet";
     
     public final static String ICOMMONDAO_TEMPLET_PATH = TEMPLET_DIR + "common\\ICommonDao.templet";

@@ -1,0 +1,48 @@
+package com.nstc.temp.business;
+
+/**
+ * 查询账户表列表
+ * 
+ * <p>Title: QueryAmountBusiness.java</p>
+ *
+ * <p>Description: 查询账户表列表</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author luhao
+ * 
+ * @since：2019-02-22 10:50:49
+ *
+ */
+public class QueryAmountBusiness extends AbstractTEMPBusiness{
+    
+    private Map<String, Object> $common{appNoLow}_amount_qry;
+    
+    private List<Map<String, Object>> $common{appNoLow}_amount_list;
+    
+    @SuppressWarnings("unchecked")
+    public void doExecute() {
+        //初始化
+        init();
+
+        //查询
+        AmountScope scope = (AmountScope) BeanHelper.populate(AmountScope.class, temp_amount_form);
+        List<Amount> list = getLocator().getAmountService().getAmountList(scope);
+        $common{appNoLow}_amount_list = BeanHelper.describe(list);
+        
+        putResult("$common{appNoLow}_amount_qry", $common{appNoLow}_amount_qry);
+        putResult("$common{appNoLow}_amount_list", $common{appNoLow}_amount_list);
+    }
+
+
+    /**
+     * 初始化
+     * @author luhao
+     * @since：2019-02-22 10:50:49
+     */
+    private void init() {
+        if($common{appNoLow}_amount_qry == null) {
+            $common{appNoLow}_amount_qry = new HashMap<String, Object>(16);
+        }
+    }
+}

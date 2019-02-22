@@ -44,7 +44,7 @@ public class Table implements MapContent{
         this.paramList = paramList;
         
     }
-    public void initMap() {
+    private void initMap() {
         if(hasDateType()) {
             map.put("import", "import java.util.Date;");
         }
@@ -807,6 +807,7 @@ public class Table implements MapContent{
     }
 	@Override
     public Map<String, String> getMap() {
+	    initMap();
         return map;
     }
 

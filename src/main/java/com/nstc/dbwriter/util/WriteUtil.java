@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -264,6 +263,7 @@ public class WriteUtil {
         }
     }
     
+    
     public static void buildAllTemplet(Table table,String path,String templetDir) {
         // 根据路径创建File对象
         File temletDir = new File(templetDir);
@@ -272,25 +272,26 @@ public class WriteUtil {
         dir.mkdirs();
         // 到的文件名列表
         if (temletDir.exists() && temletDir.isDirectory()) {
-            File[] files = temletDir.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.endsWith(".templet");
-                }
-            });
+            File[] files = temletDir.listFiles();
             for (File file : files) {
                 String fileName = file.getName();
-                String outName = InnerSettings.templetMap.get(fileName);
-                String newFileName = null;
-                if(outName == null) {
-                    newFileName = table.getEntityName() + fileName.replace(".templet", ".out");
-                }else {
-                    table.initMap();
-                    newFileName = CodeUtil.replaceTemplet(outName, table.getMap(), "table");
-                    newFileName = CodeUtil.replaceTemplet(newFileName, CommonSettings.map, "common");
+                if(file.isDirectory()) {
+                    if("common".equals(fileName)) {
+                        continue;
+                    }
+                    buildAllTemplet(table, path + "\\" + fileName + "\\", templetDir + "\\" + fileName);
+                }else if(file.isFile() && fileName.endsWith(".templet")){
+                    String outName = InnerSettings.templetMap.get(fileName);
+                    String newFileName = null;
+                    if(outName == null) {
+                        newFileName = table.getEntityName() + fileName.replace(".templet", ".out");
+                    }else {
+                        newFileName = CodeUtil.replaceTemplet(outName, table.getMap(), "table");
+                        newFileName = CodeUtil.replaceTemplet(newFileName, CommonSettings.map, "common");
+                    }
+                    File outPath = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path + newFileName);
+                    writeFileByTemplet(file, outPath, table);
                 }
-                File outPath = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path + newFileName);
-                writeFileByTemplet(file, outPath, table);
             }
             
         }

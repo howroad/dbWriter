@@ -1,5 +1,6 @@
 package com.nstc.dbwriter.builder;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -7,12 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.google.common.base.CaseFormat;
 import com.nstc.dbwriter.config.CommonSettings;
-import com.nstc.dbwriter.model.Line;
 import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
+import com.nstc.dbwriter.util.ExcelUtil;
 
 import oracle.jdbc.driver.OracleConnection;
 
@@ -31,14 +33,22 @@ import oracle.jdbc.driver.OracleConnection;
 public class TableBuilder {
     private TableBuilder () {}
     
+    /**
+     * 从数据库构建Table
+     * @param tableName
+     * @return Table
+     * @author luhao
+     * @since：2019年2月25日 下午2:07:19
+     */
     public static Table buildTableFromDB(String tableName) {
         tableName = tableName.toUpperCase();
         Connection conn = null;
         DatabaseMetaData db = null;
+        // 字段信息
         ResultSet rs = null;
+        // 表信息
         ResultSet rsTable = null;
         String tableRemark = null;
-        List<Line> lineList = new ArrayList<Line>();
         List<MyParam> paramList = new ArrayList<MyParam>();
         try {
             conn = DriverManager.getConnection(CommonSettings.URL, CommonSettings.USER, CommonSettings.PASSWORD);
@@ -65,14 +75,9 @@ public class TableBuilder {
                 
                 MyParam param = new MyParam(paramName, columnName, remark, columnType, columnSize, decimalDigits);
                 paramList.add(param);
-                //java 解析会出现精度错误
-                if(decimalDigits == -127 && rs.getInt("COLUMN_SIZE") == 0) {
-                    decimalDigits = 0;
-                }
-                lineList.add(new Line(columnName, paramName, columnType, decimalDigits, remark));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }finally {
             try {
                 if(rs!=null) {
@@ -88,7 +93,57 @@ public class TableBuilder {
                 e.printStackTrace();
             }
         }
-        Table table = new Table(tableName, tableRemark, lineList,paramList);
+        if(paramList == null || paramList.isEmpty()) {
+            throw new RuntimeException(tableName + "表中无字段");
+        }
+        Table table = new Table(tableName, tableRemark ,paramList);
         return table;
     }
+    /**
+     * 从Excel中构建Table
+     * @param appNo
+     * @return List<Table>
+     * @author luhao
+     * @since：2019年2月25日 下午2:11:02
+     */
+    public static List<Table> buildTableFromExcel(String appNo) {
+        //excel 导入数据
+        File file = new File(CommonSettings.EXCEL_PATH);
+        List<List<String>> dataList= null;
+        List<Table> tableList = new ArrayList<Table>();
+        
+        Table tempTable = null;
+        List<MyParam> tempParamList = null;
+        try {
+            dataList = ExcelUtil.importExcel(file);
+            for (ListIterator<List<String>> iterator = dataList.listIterator(); iterator.hasNext();) {
+                List<String> list = iterator.next();
+                String columnName = list.get(0);
+                String type = list.get(1);
+                String commont = list.get(2);
+                //表名
+                if(type == null || type.length() == 0) {
+                    //非第一次，把原来的数据放入
+                    if(tempTable != null && tempParamList != null) {
+                        tempTable.setParamList(tempParamList);
+                        Table table = tempTable.clone();
+                        tableList.add(table);
+                    }
+                    tempParamList = new ArrayList<MyParam>();
+                    tempTable = new Table(columnName, commont ,tempParamList);
+                }else {
+                    //属性信息
+                    tempParamList.add(new MyParam(commont, columnName, type));
+                }
+                if(!iterator.hasNext()) {
+                    Table table = tempTable.clone();
+                    tableList.add(table);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tableList;
+    }
+    
 }

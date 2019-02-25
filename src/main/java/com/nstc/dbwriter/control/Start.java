@@ -25,52 +25,36 @@ import com.nstc.dbwriter.util.WriteUtil;
 public class Start {
     public static void main(String[] args) {
         
+        // 从Excel中按照所有模版生成数据
         if(CommonSettings.fromExcel) {
-            List<Table> tables = WriteUtil.buildTableFromExcel(CommonSettings.appNo);
+            List<Table> tables = TableBuilder.buildTableFromExcel(CommonSettings.appNo);
             for (int i = 0; i < tables.size(); i++) {
                 Table table = tables.get(i);
-                if(CommonSettings.useTemplet) {
-                    //使用模版生成
-                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR);
-                }else {
-                    //老方法
-                    WriteUtil.buildTab(table);
-                    WriteUtil.buildSeq(table);
-                }
+                WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR);
                 System.out.println(table.getTableName() + " complete...");
-    
             }
         }
         
+        // 从数据库中查询按照模版生成数据
         if(CommonSettings.fromDatebase) {
             String[] tablesFromDB = CommonSettings.tablesFromDB;
             for (String tableName : tablesFromDB) {
+                //如果前缀是UM的则不需要生成（因为公司中um前缀的是工单表）
                 if(tableName.toUpperCase().startsWith("UM_")) {
                     continue;
                 }
                 Table table = TableBuilder.buildTableFromDB(tableName);
-                if(CommonSettings.useTemplet) {
-                    //使用模版生成
-                    WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR);
-                    WriteUtil.buildDate(table);
-                }else {
-                    //老方法
-                    WriteUtil.buildJavaBean(table);
-                    WriteUtil.buildDao(table);
-                    WriteUtil.buildXml(table);
-                    WriteUtil.buildDate(table);
-                    WriteUtil.buildCreateFromDB(table);
-                }
-                
+                //使用模版生成
+                WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR);
+                WriteUtil.buildDate(table);
                 
                 System.out.println(table.getTableName() + " complete...");
+                // 自动测试
                 if(CommonSettings.autoRunTest) {
-                    if(CommonSettings.useTemplet) {
-                        WriteUtil.buildJavaBeanByTemplet(table);
-                        WriteUtil.writeCommonFileByTemplet(table);
-                    }else {
-                        WriteUtil.writeCommonFile(table);
-                    }
+                    // 将javabean 放入model目录
+                    WriteUtil.buildJavaBeanByTemplet(table);
+                    // 将dao方法写入
+                    WriteUtil.writeCommonFileByTemplet(table);
                 }
                 System.out.println(table.getTableName() + "insert...Done");
                 

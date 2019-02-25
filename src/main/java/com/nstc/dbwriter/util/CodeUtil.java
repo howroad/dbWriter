@@ -24,6 +24,7 @@ import com.nstc.dbwriter.model.Table;
  * 
  */
 public class CodeUtil {
+    
 	private CodeUtil() {}
     
     public static List<String> buildNewLine(List<String> lineList,Table table) {

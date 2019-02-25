@@ -35,7 +35,9 @@ public class Paging {
      */
     public int getStartRow(){
         int first = 0;
-        if(currentPage<1)return first;
+        if(currentPage<1) {
+            return first;
+        }
         first = (currentPage-1)*pageSize;
         return first;
     }
@@ -51,7 +53,9 @@ public class Paging {
      * @return 总页数
      */
     public int getTotalPage(){
-        if(totalRow<=0) return 1;
+        if(totalRow<=0) {
+            return 1;
+        }
         return (totalRow-1)/pageSize+1;
     }
     
@@ -76,20 +80,20 @@ public class Paging {
     }
 
     public void setCurrentPage(int currentPage) {
-        if(currentPage<1)
+        if(currentPage<1) {
             this.currentPage = 1;
+        }
         this.currentPage = currentPage;
     }
-    
-    
     
     /**
      *校正当前页，如果大于总页数则返回总页数
      */
     public int checkCurrentPage(){
         int totalPage = getTotalPage();
-        if(currentPage>totalPage)
+        if(currentPage>totalPage) {
             currentPage = totalPage;
+        }
         return currentPage;
     }
         

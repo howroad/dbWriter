@@ -42,11 +42,11 @@ public class ExcelUtil {
      * @return
      * @throws Exception
      */
-    public  List<List<String>> importExcel(File file) throws Exception{
+    public static List<List<String>> importExcel(File file) throws Exception{
         List<List<String>> list = null;
 
         //创建Excel工作薄
-        Workbook work = this.getWorkbook(file);
+        Workbook work = getWorkbook(file);
         if(null == work){
             throw new Exception("创建Excel工作薄为空！");
         }
@@ -67,7 +67,7 @@ public class ExcelUtil {
                 List<String> li = new ArrayList<String>();
                 for (int y = row.getFirstCellNum(); y <row.getLastCellNum(); y++) {
                     cell = row.getCell(y);
-                    li.add(this.getCellValue(cell));
+                    li.add(getCellValue(cell));
                 }
                 list.add(li);
             }
@@ -81,7 +81,7 @@ public class ExcelUtil {
      * @return
      * @throws Exception
      */
-    public  Workbook getWorkbook(File file) throws Exception{
+    public static Workbook getWorkbook(File file) throws Exception{
         Workbook wb = null;
         String fileType = file.getName().substring(file.getName().lastIndexOf("."));
         if(EXCEL2003L.equals(fileType)){
@@ -101,7 +101,7 @@ public class ExcelUtil {
      * @param cell
      * @return
      */
-    public String getCellValue(Cell cell) {
+    public static String getCellValue(Cell cell) {
         // 用String接收所有返回的值
         String value = null;
         // 格式化number String字符

@@ -7,7 +7,7 @@ import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.util.WriteUtil;
 
 /**
- * <p>Title: ClearTemp.java</p>
+ * <p>Title: 清空测试文件</p>
  *
  * <p>Description: </p>
  *

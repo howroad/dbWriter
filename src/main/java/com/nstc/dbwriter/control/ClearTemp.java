@@ -11,8 +11,6 @@ import com.nstc.dbwriter.util.WriteUtil;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2019年2月15日 下午3:09:11

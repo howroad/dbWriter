@@ -7,8 +7,6 @@ import java.sql.Types;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2019年2月1日 下午1:52:51

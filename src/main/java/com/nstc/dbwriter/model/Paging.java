@@ -5,8 +5,6 @@ package com.nstc.dbwriter.model;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2019年2月18日 下午4:31:20

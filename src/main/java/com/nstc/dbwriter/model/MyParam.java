@@ -14,8 +14,6 @@ import com.nstc.dbwriter.config.TableContans;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2019年2月1日 下午1:38:11

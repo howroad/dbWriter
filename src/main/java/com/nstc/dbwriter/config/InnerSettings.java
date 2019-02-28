@@ -6,8 +6,6 @@ package com.nstc.dbwriter.config;
  *
  * <p>Description: </p>
  *
- * <p>Company: 北京九恒星科技股份有限公司</p>
- *
  * @author luhao
  * 
  * @since：2019年2月15日 上午10:23:11

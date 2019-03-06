@@ -7,6 +7,7 @@ import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.model.Table;
 import com.nstc.dbwriter.util.WriteUtil;
+import com.nstc.frame.ShowFrame;
 
 /**
  * <p>
@@ -24,6 +25,10 @@ import com.nstc.dbwriter.util.WriteUtil;
  */
 public class Start {
     public static void main(String[] args) {
+        //Start.start();
+        new ShowFrame().setVisible(true);
+    }
+    public static void start() {
         
         // 从Excel中按照所有模版生成数据
         if(CommonSettings.fromExcel) {

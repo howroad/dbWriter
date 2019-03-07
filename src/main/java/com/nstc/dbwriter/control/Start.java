@@ -36,7 +36,7 @@ public class Start {
             for (int i = 0; i < tables.size(); i++) {
                 Table table = tables.get(i);
                 WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR);
-                System.out.println(table.getTableName() + " complete...");
+                System.out.println(table.getTableName() + " write templet complete...(excel)");
             }
         }
         
@@ -53,18 +53,18 @@ public class Start {
                 WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR);
                 WriteUtil.buildDate(table);
                 
-                System.out.println(table.getTableName() + " complete...");
+                System.out.println(table.getTableName() + " write templet complete...(db)");
                 // 自动测试
                 if(CommonSettings.autoRunTest) {
                     // 将javabean 放入model目录
                     WriteUtil.buildJavaBeanByTemplet(table);
                     // 将dao方法写入
                     WriteUtil.writeCommonFileByTemplet(table);
+                    System.out.println(table.getTableName() + " insert...Done");
+                    
+                    RunTest.buildClassAndRun(table.getEntityName(),CommonSettings.autoRunTest);
+                    System.out.println(table.getTableName() + " TestBean complete...");
                 }
-                System.out.println(table.getTableName() + "insert...Done");
-                
-                RunTest.buildClassAndRun(table.getEntityName(),CommonSettings.autoRunTest);
-                System.out.println(table.getTableName() + "testBean complete...");
             } 
         }
         System.out.println("end...");

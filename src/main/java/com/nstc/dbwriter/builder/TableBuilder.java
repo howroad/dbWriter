@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.base.CaseFormat;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.model.MyParam;
@@ -119,8 +121,11 @@ public class TableBuilder {
                 String columnName = list.get(0);
                 String type = list.get(1);
                 String commont = list.get(2);
+                if(StringUtils.isEmpty(columnName) && StringUtils.isEmpty(type) && StringUtils.isEmpty(commont)) {
+                    continue;
+                }
                 //表名
-                if(type == null || type.length() == 0) {
+                if(StringUtils.isEmpty(type)) {
                     //非第一次，把原来的数据放入
                     if(tempTable != null && tempParamList != null) {
                         tempTable.setParamList(tempParamList);
@@ -139,7 +144,7 @@ public class TableBuilder {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return tableList;
     }

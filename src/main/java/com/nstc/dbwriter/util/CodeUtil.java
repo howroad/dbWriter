@@ -109,7 +109,8 @@ public class CodeUtil {
         //appendReplacement方法：sb是一个StringBuffer，replaceContext待替换的字符串，这个方法会把匹配到的内容替换为replaceContext，并且把从上次替换的位置到这次替换位置之间的字符串也拿到，然后，加上这次替换后的结果一起追加到StringBuffer里（假如这次替换是第一次替换，那就是只追加替换后的字符串啦）。
         StringBuffer sb = new StringBuffer(); 
         while(matcher.find()) { 
-            matcher.appendReplacement(sb, tokens.get(matcher.group(1))); 
+            String value = tokens.get(matcher.group(1)) == null ? " " : tokens.get(matcher.group(1));
+            matcher.appendReplacement(sb, value); 
         } 
         // 把最后一次匹配到内容之后的字符串追加到StringBuffer中
         matcher.appendTail(sb); 

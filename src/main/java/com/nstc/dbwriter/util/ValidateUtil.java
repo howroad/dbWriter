@@ -29,4 +29,14 @@ public class ValidateUtil {
             throw new RuntimeException("参数值不合法！");
         }
     }
+    public static void checkVersion() {
+        String version = System.getProperty("java.specification.version");
+        String reg = "(1\\.8|9|10|11|12)";
+        if(!version.matches(reg)) {
+            throw new RuntimeException("java版本必须大于1.8，当前版本：" + version);
+        }
+    }
+    public static void main(String[] args) {
+        checkVersion();
+    }
 }

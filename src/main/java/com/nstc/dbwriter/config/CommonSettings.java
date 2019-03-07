@@ -1,6 +1,6 @@
 package com.nstc.dbwriter.config;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -16,8 +16,6 @@ import java.util.Properties;
  * 
  */
 public class CommonSettings {
-    
-    private final static String SETTING_PATH = "\\src\\main\\java\\com\\nstc\\dbwriter\\config\\settings.properties";
     
     public static String PATH = "C:/Users/Administrator/Desktop/model/";
     public static String URL = "jdbc:oracle:thin:@192.168.20.33:1521:nstestsid";
@@ -42,14 +40,14 @@ public class CommonSettings {
     
     static{
         Properties pro = new Properties();
-        FileInputStream in = null;
+        InputStream in = null;
         
         try {
-            in = new FileInputStream(System.getProperty("user.dir") + SETTING_PATH);
+            in = CommonSettings.class.getResourceAsStream("settings.properties");
             pro.load(in);
             in.close();
         } catch (Exception e) {
-            e.printStackTrace();
+           throw new RuntimeException(e);
         }
 
         

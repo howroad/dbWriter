@@ -38,7 +38,7 @@ public class RunTest {
             writeJava(code,pathName);
             writeJava(tempCode,pathName);
          } catch (Exception e) {
-             e.printStackTrace();
+             throw new RuntimeException(e);
          } finally {
              code.close();
              tempCode.close();
@@ -66,7 +66,7 @@ public class RunTest {
             Method method = threadClazz.getMethod("test");
             method.invoke(null);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } 
     }
     

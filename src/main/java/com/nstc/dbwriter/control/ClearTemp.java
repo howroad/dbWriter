@@ -18,7 +18,7 @@ import com.nstc.dbwriter.util.WriteUtil;
  */
 public class ClearTemp {
     
-    public static void main(String[] args) {
+    public static void clear() {
         //删除model
         File modelDir = new File(InnerSettings.TEST_MODEL_DIR);
         clearDir(modelDir);
@@ -47,6 +47,12 @@ public class ClearTemp {
             for (File file : files) {
                 if(file.isFile()) {
                     if(".gitkeep".equals(file.getName())){
+                        continue;
+                    }
+                    if(file.getName().endsWith(".xlsx")){
+                        continue;
+                    }
+                    if(file.getName().endsWith(".jar")){
                         continue;
                     }
                     file.delete();

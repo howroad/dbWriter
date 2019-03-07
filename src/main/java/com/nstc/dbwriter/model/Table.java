@@ -99,7 +99,7 @@ public class Table implements MapContent{
                 try {
                     dateTime = time.dateValue();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
                 String value = sdf.format(dateTime);
                 result = "TO_DATE('" + value + "', 'YYYY-MM-DD HH24:MI:SS')";

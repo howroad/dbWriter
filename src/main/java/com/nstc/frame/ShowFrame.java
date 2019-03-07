@@ -11,7 +11,9 @@ import org.apache.commons.lang3.Validate;
 
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.control.ClearTemp;
 import com.nstc.dbwriter.control.Start;
+import com.nstc.dbwriter.util.ValidateUtil;
 
 
 /**
@@ -104,14 +106,31 @@ public class ShowFrame extends JFrame {
     }
     
     private void addListener() {
-        runBtn.addActionListener((e)->{
+        runBtn.addActionListener((e) -> {
             putValue();
-            Start.start();
-            JOptionPane.showMessageDialog(null, "生成成功！");
+            try {
+                Start.start();
+                JOptionPane.showMessageDialog(null, "生成成功！");
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(null, e1.getMessage());
+                e1.printStackTrace();
+            }
         });
+        clearBtn.addActionListener((e) -> {
+            putValue();
+            try {
+                ClearTemp.clear();
+                JOptionPane.showMessageDialog(null, "清除成功");
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(null, e1.getMessage());
+                e1.printStackTrace();
+            }
+        });
+        testBtn.setEnabled(false);
     }
     
     private void putValue() {
+        
         excelPath = filePanel.getText();
         outerPath = outerDirPanel.getText();
         url = "jdbc:oracle:thin:@" + uRLPanel.getText();
@@ -145,11 +164,17 @@ public class ShowFrame extends JFrame {
     }
     
     public void validateValue() {
+        
+        ValidateUtil.checkVersion();
+        
         Validate.notEmpty(outerPath);
         Validate.notEmpty(url);
         Validate.notEmpty(username);
         Validate.notEmpty(password);
         Validate.notEmpty(appNo);
+        
     }
+    
+    
     
 }

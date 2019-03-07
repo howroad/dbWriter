@@ -36,7 +36,4 @@ public class ValidateUtil {
             throw new RuntimeException("java版本必须大于1.8，当前版本：" + version);
         }
     }
-    public static void main(String[] args) {
-        checkVersion();
-    }
 }

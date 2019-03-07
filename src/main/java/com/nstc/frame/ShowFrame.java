@@ -30,8 +30,9 @@ public class ShowFrame extends JFrame {
     
     private static final long serialVersionUID = -4760857055691612569L;
     private static final int TEXT_LENGTH = 20;
-
-    // 最后两位是间距
+    private static final String SEQ_DIR_0 = "前置";
+    
+    /** 内容，后两位参数是间距 */
     private JPanel contentPanel = new JPanel(new GridLayout(10, 2, 1, 1));
 
     private FilePane filePanel = new FilePane("...", TEXT_LENGTH);
@@ -156,7 +157,7 @@ public class ShowFrame extends JFrame {
         CommonSettings.appNo = appNo;
         CommonSettings.fromExcel = fromExcel;
         CommonSettings.fromDatebase = fromDatebase;
-        if("前置".equals(seqDir)) {
+        if(SEQ_DIR_0.equals(seqDir)) {
             CommonSettings.SEQ_DIR = 0;
         }else {
             CommonSettings.SEQ_DIR = 1;

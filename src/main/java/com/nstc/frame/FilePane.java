@@ -48,18 +48,6 @@ public class FilePane extends JPanel {
             File file=jfc.getSelectedFile();  
             text.setText(file.getAbsolutePath().replace("\\", "/"));
         });
-        //java6
-        /*
-        this.button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser jfc=new JFileChooser();  
-                jfc.setFileSelectionMode(JFileChooser.FILES_ONLY );  
-                jfc.showDialog(new JLabel(), "选择文件");  
-                File file=jfc.getSelectedFile();  
-                text.setText(file.getAbsolutePath().replace("\\", "/"));
-            }
-        });
-        */
     }
 
     public String getText() {

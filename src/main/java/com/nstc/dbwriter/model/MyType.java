@@ -27,7 +27,7 @@ public class MyType {
     public MyType(int dateType, int columnSize , int decimalDigits) {
         this.value = dateType;
         if (Types.DECIMAL == dateType) {
-            if (decimalDigits == 0 || decimalDigits == -127 && columnSize == 0) {
+            if (isInteger(columnSize, decimalDigits)) {
                 //有时候有可能会出现解析失去精度
                 paramTypeName = "Integer";
                 columnTypeName = "NUMBER";
@@ -50,6 +50,9 @@ public class MyType {
         }
     }
     
+    private boolean isInteger(int columnSize,int decimalDigits) {
+        return decimalDigits == 0 || decimalDigits == -127 && columnSize == 0;
+    }
 
     public MyType(String paramTypeName) {
         super();

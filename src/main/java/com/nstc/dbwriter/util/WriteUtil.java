@@ -315,7 +315,7 @@ public class WriteUtil {
     }
     
     public static void writeFile(List<String> lineList,File file) {
-        ValidateUtil.checkEmpty(lineList);
+        ValidateUtil.notEmpty(lineList);
         PrintWriter out = null;
         try {
             out = new PrintWriter(file);

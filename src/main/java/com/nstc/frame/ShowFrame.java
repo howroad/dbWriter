@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.Validate;
 
+import static com.nstc.dbwriter.config.CommonSettings.stringToArray;
+
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.control.ClearTemp;
@@ -33,7 +35,7 @@ public class ShowFrame extends JFrame {
     private static final String SEQ_DIR_0 = "前置";
     
     /** 内容，后两位参数是间距 */
-    private JPanel contentPanel = new JPanel(new GridLayout(10, 2, 1, 1));
+    private JPanel contentPanel = new JPanel(new GridLayout(11, 2, 1, 1));
 
     private FilePane filePanel = new FilePane("...", TEXT_LENGTH);
     private TextPane outerDirPanel = new TextPane("outer:", TEXT_LENGTH);
@@ -43,6 +45,7 @@ public class ShowFrame extends JFrame {
     private SelectPanel fromExcelPanel = new SelectPanel("frmExl", TEXT_LENGTH, "false", "true");
     private SelectPanel fromDatebasePanel = new SelectPanel("frmDb", TEXT_LENGTH, "false", "true");
     private TextPane appNoPanel = new TextPane("appNo:", TEXT_LENGTH);
+    private TextPane tablesPanel = new TextPane("tbls", TEXT_LENGTH);
     private SelectPanel seqDirPanel = new SelectPanel("seqDr:", TEXT_LENGTH, "前置", "后置");
     private JPanel btnPanel = new JPanel();
 
@@ -56,6 +59,7 @@ public class ShowFrame extends JFrame {
     private String username;
     private String password;
     private String appNo;
+    private String tables;
     private boolean fromExcel;
     private boolean fromDatebase;
     private String seqDir;
@@ -81,6 +85,7 @@ public class ShowFrame extends JFrame {
         this.contentPanel.add(passwordPanel);
         this.contentPanel.add(appNoPanel);
         this.contentPanel.add(seqDirPanel);
+        this.contentPanel.add(tablesPanel);
         this.contentPanel.add(fromExcelPanel);
         this.contentPanel.add(fromDatebasePanel);
         this.contentPanel.add(btnPanel);
@@ -104,6 +109,7 @@ public class ShowFrame extends JFrame {
         userNamePanel.setText("HAIMA_FSS20180831");
         passwordPanel.setText("123456");
         appNoPanel.setText("temp");
+        tablesPanel.setText("bmm_warehouse_bill");
     }
     
     private void addListener() {
@@ -141,6 +147,7 @@ public class ShowFrame extends JFrame {
         fromExcel = "true".equals(fromExcelPanel.getText());
         fromDatebase = "true".equals(fromDatebasePanel.getText());
         seqDir = seqDirPanel.getText();
+        tables = tablesPanel.getText().replaceAll("\\s", "");
 
         
         try {
@@ -157,6 +164,8 @@ public class ShowFrame extends JFrame {
         CommonSettings.appNo = appNo;
         CommonSettings.fromExcel = fromExcel;
         CommonSettings.fromDatebase = fromDatebase;
+        CommonSettings.tablesFromDB = stringToArray(tables);
+        
         if(SEQ_DIR_0.equals(seqDir)) {
             CommonSettings.SEQ_DIR = 0;
         }else {
@@ -173,6 +182,7 @@ public class ShowFrame extends JFrame {
         Validate.notEmpty(username);
         Validate.notEmpty(password);
         Validate.notEmpty(appNo);
+        Validate.notEmpty(tables);
         
     }
     

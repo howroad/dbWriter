@@ -10,10 +10,12 @@ import javax.swing.JPanel;
 import org.apache.commons.lang3.Validate;
 
 import static com.nstc.dbwriter.config.CommonSettings.stringToArray;
+import static com.nstc.dbwriter.config.TempSettings.writeProperties;
 
 import com.nstc.dbwriter.builder.TableBuilder;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.config.TempSettings;
 import com.nstc.dbwriter.control.ClearTemp;
 import com.nstc.dbwriter.control.Start;
 import com.nstc.dbwriter.util.ValidateUtil;
@@ -55,6 +57,7 @@ public class ShowFrame extends JFrame {
     private JButton clearBtn = new JButton("clear");
     private JButton testBtn = new JButton("test");
     
+    /*
     private String excelPath;
     private String outerPath;
     private String url;
@@ -65,6 +68,8 @@ public class ShowFrame extends JFrame {
     private boolean fromExcel;
     private boolean fromDatebase;
     private String seqDir;
+    
+    */
     
     public ShowFrame() {
         
@@ -106,13 +111,23 @@ public class ShowFrame extends JFrame {
     }
     
     private void putDefaultValue() {
-        filePanel.setText("C:/Users/Administrator/Desktop/model/1.xlsx");
-        outerDirPanel.setText("C:/Users/Administrator/Desktop/model/");
-        uRLPanel.setText("192.168.20.33:1521:nstestsid");
-        userNamePanel.setText("HAIMA_FSS20180831");
-        passwordPanel.setText("123456");
-        appNoPanel.setText("temp");
-        tablesPanel.setText("bmm_warehouse_bill");
+        if(TempSettings.hasConfig) {
+            filePanel.setText(TempSettings.EXCEL_PATH);
+            outerDirPanel.setText(TempSettings.OUT_DIR);
+            uRLPanel.setText(TempSettings.URL.replace("jdbc:oracle:thin:@", ""));
+            userNamePanel.setText(TempSettings.USER);
+            passwordPanel.setText(TempSettings.PASSWORD);
+            appNoPanel.setText(TempSettings.appNo);
+            tablesPanel.setText(TempSettings.TABLES);
+        }else {
+            filePanel.setText(CommonSettings.EXCEL_PATH);
+            outerDirPanel.setText(InnerSettings.OUT_DIR);
+            uRLPanel.setText(CommonSettings.URL.replace("jdbc:oracle:thin:@", ""));
+            userNamePanel.setText(CommonSettings.USER);
+            passwordPanel.setText(CommonSettings.PASSWORD);
+            appNoPanel.setText(CommonSettings.appNo);
+            tablesPanel.setText("WF_MASTER_USER");
+        }
     }
     
     private void addListener() {
@@ -130,6 +145,7 @@ public class ShowFrame extends JFrame {
             try {
                 Start.start();
                 JOptionPane.showMessageDialog(null, "生成成功！");
+                writeProperties();
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());
                 e1.printStackTrace();
@@ -150,16 +166,16 @@ public class ShowFrame extends JFrame {
     
     private void putValue() {
         
-        excelPath = filePanel.getText();
-        outerPath = outerDirPanel.getText();
-        url = "jdbc:oracle:thin:@" + uRLPanel.getText();
-        username = userNamePanel.getText();
-        password = passwordPanel.getText();
-        appNo = appNoPanel.getText();
-        fromExcel = "true".equals(fromExcelPanel.getText());
-        fromDatebase = "true".equals(fromDatebasePanel.getText());
-        seqDir = seqDirPanel.getText();
-        tables = tablesPanel.getText().replaceAll("\\s", "");
+        TempSettings.EXCEL_PATH = filePanel.getText();
+        TempSettings.OUT_DIR = outerDirPanel.getText();
+        TempSettings.URL = "jdbc:oracle:thin:@" + uRLPanel.getText();
+        TempSettings.USER = userNamePanel.getText();
+        TempSettings.PASSWORD = passwordPanel.getText();
+        TempSettings.appNo = appNoPanel.getText();
+        TempSettings.fromExcel = "true".equals(fromExcelPanel.getText());
+        TempSettings.fromDatebase = "true".equals(fromDatebasePanel.getText());
+        TempSettings.SEQ_DIR = seqDirPanel.getText();
+        TempSettings.TABLES = tablesPanel.getText().replaceAll("\\s", "");
 
         
         try {
@@ -168,17 +184,17 @@ public class ShowFrame extends JFrame {
             JOptionPane.showMessageDialog(null, "不能为空！");
             throw new RuntimeException();
         }
-        CommonSettings.EXCEL_PATH = excelPath;
-        InnerSettings.OUT_DIR = outerPath;
-        CommonSettings.URL = url;
-        CommonSettings.USER = username;
-        CommonSettings.PASSWORD = password;
-        CommonSettings.appNo = appNo;
-        CommonSettings.fromExcel = fromExcel;
-        CommonSettings.fromDatebase = fromDatebase;
-        CommonSettings.tablesFromDB = stringToArray(tables);
+        CommonSettings.EXCEL_PATH = TempSettings.EXCEL_PATH;
+        InnerSettings.OUT_DIR = TempSettings.OUT_DIR;
+        CommonSettings.URL = TempSettings.URL;
+        CommonSettings.USER = TempSettings.USER.toUpperCase();
+        CommonSettings.PASSWORD = TempSettings.PASSWORD.toUpperCase();
+        CommonSettings.appNo = TempSettings.appNo;
+        CommonSettings.fromExcel = TempSettings.fromExcel;
+        CommonSettings.fromDatebase = TempSettings.fromDatebase;
+        CommonSettings.tablesFromDB = stringToArray(TempSettings.TABLES);
         
-        if(SEQ_DIR_0.equals(seqDir)) {
+        if(SEQ_DIR_0.equals(TempSettings.SEQ_DIR)) {
             CommonSettings.SEQ_DIR = 0;
         }else {
             CommonSettings.SEQ_DIR = 1;
@@ -189,12 +205,12 @@ public class ShowFrame extends JFrame {
         
         ValidateUtil.checkVersion();
         
-        Validate.notEmpty(outerPath);
-        Validate.notEmpty(url);
-        Validate.notEmpty(username);
-        Validate.notEmpty(password);
-        Validate.notEmpty(appNo);
-        Validate.notEmpty(tables);
+        Validate.notEmpty(TempSettings.OUT_DIR);
+        Validate.notEmpty(TempSettings.URL);
+        Validate.notEmpty(TempSettings.USER);
+        Validate.notEmpty(TempSettings.PASSWORD);
+        Validate.notEmpty(TempSettings.appNo);
+        Validate.notEmpty(TempSettings.TABLES);
         
     }
     

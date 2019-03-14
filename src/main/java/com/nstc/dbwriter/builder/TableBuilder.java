@@ -77,6 +77,7 @@ public class TableBuilder {
                 paramList.add(param);
             }
         } catch (Exception e) {
+            e.getStackTrace();
             throw new RuntimeException(e);
         }finally {
             try {

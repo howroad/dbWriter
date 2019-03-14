@@ -119,6 +119,7 @@ public class ShowFrame extends JFrame {
         conBtn.addActionListener((e) -> {
             try {
                 TableBuilder.buildTableFromDB("wf_master_user");
+                JOptionPane.showMessageDialog(null, "连接成功");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());
             }

@@ -11,6 +11,7 @@ import org.apache.commons.lang3.Validate;
 
 import static com.nstc.dbwriter.config.CommonSettings.stringToArray;
 
+import com.nstc.dbwriter.builder.TableBuilder;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.control.ClearTemp;
@@ -49,6 +50,7 @@ public class ShowFrame extends JFrame {
     private SelectPanel seqDirPanel = new SelectPanel("seqDr:", TEXT_LENGTH, "前置", "后置");
     private JPanel btnPanel = new JPanel();
 
+    private JButton conBtn = new JButton("conn");
     private JButton runBtn = new JButton("run");
     private JButton clearBtn = new JButton("clear");
     private JButton testBtn = new JButton("test");
@@ -74,6 +76,7 @@ public class ShowFrame extends JFrame {
         // 关闭样式
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
+        btnPanel.add(conBtn);
         btnPanel.add(runBtn);
         btnPanel.add(clearBtn);
         btnPanel.add(testBtn);
@@ -113,6 +116,14 @@ public class ShowFrame extends JFrame {
     }
     
     private void addListener() {
+        conBtn.addActionListener((e) -> {
+            try {
+                TableBuilder.buildTableFromDB("wf_master_user");
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(null, e1.getMessage());
+            }
+        });
+        
         runBtn.addActionListener((e) -> {
             putValue();
             try {

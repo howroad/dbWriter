@@ -90,7 +90,7 @@ public class Table implements MapContent{
 	        result = "null";
 	    }else if (Types.DECIMAL == columnType) {
 	        result = String.valueOf(obj);
-        } else if (Types.VARCHAR == columnType) {
+        } else if (Types.VARCHAR == columnType || Types.CHAR == columnType) {
             result = "'" + String.valueOf(obj) + "'";
         } else if (Types.TIMESTAMP == columnType || Types.DATE == columnType) {
             if(obj.getClass() == oracle.sql.TIMESTAMP.class){

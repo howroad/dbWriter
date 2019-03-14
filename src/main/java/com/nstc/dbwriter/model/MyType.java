@@ -45,7 +45,10 @@ public class MyType {
         } else if(Types.DATE == dateType) {
             paramTypeName = "Date";
             columnTypeName = "DATE";
-        } else {
+        } else if(Types.CHAR == dateType){
+            paramTypeName = "String";
+            columnTypeName = "CHAR(" + columnSize + ")";
+        }else {
             throw new RuntimeException("未知类型！");
         }
     }

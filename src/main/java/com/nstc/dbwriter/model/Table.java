@@ -143,7 +143,8 @@ public class Table implements MapContent{
                 Object object = iterator.next();
                 String value = getInsertValue(object, paramList.get(index++));
                 last = !iterator.hasNext();
-                if(CommonSettings.dealSEQ && first) {
+                boolean use = false;//此处不应有序列
+                if(CommonSettings.dealSEQ && first && use) {
                     if(last) {
                         out.print(seqNext);
                     }else {

@@ -1,6 +1,6 @@
-使用流程 db ctms_blend
+重写readme.md
 
-//TODO
+//TODO 进行到一半
 saveOrUpdate
 saveOrUpdateAndSubmit
 Business｛
@@ -23,3 +23,4 @@ business模版需要修改
 保存上次输入的记录
 打印日志
 向jar包插入文件并执行(不使用jar包)
+增加MySQL数据库的支持

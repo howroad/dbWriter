@@ -1,5 +1,6 @@
 package com.nstc.dbwriter.util;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -21,7 +22,9 @@ public class ValidateUtil {
     }
     
     public static void exsit(String path) {
-
+        if(!new File(path).exists()) {
+            throw new RuntimeException(path + "路径不存在！");
+        }
 
     }
     
@@ -34,7 +37,6 @@ public class ValidateUtil {
     }
     
     public static boolean projectIsJar() {
-        String str = System.getProperty("java.class.path");
-        return str.endsWith(".jar");
+        return ValidateUtil.class.getResource("/") == null;
     }
 }

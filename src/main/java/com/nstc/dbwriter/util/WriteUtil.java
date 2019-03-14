@@ -171,16 +171,17 @@ public class WriteUtil {
     
     public static void buildAllTemplet(Table table,String path,String templetDir) {
         if(ValidateUtil.projectIsJar()) {
-            buildAllTempletFromJar(table);
+            buildAllTempletFromJar(table,path);
         }else {
-            buildAllTempletFromDir(table, path, templetDir);
+            System.out.println(System.getProperty("user.dir") + "/src/main/java/" + templetDir);
+            buildAllTempletFromDir(table, path, System.getProperty("user.dir") + "/src/main/java/" + templetDir);
         }
     }
     
     public static void buildAllTempletFromDir(Table table,String path,String templetDir) {
         // 根据路径创建File对象
         File temletDir = new File(templetDir);
-        ValidateUtil.exsit(path);
+        ValidateUtil.exsit(templetDir);
         //创建文件夹
         File dir = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path);
         dir.mkdirs();
@@ -193,7 +194,7 @@ public class WriteUtil {
                     if("common".equals(fileName)) {
                         continue;
                     }
-                    buildAllTemplet(table, path + "\\" + fileName + "\\", templetDir + "\\" + fileName);
+                    buildAllTempletFromDir(table, path + "\\" + fileName + "\\", templetDir + "\\" + fileName);
                 }else if(file.isFile() && fileName.endsWith(".templet")){
                     String outName = InnerSettings.templetMap.get(fileName);
                     String newFileName = null;
@@ -215,6 +216,7 @@ public class WriteUtil {
         List<JarEntry> list = new ArrayList<JarEntry>();
         try {
             @SuppressWarnings("resource")
+            //获得jar包路径
             JarFile jFile = new JarFile(System.getProperty("java.class.path"));
             Enumeration<JarEntry> jarEntrys = jFile.entries();
             while (jarEntrys.hasMoreElements()) {
@@ -232,8 +234,8 @@ public class WriteUtil {
     
     
     
-    public static void buildTempletByEntry(Table table,JarEntry jarEntry) {
-        String jarEntryName = jarEntry.getName().replace(InnerSettings.TEMPLET_DIR, "");
+    public static void buildTempletByEntry(Table table,String path, JarEntry jarEntry) {
+        String jarEntryName = "/" + path + jarEntry.getName().replace(InnerSettings.TEMPLET_DIR, "");
         String templetFileName = jarEntryName.substring(jarEntryName.lastIndexOf("/") + 1);
         if(!jarEntry.isDirectory() && jarEntryName.endsWith(".templet") && !jarEntryName.startsWith("common")) {
             String outName = InnerSettings.templetMap.get(templetFileName);
@@ -253,10 +255,10 @@ public class WriteUtil {
         
     }
     
-    public static void buildAllTempletFromJar(Table table) {
+    public static void buildAllTempletFromJar(Table table, String path) {
         List<JarEntry> list = getAllTempletJarEntry();
         for (JarEntry jarEntry : list) {
-            buildTempletByEntry(table, jarEntry);
+            buildTempletByEntry(table,path, jarEntry);
         }
     }
     
@@ -318,7 +320,7 @@ public class WriteUtil {
         List<String> lineList = new ArrayList<String>();
         BufferedReader in = null ;
         try {
-            in = new BufferedReader(new InputStreamReader(ins));
+            in = new BufferedReader(new InputStreamReader(ins,"utf-8"));
             String line = null;
             while((line = in.readLine()) != null) {
                 lineList.add(new String(line));

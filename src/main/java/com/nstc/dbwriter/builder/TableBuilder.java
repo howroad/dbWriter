@@ -92,6 +92,7 @@ public class TableBuilder {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         if(paramList == null || paramList.isEmpty()) {

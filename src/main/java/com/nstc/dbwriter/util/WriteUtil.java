@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -18,7 +19,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
@@ -111,6 +115,7 @@ public class WriteUtil {
             table.writeDate(out, dataList);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
             out.close();
         }
@@ -165,8 +170,17 @@ public class WriteUtil {
     }
     
     public static void buildAllTemplet(Table table,String path,String templetDir) {
+        if(ValidateUtil.projectIsJar()) {
+            buildAllTempletFromJar(table);
+        }else {
+            buildAllTempletFromDir(table, path, templetDir);
+        }
+    }
+    
+    public static void buildAllTempletFromDir(Table table,String path,String templetDir) {
         // 根据路径创建File对象
         File temletDir = new File(templetDir);
+        ValidateUtil.exsit(path);
         //创建文件夹
         File dir = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path);
         dir.mkdirs();
@@ -195,9 +209,57 @@ public class WriteUtil {
             }
             
         }
-
     }
 
+    public static List<JarEntry> getAllTempletJarEntry(){
+        List<JarEntry> list = new ArrayList<JarEntry>();
+        try {
+            @SuppressWarnings("resource")
+            JarFile jFile = new JarFile(System.getProperty("java.class.path"));
+            Enumeration<JarEntry> jarEntrys = jFile.entries();
+            while (jarEntrys.hasMoreElements()) {
+                JarEntry entry = jarEntrys.nextElement();
+                String name = entry.getName();
+                if(name.startsWith(InnerSettings.TEMPLET_DIR)) {
+                    list.add(entry);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    
+    
+    public static void buildTempletByEntry(Table table,JarEntry jarEntry) {
+        String jarEntryName = jarEntry.getName().replace(InnerSettings.TEMPLET_DIR, "");
+        String templetFileName = jarEntryName.substring(jarEntryName.lastIndexOf("/") + 1);
+        if(!jarEntry.isDirectory() && jarEntryName.endsWith(".templet") && !jarEntryName.startsWith("common")) {
+            String outName = InnerSettings.templetMap.get(templetFileName);
+            String newFileName = null;
+            if(outName == null) {
+                newFileName = table.getEntityName() + templetFileName.replace(".templet", ".out");
+            }else {
+                newFileName = CodeUtil.replaceTemplet(outName, table.getMap(), "table");
+                newFileName = CodeUtil.replaceTemplet(newFileName, CommonSettings.map, "common");
+            }
+            File outPath = new File(InnerSettings.OUT_DIR + table.getTableName() + jarEntryName.replace(templetFileName, newFileName));
+            outPath.getParentFile().mkdirs();
+            InputStream is = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+            writeFileByTemplet(is, outPath, table);
+            System.out.println("生成：  " + jarEntryName.replace(templetFileName, newFileName));
+        }
+        
+    }
+    
+    public static void buildAllTempletFromJar(Table table) {
+        List<JarEntry> list = getAllTempletJarEntry();
+        for (JarEntry jarEntry : list) {
+            buildTempletByEntry(table, jarEntry);
+        }
+    }
+    
     /**
      * 将字Clob转成String类型
      * @Description:
@@ -251,6 +313,30 @@ public class WriteUtil {
         }
         return lineList;
     }
+    
+    public static List<String> getLineList(InputStream ins){
+        List<String> lineList = new ArrayList<String>();
+        BufferedReader in = null ;
+        try {
+            in = new BufferedReader(new InputStreamReader(ins));
+            String line = null;
+            while((line = in.readLine()) != null) {
+                lineList.add(new String(line));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return lineList;
+    }
+    
     public static int getLastKeyLineNum(List<String> lineList,String key) {
         int num = -1;
         for (int i = 0; i < lineList.size(); i++) {
@@ -314,6 +400,12 @@ public class WriteUtil {
         writeFile(resultList, outFile);
     }
     
+    public static void writeFileByTemplet(InputStream ins,File outFile, Table table) {
+        List<String> lineList = getLineList(ins);
+        List<String> resultList = CodeUtil.buildNewLine(lineList, table);
+        writeFile(resultList, outFile);
+    }
+    
     public static void writeFile(List<String> lineList,File file) {
         ValidateUtil.notEmpty(lineList);
         PrintWriter out = null;
@@ -324,6 +416,7 @@ public class WriteUtil {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            throw new RuntimeException();
         }finally {
             if(out != null) {
                 out.close();

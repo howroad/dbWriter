@@ -18,6 +18,11 @@ import com.nstc.dbwriter.util.WriteUtil;
  */
 public class ClearTemp {
     
+    public static void clearAndRebuild() {
+        clear();
+        reBuildCommonFile();
+    }
+    
     public static void clear() {
         //删除model
         File modelDir = new File(InnerSettings.TEST_MODEL_DIR);
@@ -28,17 +33,6 @@ public class ClearTemp {
         //删除输出
         File outDir = new File(InnerSettings.OUT_DIR);
         clearDir(outDir);
-        //重新生成ICommonDAO
-        List<String> list = null;
-        list = WriteUtil.getLineList(new File(InnerSettings.ICOMMONDAO_TEMPLET_PATH));
-        WriteUtil.writeFile(list, new File(InnerSettings.ICOMMONDAO_PATH));
-        //重新生成CommonDaoImpl
-        list = WriteUtil.getLineList(new File(InnerSettings.COMMONDAOIMPL_TEMPLET_PATH));
-        WriteUtil.writeFile(list, new File(InnerSettings.COMMONDAOIMPL_PATH));
-        //重新生成TEMP_Common.xml
-        list = WriteUtil.getLineList(new File(InnerSettings.COMMON_XML_TEMPLET_PATH));
-        WriteUtil.writeFile(list, new File(InnerSettings.COMMON_XML_PATH));
-        System.out.println("clear...end");
     }
     
     public static void clearDir(File dir) {
@@ -62,5 +56,25 @@ public class ClearTemp {
                 }
             }
         }
+    }
+    
+    /**
+     * 重新生成公共文件
+     * @Description:
+     * @author luhao
+     * @since：2019年3月14日 上午11:29:41
+     */
+    public static void reBuildCommonFile() {
+        //重新生成ICommonDAO
+        List<String> list = null;
+        list = WriteUtil.getLineList(new File(InnerSettings.ICOMMONDAO_TEMPLET_PATH));
+        WriteUtil.writeFile(list, new File(InnerSettings.ICOMMONDAO_PATH));
+        //重新生成CommonDaoImpl
+        list = WriteUtil.getLineList(new File(InnerSettings.COMMONDAOIMPL_TEMPLET_PATH));
+        WriteUtil.writeFile(list, new File(InnerSettings.COMMONDAOIMPL_PATH));
+        //重新生成TEMP_Common.xml
+        list = WriteUtil.getLineList(new File(InnerSettings.COMMON_XML_TEMPLET_PATH));
+        WriteUtil.writeFile(list, new File(InnerSettings.COMMON_XML_PATH));
+        System.out.println("clear...end");
     }
 }

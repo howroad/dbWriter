@@ -92,6 +92,7 @@ public class TempSettings {
             oFile.close();
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

@@ -31,4 +31,5 @@ public interface TableContans {
     public final static String TIMESTAMP = "TIMESTAMP";
     public final static String NUMBER = "NUMBER";
     public final static String VARCHAR2 = "VARCHAR2";
+    public final static String INTEGER = "INTEGER";
 }

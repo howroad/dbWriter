@@ -173,7 +173,7 @@ public class WriteUtil {
         if(ValidateUtil.projectIsJar()) {
             buildAllTempletFromJar(table,path);
         }else {
-            System.out.println(System.getProperty("user.dir") + "/src/main/java/" + templetDir);
+            //System.out.println(System.getProperty("user.dir") + "/src/main/java/" + templetDir);
             buildAllTempletFromDir(table, path, System.getProperty("user.dir") + "/src/main/java/" + templetDir);
         }
     }

@@ -60,6 +60,10 @@ public class MyParam implements MapContent{
             }else {
                 throw new RuntimeException("类型错误");
             }
+        }else if(columnType.startsWith(TableContans.INTEGER)) {
+            this.type = new MyType(Types.DECIMAL,0,0);
+        }else {
+            throw new RuntimeException("未知类型 : " + columnType);
         }
         init();
     }

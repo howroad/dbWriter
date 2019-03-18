@@ -120,12 +120,20 @@ public class TableBuilder {
             dataList = ExcelUtil.importExcel(file);
             for (ListIterator<List<String>> iterator = dataList.listIterator(); iterator.hasNext();) {
                 List<String> list = iterator.next();
+                if(!iterator.hasNext() || "END".equalsIgnoreCase(list.get(0))) {
+                    Table table = tempTable.clone();
+                    tableList.add(table);
+                    break;
+                }
+                
                 String columnName = list.get(0);
+                System.out.println(columnName);
                 String type = list.get(1);
                 String commont = list.get(2);
                 if(StringUtils.isEmpty(columnName) && StringUtils.isEmpty(type) && StringUtils.isEmpty(commont)) {
                     continue;
                 }
+
                 //表名
                 if(StringUtils.isEmpty(type)) {
                     //非第一次，把原来的数据放入
@@ -140,10 +148,7 @@ public class TableBuilder {
                     //属性信息
                     tempParamList.add(new MyParam(commont, columnName, type));
                 }
-                if(!iterator.hasNext()) {
-                    Table table = tempTable.clone();
-                    tableList.add(table);
-                }
+
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

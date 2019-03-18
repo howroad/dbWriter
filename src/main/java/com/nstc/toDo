@@ -26,3 +26,4 @@ business模版需要修改
 增加MySQL数据库的支持
 应当支持多种格式的EXCEL：
 顺序不同的excel，精度和长度分开的excel
+汇总SQL文件的工具，自定义后缀

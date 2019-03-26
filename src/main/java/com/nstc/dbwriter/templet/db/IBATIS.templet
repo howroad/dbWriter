@@ -44,7 +44,7 @@
 
     <!-- 根据Id删除$table{remark} -->
     <delete id="delete$table{entityName}ById" parameterClass="java.lang.Integer">
-        delete $table{tableName} WHERE $table{pkColumnName} = #$table{pkName}#
+        DELETE $table{tableName} WHERE $table{pkColumnName} = #$table{pkName}#
     </delete>
 
     <!-- 修改$table{remark} -->

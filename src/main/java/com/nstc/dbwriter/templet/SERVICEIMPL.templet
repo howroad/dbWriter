@@ -6,7 +6,7 @@
     * @since $table{now}
     */
     public Integer save$table{entityName}($table{entityName} model) {
-        return getDaoFacade().get$table{entityName}Dao.save$table(model);
+        return getDaoFacade().get$table{entityName}Dao().save$table{entityName}(model);
     }
     
     /**
@@ -16,7 +16,7 @@
     * @since $table{now}
     */
     public void delete$table{entityName}ById (Integer id) {
-        getDaoFacade().get$table{entityName}Dao.delete$table{entityName}ById (id);
+        getDaoFacade().get$table{entityName}Dao().delete$table{entityName}ById (id);
     }
     
     /**
@@ -26,7 +26,7 @@
     * @since $table{now}
     */
     public void update$table{entityName}($table{entityName} model) {
-        getDaoFacade().get$table{entityName}Dao.update$table{entityName}(model);
+        getDaoFacade().get$table{entityName}Dao().update$table{entityName}(model);
     }
     
     /**
@@ -37,7 +37,7 @@
     * @since $table{now}
     */
     public List<$table{entityName}> get$table{entityName}List($table{entityName} scope) {
-        return getDaoFacade().get$table{entityName}Dao.get$table{entityName}List(scope);
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}List(scope);
     }
     
     /**
@@ -48,7 +48,7 @@
     * @since $table{now}
     */
     public $table{entityName} get$table{entityName}ById(Integer id) {
-        return getDaoFacade().get$table{entityName}Dao.get$table{entityName}ById(id);
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}ById(id);
     }
     
     /**
@@ -58,7 +58,7 @@
     * @since $table{now}
     */
     public void delete$table{entityName}ByIds (List<Integer> ids) {
-        getDaoFacade().get$table{entityName}Dao.delete$table{entityName}ByIds(ids);
+        getDaoFacade().get$table{entityName}Dao().delete$table{entityName}ByIds(ids);
     }
     
     @{delete}
@@ -70,7 +70,7 @@
     * @since $table{now}
     */
     public Integer get$table{entityName}PageCount($table{entityName}Scope scope) {
-        return getDaoFacade().get$table{entityName}Dao.get$table{entityName}PageCount(scope);
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}PageCount(scope);
     }
     
     /**
@@ -81,7 +81,7 @@
     * @since $table{now}
     */
     public List<$table{entityName}> get$table{entityName}PageList($table{entityName}Scope scope) {
-        return getDaoFacade().get$table{entityName}Dao.get$table{entityName}PageList(scope);
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}PageList(scope);
     }
     
     /**
@@ -94,16 +94,14 @@
     public Integer saveOrUpdate$table{entityName}($table{entityName} model) {
         //保存或修改$table{remark}信息
         Integer id = null;
-        if(model.get$table{pkName}() == null || affair.get$table{pkName}() == 0) {
-            id = getDaoFactory().getAffairDao().save$table{entityName}(model);
+        if(model.get$table{pkNameUp}() == null || model.get$table{pkNameUp}() == 0) {
+            id = getDaoFactory().get$table{entityName}Dao().save$table{entityName}(model);
         }else {
-            getDaoFactory().getAffairDao().update$table{entityName}(model);
-            id = model.get$table{pkName}();
+            getDaoFactory().get$table{entityName}Dao().update$table{entityName}(model);
+            id = model.get$table{pkNameUp}();
         }
         
         //TODO 保存附件信息
-        List<CommonFile> fileList = model.getFileList();
-        getLocator().getCommonService().saveCommonFileList(CastUtil.toNotNullString(id), fileList);
         
         return id;
     }
@@ -117,7 +115,7 @@
      * @since $table{now}
      */
     public Integer submit$table{entityName}($table{entityName} model) {
-        if(model == null || model.get$table{pkName}() == null) {
+        if(model == null || model.get$table{pkNameUp}() == null) {
             throw new RuntimeException("无法创建$table{remark}工作流,$table{remark}对象为空！");
         }
         

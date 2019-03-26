@@ -51,6 +51,7 @@ public class Table implements MapContent{
         map.put("pkName",paramList.get(0).getParamName());
         map.put("pkColumnName",paramList.get(0).getColumnName());
         map.put("seqName", getSeqName());
+        map.put("pkNameUp",CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, paramList.get(0).getParamName()));
     }
     
 	/**
@@ -122,7 +123,8 @@ public class Table implements MapContent{
 	 */
 	public void writeDate(PrintWriter out,List<List<Object>> dataList) {
 	    String seqNext = getSeqName() + ".NEXTVAL";
-	    String primaryKeyName = paramList.get(0).getParamName();
+	    //String primaryKeyName = paramList.get(0).getParamName();
+	    String primaryKeyColumnName = paramList.get(0).getColumnName();
 	    for (List<Object> list : dataList) {
 	        String primaryKeyValue = String.valueOf(list.get(0));
 	        out.print("INSERT INTO " + tableName + "(");
@@ -159,7 +161,7 @@ public class Table implements MapContent{
                 }
             }
 	        out.println(" FROM DUAL ");
-	        out.println("WHERE NOT EXISTS (SELECT 1 FROM " + tableName + " WHERE " + primaryKeyName + " = '" + primaryKeyValue + "')");
+	        out.println("WHERE NOT EXISTS (SELECT 1 FROM " + tableName + " WHERE " + primaryKeyColumnName + " = '" + primaryKeyValue + "')");
 	        out.println("/");
         }
        

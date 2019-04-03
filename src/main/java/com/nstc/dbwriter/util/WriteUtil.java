@@ -125,7 +125,7 @@ public class WriteUtil {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql = "SELECT * FROM " + tableName + " WHERE ROWNUM <= 20";
+        String sql = "SELECT * FROM " + tableName + " WHERE ROWNUM <= 1000";
         List<List<Object>> resultList = new ArrayList<List<Object>>();
         try {
             conn = DriverManager.getConnection(CommonSettings.URL, CommonSettings.USER, CommonSettings.PASSWORD);

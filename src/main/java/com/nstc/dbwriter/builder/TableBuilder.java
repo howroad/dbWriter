@@ -127,7 +127,7 @@ public class TableBuilder {
                 }
                 
                 String columnName = list.get(0);
-                System.out.println(columnName);
+                //System.out.println(columnName);
                 String type = list.get(1);
                 String commont = list.get(2);
                 if(StringUtils.isEmpty(columnName) && StringUtils.isEmpty(type) && StringUtils.isEmpty(commont)) {

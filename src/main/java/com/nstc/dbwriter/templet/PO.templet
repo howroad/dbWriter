@@ -2,7 +2,18 @@ package $common{groupId}.$common{appNo}.$common{poPackage};
 
 $table{import}
 
-/** $table{remark} */
+/**
+ * <p>Title: CustBuss.java</p>
+ *
+ * <p>Description: $table{remark}</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author luhao
+ * 
+ * @since：$table{now}
+ *
+ */
 public class $table{entityName} {
     
     @{start}

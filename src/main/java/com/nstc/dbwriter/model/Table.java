@@ -92,7 +92,9 @@ public class Table implements MapContent{
 	    }else if (Types.DECIMAL == columnType) {
 	        result = String.valueOf(obj);
         } else if (Types.VARCHAR == columnType || Types.CHAR == columnType) {
-            result = "'" + String.valueOf(obj) + "'";
+            String str = String.valueOf(obj);
+            str = str.replaceAll("'", "''");
+            result = "'" + str + "'";
         } else if (Types.TIMESTAMP == columnType || Types.DATE == columnType) {
             if(obj.getClass() == oracle.sql.TIMESTAMP.class){
                 TIMESTAMP time = (TIMESTAMP) obj;
@@ -113,6 +115,64 @@ public class Table implements MapContent{
         }
 	    return result;
 	}
+	
+	   /**
+     * 根据集合集合内容生成数据库插入语句
+     * @param out
+     * @param dataList
+     * @return void
+     * @author luhao
+     * @since：2018年12月28日 下午6:23:39
+     */
+    public void writeDate(PrintWriter out,List<List<Object>> dataList,String[] primaryColUpKeys) {
+        String[] primaryKeyValues = new String[primaryColUpKeys.length];
+        for (List<Object> list : dataList) {
+            out.print("INSERT INTO " + tableName + "(");
+            for (ListIterator<MyParam> iterator = paramList.listIterator(); iterator.hasNext();) {
+                MyParam param = iterator.next();
+                String columnName = param.getColumnName();
+                if (iterator.hasNext()) {
+                    out.print(columnName + ",");
+                } else {
+                    out.println(columnName + ") ");
+                }
+            }
+            out.print("SELECT ");
+            int index = 0;
+            for (ListIterator<Object> iterator = list.listIterator(); iterator.hasNext();) {
+                boolean last = false;
+                Object object = iterator.next();
+                MyParam param = paramList.get(index++);
+                String columnName = param.getColumnName();
+                String value = getInsertValue(object, param);
+                for (int i = 0; i < primaryKeyValues.length; i++) {
+                    if(columnName.equals(primaryColUpKeys[i])) {
+                        primaryKeyValues[i] = value;
+                    }
+                }
+                last = !iterator.hasNext();
+                if(last) {
+                    out.print(value);
+                }else {
+                    out.print(value + ",");
+                }
+            }
+            StringBuffer whereStr = new StringBuffer(128);
+            for (int i = 0; i < primaryColUpKeys.length; i++) {
+                String primaryColUpKey = primaryColUpKeys[i];
+                String primaryKeyValue = primaryKeyValues[i];
+                if(i > 0) {
+                    whereStr.append(" AND ");
+                }
+                whereStr.append(primaryColUpKey + " = " + primaryKeyValue);
+            }
+            out.println(" FROM DUAL ");
+            out.println("WHERE NOT EXISTS (SELECT 1 FROM " + tableName + " WHERE " + whereStr + ")");
+            out.println("/");
+        }
+       
+    }
+	
 	/**
 	 * 根据集合集合内容生成数据库插入语句
 	 * @param out

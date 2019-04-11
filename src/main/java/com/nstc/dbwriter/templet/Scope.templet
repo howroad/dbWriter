@@ -2,26 +2,26 @@ package $common{groupId}.$common{appNo}.$common{poPackage};
 
 $table{import}
 import com.nstc.dbwriter.model.Paging;
+import $common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName};
 
-/** $table{remark}查询条件 */
-public class $table{entityName}Scope {
+/**
+ * <p>Title: CustBuss.java</p>
+ *
+ * <p>Description: $table{remark}查询条件</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author luhao
+ * 
+ * @since：$table{now}
+ *
+ */
+public class $table{entityName}Scope extends $table{entityName}{
     
-    @{start}
-    /** $param{paramRemark} */
-    private $param{paramType} $param{paramName};
-    
-    @{end}
+
     /** 分页对象 */
     private Paging paging;
     
-    @{start}
-    public void set$param{bigName}($param{paramType} $param{paramName}){
-        this.$param{paramName} = $param{paramName};
-    }
-    public $param{paramType} get$param{bigName}(){
-        return this.$param{paramName};
-    }
-    @{end}
     public void setPaging(Paging paging) {
         this.paging = paging;
     }

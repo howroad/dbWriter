@@ -67,16 +67,7 @@ public class CommonSettings {
         prefix = pro.getProperty("prefix");
         useTemplet = "true".equalsIgnoreCase(pro.getProperty("useTemplet"));
         usePage = "true".equalsIgnoreCase(pro.getProperty("usePage"));
-        
-        map.put("groupId","com.nstc");
-        map.put("line", "");
-        map.put("appNo", appNo);
-        map.put("appNoUpper",appNo.toUpperCase());
-        map.put("poPackage", "model");
-        map.put("author", "luhao");
-        map.put(",",",");
-        lastMap.put(",","");
-        //TODO ...
+        initMap();
     }
     
     public static String[] stringToArray(String str) {
@@ -85,5 +76,17 @@ public class CommonSettings {
         }
         String[] result = str.split(",");
         return result;
+    }
+    
+    public static void initMap() {
+        map.put("groupId","com.nstc");
+        map.put("line", "");
+        map.put("appNo", appNo);
+        map.put("appNoUpper",appNo.toUpperCase());
+        map.put("poPackage", "model");
+        map.put("author", "luhao");
+        map.put(",",",");
+        lastMap.put(",","");
+        //TODO ...        
     }
 }

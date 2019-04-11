@@ -1,5 +1,8 @@
 package com.nstc.frame;
 
+import static com.nstc.dbwriter.config.CommonSettings.stringToArray;
+import static com.nstc.dbwriter.config.TempSettings.writeProperties;
+
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -9,16 +12,13 @@ import javax.swing.JPanel;
 
 import org.apache.commons.lang3.Validate;
 
-import static com.nstc.dbwriter.config.CommonSettings.stringToArray;
-import static com.nstc.dbwriter.config.TempSettings.writeProperties;
-
-import com.nstc.dbwriter.builder.TableBuilder;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.config.TempSettings;
 import com.nstc.dbwriter.control.ClearTemp;
 import com.nstc.dbwriter.control.Start;
 import com.nstc.dbwriter.util.ValidateUtil;
+import com.nstc.dbwriter.util.WriteUtil;
 
 
 /**
@@ -38,7 +38,7 @@ public class ShowFrame extends JFrame {
     private static final String SEQ_DIR_0 = "前置";
     
     /** 内容，后两位参数是间距 */
-    private JPanel contentPanel = new JPanel(new GridLayout(11, 2, 1, 1));
+    private JPanel contentPanel = new JPanel(new GridLayout(12, 2, 1, 1));
 
     private FilePane filePanel = new FilePane("...", TEXT_LENGTH);
     private TextPane outerDirPanel = new TextPane("outer:", TEXT_LENGTH);
@@ -51,25 +51,15 @@ public class ShowFrame extends JFrame {
     private TextPane tablesPanel = new TextPane("tbls", TEXT_LENGTH);
     private SelectPanel seqDirPanel = new SelectPanel("seqDr:", TEXT_LENGTH, "前置", "后置");
     private JPanel btnPanel = new JPanel();
+    
+    private JPanel custPanel = new JPanel();
 
     private JButton conBtn = new JButton("conn");
     private JButton runBtn = new JButton("run");
     private JButton clearBtn = new JButton("clear");
     private JButton testBtn = new JButton("test");
     
-    /*
-    private String excelPath;
-    private String outerPath;
-    private String url;
-    private String username;
-    private String password;
-    private String appNo;
-    private String tables;
-    private boolean fromExcel;
-    private boolean fromDatebase;
-    private String seqDir;
-    
-    */
+    private JButton custBtn1 = new JButton("导出SQL脚本");
     
     public ShowFrame() {
         
@@ -86,6 +76,8 @@ public class ShowFrame extends JFrame {
         btnPanel.add(clearBtn);
         btnPanel.add(testBtn);
         
+        custPanel.add(custBtn1);
+        
         this.contentPanel.add(filePanel);
         this.contentPanel.add(outerDirPanel);
         this.contentPanel.add(uRLPanel);
@@ -97,7 +89,8 @@ public class ShowFrame extends JFrame {
         this.contentPanel.add(fromExcelPanel);
         this.contentPanel.add(fromDatebasePanel);
         this.contentPanel.add(btnPanel);
-
+        this.contentPanel.add(custPanel);
+        
         this.setTitle("dbWriter");
         this.setContentPane(contentPanel);
         pack();
@@ -132,8 +125,9 @@ public class ShowFrame extends JFrame {
     
     private void addListener() {
         conBtn.addActionListener((e) -> {
+            putValue();
             try {
-                TableBuilder.buildTableFromDB("wf_master_user");
+                WriteUtil.getDataBySQL("SELECT 1 FROM DUAL");
                 JOptionPane.showMessageDialog(null, "连接成功");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());
@@ -143,6 +137,10 @@ public class ShowFrame extends JFrame {
         runBtn.addActionListener((e) -> {
             putValue();
             try {
+                if(!TempSettings.fromDatebase && !TempSettings.fromExcel) {
+                    JOptionPane.showMessageDialog(null, "请选择一个生成类型！");
+                    return;
+                }
                 Start.start();
                 JOptionPane.showMessageDialog(null, "生成成功！");
                 writeProperties();
@@ -162,6 +160,18 @@ public class ShowFrame extends JFrame {
             }
         });
         testBtn.setEnabled(false);
+        
+        //自定义事件
+        custBtn1.addActionListener(e ->{
+            putValue();
+            try {
+                Start.ta0723BuildSql();
+                JOptionPane.showMessageDialog(null, "生成成功");
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(null, e1.getMessage());
+                e1.printStackTrace();
+            }            
+        });
     }
     
     private void putValue() {
@@ -199,6 +209,8 @@ public class ShowFrame extends JFrame {
         }else {
             CommonSettings.SEQ_DIR = 1;
         }
+        
+        CommonSettings.initMap();
     }
     
     public void validateValue() {

@@ -37,23 +37,28 @@ public class InnerSettings {
     public final static String COMMONDAOIMPL_PATH = TEMP_DAO_DIR + "CommonDaoImpl.java";
     public final static String COMMON_XML_PATH = TEMP_DAO_DIR + "TEMP_Common.xml";
     
+    public final static String CODE = "GBK";
+    
+    public final static String POST_FIX = "";
+    
     public static Map<String, String> templetMap = new HashMap<String, String>(16);
     
     static {
-        templetMap.put("DAO.templet", "$table{entityName}Dao.java.out");
-        templetMap.put("DAOIMPL.templet", "$table{entityName}DaoImpl.java.out");
-        templetMap.put("IBATIS.templet", "$common{appNo}_$table{entityName}.xml.out");
-        templetMap.put("PO.templet", "$table{entityName}.java.out");
-        templetMap.put("SEQ.templet", "$table{tableName}_SEQ.PDC.out");
-        templetMap.put("TABLE.templet", "$table{tableName}.TAB.out");
-        templetMap.put("Scope.templet", "$table{entityName}Scope.java.out");
-        templetMap.put("SERVICEIMPL.templet", "$table{entityName}ServiceImpl.java.out");
+        templetMap.put("DAO.templet", "$table{entityName}Dao.java" + POST_FIX);
+        templetMap.put("DAOIMPL.templet", "$table{entityName}DaoImpl.java" + POST_FIX);
+        templetMap.put("IBATIS.templet", "$common{appNoUpper}_$table{entityName}.xml" + POST_FIX);
+        templetMap.put("PO.templet", "$table{entityName}.java" + POST_FIX);
+        templetMap.put("SEQ.templet", "$table{tableName}_SEQ.PDC" + POST_FIX);
+        templetMap.put("TABLE.templet", "$table{tableName}.TAB" + POST_FIX);
+        templetMap.put("Scope.templet", "$table{entityName}Scope.java" + POST_FIX);
+        templetMap.put("SERVICE.templet", "$table{entityName}Service.java" + POST_FIX);
+        templetMap.put("SERVICEIMPL.templet", "$table{entityName}ServiceImpl.java" + POST_FIX);
         
-        templetMap.put("DeleteListBusiness.templet", "Delete$table{entityName}ListBusiness.java.out");
-        templetMap.put("QueryListBusiness.templet", "Query$table{entityName}ListBusiness.java.out");
-        templetMap.put("SaveBusiness.templet", "Save$table{entityName}Business.java.out");
-        templetMap.put("ShowBusiness.templet", "Show$table{entityName}Business.java.out");
-        templetMap.put("SubmitListBusiness.templet", "Submit$table{entityName}ListBusiness.java.out");
+        templetMap.put("DeleteListBusiness.templet", "Delete$table{entityName}ListBusiness.java" + POST_FIX);
+        templetMap.put("QueryListBusiness.templet", "Query$table{entityName}ListBusiness.java" + POST_FIX);
+        templetMap.put("SaveBusiness.templet", "Save$table{entityName}Business.java" + POST_FIX);
+        templetMap.put("ShowBusiness.templet", "Show$table{entityName}Business.java" + POST_FIX);
+        templetMap.put("SubmitListBusiness.templet", "Submit$table{entityName}ListBusiness.java" + POST_FIX);
     }
     
     

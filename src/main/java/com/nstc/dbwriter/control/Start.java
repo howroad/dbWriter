@@ -1,5 +1,7 @@
 package com.nstc.dbwriter.control;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.nstc.dbwriter.builder.TableBuilder;
@@ -27,7 +29,48 @@ public class Start {
     public static void main(String[] args) {
         //Start.start();
         new ShowFrame().setVisible(true);
+        //ta0723BuildSql();
+        
     }
+    
+    public static void ta0723BuildSql() {
+        String buss_idStr = "100000001";
+        String[] tableNames = new String[] {"GDT_CUST_BUSS","GDT_CUST_BUSS_EXTRA"
+                ,"GDT_CUST_FIXED_ELEMENT","GDT_CUST_ELEMENT"
+                ,"GDT_CUST_TYPE","GDT_CUST_TEMPLATE"
+                ,"GDT_CUST_EXTRA"};
+        String[] sqls = new String[] {"SELECT * FROM GDT_CUST_BUSS T WHERE T.BUSS_ID IN (" + buss_idStr + ") ORDER BY 1 ASC",
+                "SELECT * FROM GDT_CUST_BUSS_EXTRA T WHERE T.BUSS_ID IN (" + buss_idStr + ") ORDER BY 1 ASC",
+                "SELECT * FROM GDT_CUST_FIXED_ELEMENT T ORDER BY 1 ASC",
+                "SELECT * FROM GDT_CUST_ELEMENT T WHERE T.BUSS_ID IN (" + buss_idStr + ") ORDER BY 1 ASC",
+                "SELECT * FROM GDT_CUST_TYPE T ORDER BY 1 ASC",
+                "SELECT * FROM GDT_CUST_TEMPLATE ORDER BY 1 ASC",
+                "SELECT * FROM GDT_CUST_EXTRA ORDER BY 1 ASC",
+                };
+        List<String[]> primaryKeys = new ArrayList<String[]>();
+        primaryKeys.add(new String[] {"BUSS_ID"});
+        primaryKeys.add(new String[] {"BE_ID"});
+        primaryKeys.add(new String[] {"FIXED_ID"});
+        primaryKeys.add(new String[] {"ELEMENT_ID"});
+        primaryKeys.add(new String[] {"TYPE_NAME","TYPE_TYPE"});
+        primaryKeys.add(new String[] {"TEMPLATE_ID"});
+        primaryKeys.add(new String[] {"EXTRA_ID"});
+        
+        for (int i = 0; i < tableNames.length; i++) {
+            String tableName = tableNames[i];
+            String sql = sqls[i];
+            String[] primaryKey = primaryKeys.get(i);
+            Table table = TableBuilder.buildTableFromDB(tableName);
+            String filName = CommonSettings.PATH + "\\sqls\\" + table.getTableName() + ".SQL";
+            File file = new File(filName);
+            file.getParentFile().mkdirs();
+            WriteUtil.buildDate(table,sql,primaryKey,filName);
+            System.out.println("build " + tableName + ".SQL down...");
+        }
+        
+    }
+    
+    
     public static void start() {
         
         // 从Excel中按照所有模版生成数据

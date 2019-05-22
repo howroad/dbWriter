@@ -108,7 +108,7 @@ public class TableBuilder {
      * @author luhao
      * @since：2019年2月25日 下午2:11:02
      */
-    public static List<Table> buildTableFromExcel(String appNo) {
+    public static List<Table> buildTableFromExcel() {
         //excel 导入数据
         File file = new File(CommonSettings.EXCEL_PATH);
         List<List<String>> dataList= null;

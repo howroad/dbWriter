@@ -3,7 +3,7 @@ package $common{groupId}.$common{appNo}.$common{poPackage};
 $table{import}
 
 /**
- * <p>Title: CustBuss.java</p>
+ * <p>Title: $table{entityName}.java</p>
  *
  * <p>Description: $table{remark}</p>
  *

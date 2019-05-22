@@ -49,6 +49,9 @@ public class ClearTemp {
                     if(file.getName().endsWith(".jar")){
                         continue;
                     }
+                    if(file.getName().toUpperCase().endsWith(".CMD")){
+                        continue;
+                    }
                     file.delete();
                 }else if(file.isDirectory()) {
                     clearDir(file);

@@ -14,6 +14,7 @@ import com.nstc.temp.model.*;
  * @since：2018年12月27日 上午11:20:40
  * 
  */
+@SuppressWarnings("unused")
 public interface ICommonDao {
 
 }

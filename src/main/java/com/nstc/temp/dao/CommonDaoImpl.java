@@ -15,6 +15,7 @@ import com.nstc.temp.model.*;
  * @since：2018年12月27日 上午11:21:45
  * 
  */
+@SuppressWarnings("unused")
 public class CommonDaoImpl extends BaseDao implements ICommonDao {
 
 }

@@ -1,11 +1,11 @@
-package $common{groupId}.$common{appNo}.$common{poPackage};
+package $common{groupId}.$common{appNo}.$common{poPackage}.scope;
 
 $table{import}
 import com.nstc.dbwriter.model.Paging;
 import $common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName};
 
 /**
- * <p>Title: CustBuss.java</p>
+ * <p>Title: $table{entityName}Scope.java</p>
  *
  * <p>Description: $table{remark}查询条件</p>
  *

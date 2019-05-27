@@ -42,6 +42,8 @@ public class Table implements MapContent{
     private void initMap() {
         if(hasDateType()) {
             map.put("import", "import java.util.Date;");
+        }else {
+            map.put("import", "");
         }
         map.put("entityName", getEntityName());
         map.put("entityNameLow", getEntityName().toLowerCase());

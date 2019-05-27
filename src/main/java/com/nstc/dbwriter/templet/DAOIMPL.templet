@@ -89,4 +89,15 @@
         List<$table{entityName}> resultList = Arrays.asList(list.toArray(new $table{entityName}[0]));
         return resultList;
     }
-    @{/delete}    
+    @{/delete}
+    
+    /**
+     * 根据条件删除$table{remark}
+     * @param scope $table{remark}删除条件
+     * @author $common{author}
+     * @since：$table{now}
+     */
+    public void delete$table{entityName}($table{entityName}Scope scope) {
+        getSqlMapClientTemplate().delete(getStatement("delete$table{entityName}"), scope);
+    }
+    

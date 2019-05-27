@@ -1,3 +1,6 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="$common{appNo}.$table{entityName}Dao">
     @{delete}
     <!-- 分页 start -->
     <sql id="pagingStartSql">
@@ -17,7 +20,6 @@
     </sql>
     <!-- 查询 $table{remark}公共SQL-->
     <sql id="query$table{entityName}ScopeSQL">
-        FROM $table{tableName} T WHERE 1 = 1
         @{start}
         <isNotEmpty property="$param{paramName}" prepend="and">
             T.$param{columnName} = #$param{paramName}#
@@ -49,11 +51,11 @@
 
     <!-- 修改$table{remark} -->
     <update id="update$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
-        UPDATE $table{tableName} SET
-        $table{pkColumnName} = #$table{pkName}#
+        UPDATE $table{tableName} T SET
+        T.$table{pkColumnName} = #$table{pkName}#
         @{startFrom2}
         <isNotEmpty prepend="," property="$param{paramName}">
-            $param{columnName} = #$param{paramName}#
+            T.$param{columnName} = #$param{paramName}#
         </isNotEmpty>
         @{end}
         WHERE $table{pkColumnName} = #$table{pkName}#
@@ -66,11 +68,7 @@
             T.$param{columnName} AS "$param{paramName}"$split{,}
             @{end}
         FROM $table{tableName} T WHERE 1 = 1
-        @{start}
-        <isNotEmpty property="$param{paramName}" prepend="and">
-            T.$param{columnName} = #$param{paramName}#
-        </isNotEmpty>
-        @{end}
+        <include refid="query$table{entityName}ScopeSQL" />
         ORDER BY T.$table{pkColumnName} ASC
     </select>
     
@@ -95,21 +93,32 @@
 
     @{delete}
     <!-- 查询$table{remark}记录数 -->
-    <select id="get$table{entityName}PageCount" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}Scope" resultClass="java.lang.Integer">
+    <select id="get$table{entityName}PageCount" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="java.lang.Integer">
         SELECT
             COUNT(0)
+        FROM $table{tableName} T WHERE 1 = 1
         <include refid="query$table{entityName}ScopeSQL" />
     </select>         
     
     <!-- 查询$table{remark}分页列表 -->
-    <select id="get$table{entityName}PageList" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+    <select id="get$table{entityName}PageList" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
         <include refid="pagingStartSql" />
         SELECT
             @{start}
             T.$param{columnName} AS "$param{paramName}"$split{,}
             @{end}
+        FROM $table{tableName} T WHERE 1 = 1
         <include refid="query$table{entityName}ScopeSQL" />
         ORDER BY T.$table{pkColumnName} ASC
         <include refid="pagingEndSql" />
     </select>
     @{/delete}
+    
+    <!-- 删除$table{remark} -->
+    <delete id="delete$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope">
+        DELETE $table{tableName} T WHERE 1 = 1
+        <include refid="query$table{entityName}ScopeSQL" />
+    </delete> 
+    
+      
+</sqlMap>

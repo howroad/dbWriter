@@ -66,6 +66,8 @@ public class CodeUtil {
                         for (String string : loopLine) {
                             outStr = replaceTemplet(string, param.getMap(), "param");
                             outStr = replaceTemplet(outStr, table.getMap(), "table");
+                            //将date 变为 SYSDATE
+                            //outStr = outStr.replaceAll("#(updateDate|updateTime)#", "SYSDATE");
                             if(iterator.hasNext()) {
                                 outStr = replaceTemplet(outStr, CommonSettings.map, "split");
                             }else {

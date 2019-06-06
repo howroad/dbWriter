@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="GBK"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
-<sqlMap namespace="$common{appNo}.$table{entityName}Dao">
+
+<sqlMap namespace="$common{appNoUpper}.$table{entityName}Dao">
     @{delete}
     <!-- 分页 start -->
     <sql id="pagingStartSql">
@@ -54,15 +55,15 @@
         UPDATE $table{tableName} T SET
         T.$table{pkColumnName} = #$table{pkName}#
         @{startFrom2}
-        <isNotEmpty prepend="," property="$param{paramName}">
+        <isNotNull prepend="," property="$param{paramName}">
             T.$param{columnName} = #$param{paramName}#
-        </isNotEmpty>
+        </isNotNull>
         @{end}
         WHERE $table{pkColumnName} = #$table{pkName}#
     </update>
 
     <!-- 查询$table{remark}列表 -->
-    <select id="get$table{entityName}List" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+    <select id="get$table{entityName}List" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
         SELECT
             @{start}
             T.$param{columnName} AS "$param{paramName}"$split{,}
@@ -101,7 +102,7 @@
     </select>         
     
     <!-- 查询$table{remark}分页列表 -->
-    <select id="get$table{entityName}PageList" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+    <select id="get$table{entityName}PageList" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
         <include refid="pagingStartSql" />
         SELECT
             @{start}
@@ -120,5 +121,63 @@
         <include refid="query$table{entityName}ScopeSQL" />
     </delete> 
     
-      
+    <!-- 保存或修改$table{remark}集合 -->  
+    <update id="saveOrUpdate$table{entityName}List" parameterClass="java.util.ArrayList">
+        MERGE INTO $table{tableName} T 
+        USING
+        <iterate open="(" close=") A" conjunction="UNION">  
+            SELECT
+            <!-- 主键为空时候返回字符串，与原类型不匹配，非字符串类型都需要做转换 -->
+            DECODE(#list[].$table{pkName}#,NULL,NULL,#list[].$table{pkName}#) AS $table{pkColumnName},
+            @{startFrom2}
+            #list[].$param{paramName}# AS $param{columnName}$split{,}
+            @{end}
+            FROM DUAL
+        </iterate>
+        ON (A.$table{pkColumnName} = T.$table{pkColumnName})
+        WHEN MATCHED THEN
+            UPDATE SET
+            @{startFrom2}
+                T.$param{columnName} = A.$param{columnName}$split{,}
+            @{end}
+        WHEN NOT MATCHED THEN 
+            INSERT (
+            $table{pkColumnName},
+            @{startFrom2}
+            $param{columnName}$split{,}
+            @{end}
+            ) VALUES (
+            $table{seqName}.NEXTVAL,
+            @{startFrom2}
+            A.$param{columnName}$split{,}
+            @{end}
+            )    
+    </update>
+    
+    <!-- 保存或修改$table{remark}集合 -->  
+    <update id="saveOrUpdate$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+        MERGE INTO $table{tableName} T
+        USING DUAL
+            ON (T.$table{pkColumnName} = #$table{pkName}#)
+        WHEN MATCHED THEN
+        UPDATE
+            SET
+            @{startFrom2}
+            T.$param{columnName} = #$param{paramName}#$split{,}
+            @{end}
+        WHEN NOT MATCHED THEN
+            INSERT (
+                $table{pkColumnName},
+                @{startFrom2}
+                $param{columnName}$split{,}
+                @{end}
+            ) 
+            VALUES (
+                $table{seqName}.NEXTVAL,
+                @{startFrom2}
+                #$param{paramName}#$split{,}
+                @{end}
+            )
+    </update>
+    
 </sqlMap>

@@ -30,7 +30,7 @@
     * @return $table{remark}集合
     * @since $table{now}
     */
-    public List<$table{entityName}> get$table{entityName}List($table{entityName} scope);
+    public List<$table{entityName}View> get$table{entityName}List($table{entityName}Scope scope);
     
     /**
     * 根据Id查询$table{remark}
@@ -39,7 +39,7 @@
     * @return $table{remark}
     * @since $table{now}
     */
-    public $table{entityName} get$table{entityName}ById(Integer id);
+    public $table{entityName}View get$table{entityName}ById(Integer id);
     
     /**
     * 根据主键删除多个$table{remark}
@@ -67,7 +67,7 @@
     * @return $table{remark}集合
     * @since $table{now}
     */
-    public List<$table{entityName}> get$table{entityName}PageList($table{entityName}Scope scope);
+    public List<$table{entityName}View> get$table{entityName}PageList($table{entityName}Scope scope);
     
     /**
     * 新增或修改$table{remark}

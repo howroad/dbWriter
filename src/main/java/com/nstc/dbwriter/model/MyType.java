@@ -48,7 +48,11 @@ public class MyType {
         } else if(Types.CHAR == dateType){
             paramTypeName = "String";
             columnTypeName = "CHAR(" + columnSize + ")";
-        }else {
+        }else if(Types.BLOB == dateType) {
+            paramTypeName = "byte[]";
+            columnTypeName = "BLOB";
+        }
+        else {
             throw new RuntimeException("未知类型！");
         }
     }

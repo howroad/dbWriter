@@ -77,3 +77,19 @@
      * @since：$table{now}
      */
     public void delete$table{entityName}($table{entityName}Scope scope);
+    
+    /**
+    * 新增或者修改$table{remark}集合中的内容
+    * @param list $table{remark}集合
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void saveOrUpdate$table{entityName}List (List<$table{entityName}> list);  
+      
+    /**
+    * 新增或者修改$table{remark}
+    * @param list $table{remark}实体
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void saveOrUpdate$table{entityName} ($table{entityName} model);    

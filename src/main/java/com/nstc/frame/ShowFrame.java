@@ -152,6 +152,7 @@ public class ShowFrame extends JFrame {
         clearBtn.addActionListener((e) -> {
             putValue();
             try {
+//                ClearTemp.clearAndRebuild();
                 ClearTemp.clear();
                 JOptionPane.showMessageDialog(null, "清除成功");
             } catch (Exception e1) {

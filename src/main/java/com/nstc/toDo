@@ -37,3 +37,9 @@ APPNO不起作用
 生成的xml中 公共SQL进一步提取
 
  <!-- 关联表删除 -->
+ 
+ $common{appNoLow} 没取到指
+ 检测createdate 和 updateDate
+ 
+ //自动代码 日志找不到类
+ import org.apache.log4j.PropertyConfigurator;

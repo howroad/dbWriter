@@ -81,8 +81,20 @@ public class Start {
             for (int i = 0; i < tables.size(); i++) {
                 Table table = tables.get(i);
                 WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR);
+                RunTest.buildClassAndRun(table.getEntityName(),false);
                 System.out.println(table.getTableName() + " write templet complete...(excel)");
             }
+            for (int i = 0; i < tables.size(); i++) {
+                Table table = tables.get(i);
+                System.out.println("DELETE FROM " + table.getTableName());
+                System.out.println("/");
+            }
+            for (int i = 0; i < tables.size(); i++) {
+                Table table = tables.get(i);
+                System.out.println("DROP TABLE " + table.getTableName());
+                System.out.println("/");
+            }
+            
         }
         
         // 从数据库中查询按照模版生成数据

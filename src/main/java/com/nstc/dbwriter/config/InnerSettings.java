@@ -53,6 +53,7 @@ public class InnerSettings {
         templetMap.put("Scope.templet", "$table{entityName}Scope.java" + POST_FIX);
         templetMap.put("SERVICE.templet", "$table{entityName}Service.java" + POST_FIX);
         templetMap.put("SERVICEIMPL.templet", "$table{entityName}ServiceImpl.java" + POST_FIX);
+        templetMap.put("VIEW.templet", "$table{entityName}View.java" + POST_FIX);
         
         templetMap.put("DeleteListBusiness.templet", "Delete$table{entityName}ListBusiness.java" + POST_FIX);
         templetMap.put("QueryListBusiness.templet", "Query$table{entityName}ListBusiness.java" + POST_FIX);

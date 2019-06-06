@@ -36,9 +36,8 @@
     * @return $table{remark}集合
     * @since $table{now}
     */
-    public List<$table{entityName}> get$table{entityName}List($table{entityName} scope) {
-        List<?> list = getSqlMapClientTemplate().queryForList(getStatement("get$table{entityName}List"),scope);
-        List<$table{entityName}> resultList = Arrays.asList(list.toArray(new $table{entityName}[0]));
+    public List<$table{entityName}View> get$table{entityName}List($table{entityName}Scope scope) {
+        List<$table{entityName}View> resultList = getSqlMapClientTemplate().queryForList(getStatement("get$table{entityName}List"),scope);
         return resultList;
     }
     
@@ -49,8 +48,8 @@
     * @return $table{remark}
     * @since $table{now}
     */
-    public $table{entityName} get$table{entityName}ById(Integer id) {
-        return ($table{entityName}) getSqlMapClientTemplate().queryForObject(getStatement("get$table{entityName}ById"), id);
+    public $table{entityName}View get$table{entityName}ById(Integer id) {
+        return ($table{entityName}View) getSqlMapClientTemplate().queryForObject(getStatement("get$table{entityName}ById"), id);
     }
     
     /**
@@ -82,11 +81,11 @@
     * @return $table{remark}集合
     * @since $table{now}
     */
-    public List<$table{entityName}> get$table{entityName}PageList($table{entityName}Scope scope) {
+    public List<$table{entityName}View> get$table{entityName}PageList($table{entityName}Scope scope) {
         Integer count = get$table{entityName}PageCount(scope);
         scope.getPaging().setTotalRow(count);
         List<?> list = getSqlMapClientTemplate().queryForList(getStatement("get$table{entityName}PageList"),scope);
-        List<$table{entityName}> resultList = Arrays.asList(list.toArray(new $table{entityName}[0]));
+        List<$table{entityName}View> resultList = Arrays.asList(list.toArray(new $table{entityName}[0]));
         return resultList;
     }
     @{/delete}
@@ -100,4 +99,24 @@
     public void delete$table{entityName}($table{entityName}Scope scope) {
         getSqlMapClientTemplate().delete(getStatement("delete$table{entityName}"), scope);
     }
+    
+    /**
+    * 新增或者修改$table{remark}集合中的内容
+    * @param list $table{remark}集合
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void saveOrUpdate$table{entityName}List (List<$table{entityName}> list){
+        getSqlMapClientTemplate().update(getStatement("saveOrUpdate$table{entityName}List"),list);
+    }   
+    
+    /**
+    * 新增或者修改$table{remark}
+    * @param list $table{remark}实体
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void saveOrUpdate$table{entityName} ($table{entityName} model){
+        getSqlMapClientTemplate().update(getStatement("saveOrUpdate$table{entityName}"),model);
+    }   
     

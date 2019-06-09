@@ -269,7 +269,10 @@ public class Table implements MapContent{
      */
     public String getEntityName() {
         String entityName = null;
-        if (tableName.contains(TableContans.UNDER_LINE)) {
+        if(tableName.toUpperCase().startsWith("UM_")) {
+            entityName = tableName.substring(tableName.indexOf(TableContans.UNDER_LINE) + 1);
+            entityName = "UM_" + entityName.substring(entityName.indexOf(TableContans.UNDER_LINE) + 1);
+        }else if (tableName.contains(TableContans.UNDER_LINE)) {
             entityName = tableName.substring(tableName.indexOf(TableContans.UNDER_LINE));
         } else {
             entityName = tableName;

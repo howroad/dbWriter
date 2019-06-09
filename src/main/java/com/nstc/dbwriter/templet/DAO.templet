@@ -25,22 +25,31 @@
 
     /**
     * 查询$table{remark}列表
-    * @param scope $table{remark}查询条件
+    * @param scope $table{remark}Scope 查询条件
     * @author $common{author}
     * @return $table{remark}集合
     * @since $table{now}
     */
-    public List<$table{entityName}> get$table{entityName}List($table{entityName} scope);
+    public List<$table{entityName}> get$table{entityName}List($table{entityName}Scope scope);
     
     /**
-    * 根据Id查询$table{remark}
+    * 根据Id查询$table{remark}View
     * @param id $table{remark}主键
     * @author $common{author}
     * @return $table{remark}
     * @since $table{now}
     */
-    public $table{entityName} get$table{entityName}ById(Integer id);
-    
+    public $table{entityName}View get$table{entityName}ById(Integer id);
+
+    /**
+    * 根据条件查询$table{remark}View的第一条记录
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}
+    * @since $table{now}
+    */
+    public $table{entityName}View get$table{entityName}ByScope ($table{entityName}Scope scope);
+
     /**
     * 根据主键删除多个$table{remark}
     * @param ids $table{remark}主键
@@ -67,7 +76,7 @@
     * @return $table{remark}集合
     * @since $table{now}
     */
-    public List<$table{entityName}> get$table{entityName}PageList($table{entityName}Scope scope);
+    public List<$table{entityName}View> get$table{entityName}PageList($table{entityName}Scope scope);
     @{/delete}  
 
     /**

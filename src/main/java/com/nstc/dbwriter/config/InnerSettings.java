@@ -19,6 +19,14 @@ public class InnerSettings {
     public final static String TEST_MODEL_DIR = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\model\\";
     /** 输出目录 输出到本工程 */
     public static String OUT_DIR = "C:/Users/Administrator/Desktop/model/";
+    public static String OUT_DIR_SQL = OUT_DIR + "ORACLE/sql/";
+    public static String OUT_DIR_MODEL = OUT_DIR + "ORACLE/model/";
+    public static String OUT_DIR_SCOPE = OUT_DIR + "ORACLE/scope/";
+    public static String OUT_DIR_XML = OUT_DIR + "ORACLE/xml/";
+    public static final String OUT_DIR_VIEW = OUT_DIR + "ORACLE/view/";
+    public static final String OUT_DIR_DAO = OUT_DIR + "ORACLE/dao/";
+    public static final String OUT_DIR_SERVICE = OUT_DIR + "ORACLE/service/";
+    
 //    public static String OUT_DIR = "com/nstc/dbwriter/out/";
     public final static String TEMPLET_DIR = "com/nstc/dbwriter/templet";
     public final static String TEST_DIR = "/src/main/java/com/nstc/temp/test/";
@@ -36,6 +44,9 @@ public class InnerSettings {
     public final static String ICOMMONDAO_PATH = TEMP_DAO_DIR + "ICommonDao.java";
     public final static String COMMONDAOIMPL_PATH = TEMP_DAO_DIR + "CommonDaoImpl.java";
     public final static String COMMON_XML_PATH = TEMP_DAO_DIR + "TEMP_Common.xml";
+    
+    public final static String PATCH_TABLE = TEMPLET_DIR + "/common/TABLE_PATCH.templet";
+    public final static String PATCH_OUT_FILE = OUT_DIR_SQL;
     
     public final static String CODE = "GBK";
     

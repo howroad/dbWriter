@@ -155,5 +155,45 @@ public class ExcelUtil {
         }
         return value;
     }
+    
+    /**
+     * @Description:描述：获取IO流中的数据，组装成List<List<Object>>对象
+     * @param file
+     * @param sheetNo
+     * @throws Exception
+     * @return List<List<String>>
+     * @author luhao
+     * @since：2019年6月9日 上午11:57:00
+     */
+    public static List<List<String>> importExcel(File file,int sheetNo) throws Exception{
+        List<List<String>> list = null;
 
+        // 创建Excel工作薄
+        Workbook work = getWorkbook(file);
+        if (null == work) {
+            throw new Exception("创建Excel工作薄为空！");
+        }
+        Sheet sheet = null;
+        Row row = null;
+        Cell cell = null;
+        int i = sheetNo;
+        list = new ArrayList<List<String>>();
+        // 遍历Excel中所有的sheet
+        sheet = work.getSheetAt(i);
+        // 遍历当前sheet中的所有行
+        for (int j = sheet.getFirstRowNum(); j <= sheet.getLastRowNum(); j++) {
+            row = sheet.getRow(j);
+            if (row == null || row.getFirstCellNum() == j) {
+                continue;
+            }
+            // 遍历所有的列
+            List<String> li = new ArrayList<String>();
+            for (int y = row.getFirstCellNum(); y < row.getLastCellNum(); y++) {
+                cell = row.getCell(y);
+                li.add(getCellValue(cell));
+            }
+            list.add(li);
+        }
+        return list;
+    }
 }

@@ -77,13 +77,23 @@ public class Start {
         
         // 从Excel中按照所有模版生成数据
         if(CommonSettings.fromExcel) {
+            
             List<Table> tables = TableBuilder.buildTableFromExcel();
             for (int i = 0; i < tables.size(); i++) {
                 Table table = tables.get(i);
                 WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR);
-                RunTest.buildClassAndRun(table.getEntityName(),false);
+                //RunTest.buildClassAndRun(table.getEntityName(),false);
                 System.out.println(table.getTableName() + " write templet complete...(excel)");
             }
+            List<Table> tablePatch = TableBuilder.buildPatchTableFromExcel();
+            for (Table table : tablePatch) {
+                File templet = new File(System.getProperty("user.dir") + "/src/main/java/" + InnerSettings.PATCH_TABLE);
+                File outFile = new File(InnerSettings.PATCH_OUT_FILE + "patch/" + table.getTableName() + ".TAB");
+                outFile.getParentFile().mkdirs();
+                WriteUtil.writeFileByTemplet(templet, outFile, table);
+                System.out.println(outFile.getAbsolutePath());
+            }
+            
             for (int i = 0; i < tables.size(); i++) {
                 Table table = tables.get(i);
                 System.out.println("DELETE FROM " + table.getTableName());
@@ -94,7 +104,6 @@ public class Start {
                 System.out.println("DROP TABLE " + table.getTableName());
                 System.out.println("/");
             }
-            
         }
         
         // 从数据库中查询按照模版生成数据

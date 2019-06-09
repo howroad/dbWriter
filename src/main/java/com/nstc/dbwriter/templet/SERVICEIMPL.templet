@@ -1,3 +1,31 @@
+package $common{groupId}.$common{appNo}.service.impl;
+
+import java.util.List;
+
+import $common{groupId}.$common{appNo}.$common{poPackage}.*;
+import $common{groupId}.$common{appNo}.$common{poPackage}.scope.*;
+import $common{groupId}.$common{appNo}.$common{poPackage}.view.*;
+import $common{groupId}.$common{appNo}.service.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * <p>Title: $table{entityName}ServiceImpl.java</p>
+ *
+ * <p>Description: $table{remark}服务</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author $common{author}
+ * 
+ * @since：$table{now}
+ * 
+ */
+public class $table{entityName}ServiceImpl extends BaseServerImpl implements $table{entityName}Service {
+    
+    Log logger = LogFactory.getLog(getClass());
+
     /**
     * 新增$table{remark}
     * @param model $table{remark}实体
@@ -50,6 +78,17 @@
     public $table{entityName}View get$table{entityName}ById(Integer id) {
         return getDaoFacade().get$table{entityName}Dao().get$table{entityName}ById(id);
     }
+
+    /**
+    * 根据条件查询$table{remark}View的第一条记录
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}
+    * @since $table{now}
+    */
+    public $table{entityName}View get$table{entityName}ByScope ($table{entityName}Scope scope) {
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}ByScope(scope);
+    }
     
     /**
     * 根据主键删除多个$table{remark}
@@ -59,6 +98,16 @@
     */
     public void delete$table{entityName}ByIds (List<Integer> ids) {
         getDaoFacade().get$table{entityName}Dao().delete$table{entityName}ByIds(ids);
+    }
+
+    /**
+    * 根据$table{remark}条件删除$table{remark}
+    * @param scope $table{remark}条件
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void delete$table{entityName} ($table{entityName}Scope scope) {
+        getDaoFacade().get$table{entityName}Dao().delete$table{entityName}(scope);
     }
     
     @{delete}
@@ -143,4 +192,5 @@
         updateAffair(model);
         return caseId;    
     }
-    @{/delete}    
+    @{/delete} 
+}       

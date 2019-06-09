@@ -63,7 +63,7 @@
     </update>
 
     <!-- 查询$table{remark}列表 -->
-    <select id="get$table{entityName}List" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
+    <select id="get$table{entityName}List" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
         SELECT
             @{start}
             T.$param{columnName} AS "$param{paramName}"$split{,}
@@ -74,13 +74,24 @@
     </select>
     
     <!-- 根据Id查询$table{remark} -->
-    <select id="get$table{entityName}ById" parameterClass="java.lang.Integer" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+    <select id="get$table{entityName}ById" parameterClass="java.lang.Integer" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
         SELECT
             @{start}
             T.$param{columnName} AS "$param{paramName}"$split{,}
             @{end}
         FROM $table{tableName} T WHERE 
         T.$table{pkColumnName} = #id#
+        AND ROWNUM = 1
+    </select>
+
+    <!-- 根据条件查询$table{remark}View的第一条记录  -->
+    <select id="get$table{entityName}ByScope" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
+        SELECT
+            @{start}
+            T.$param{columnName} AS "$param{paramName}"$split{,}
+            @{end}
+        FROM $table{tableName} T WHERE 1 = 1
+        <include refid="query$table{entityName}ScopeSQL" />
         AND ROWNUM = 1
     </select>
     

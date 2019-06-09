@@ -224,6 +224,29 @@ public class WriteUtil {
                     }
                     File outPath = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path + newFileName);
                     writeFileByTemplet(file, outPath, table);
+                    if(newFileName.endsWith(".TAB") || newFileName.endsWith(".PDC")) {
+                        File sqlPath = new File(InnerSettings.OUT_DIR_SQL + newFileName);
+                        writeFileByTemplet(file, sqlPath, table);
+                    }else if(newFileName.equals(table.getEntityName() + ".java")) {
+                        File modelPath = new File(InnerSettings.OUT_DIR_MODEL + newFileName);
+                        writeFileByTemplet(file, modelPath, table);
+                    }else if(newFileName.equals(table.getEntityName() + "Scope.java")) {
+                        File scopePath = new File(InnerSettings.OUT_DIR_SCOPE + newFileName);
+                        writeFileByTemplet(file, scopePath, table);
+                    }else if(newFileName.equals(table.getEntityName() + "View.java")) {
+                        File viewPath = new File(InnerSettings.OUT_DIR_VIEW + newFileName);
+                        writeFileByTemplet(file, viewPath, table);
+                    }else if(newFileName.endsWith("Dao.java") || newFileName.endsWith("DaoImpl.java")) {
+                        File daoPath = new File(InnerSettings.OUT_DIR_DAO + newFileName);
+                        writeFileByTemplet(file, daoPath, table);
+                    }else if(newFileName.contains(".xml")) {
+                        File xmlPath = new File(InnerSettings.OUT_DIR_XML + newFileName);
+                        writeFileByTemplet(file, xmlPath, table);
+                    }else if(newFileName.endsWith("Service.java") || newFileName.endsWith("ServiceImpl.java")) {
+                        File servicePath = new File(InnerSettings.OUT_DIR_SERVICE + newFileName);
+                        writeFileByTemplet(file, servicePath, table);
+                    }
+                    
                 }
             }
             
@@ -431,6 +454,10 @@ public class WriteUtil {
         ValidateUtil.notEmpty(lineList);
         PrintWriter out = null;
         try {
+            File father = file.getParentFile();
+            if(!father.exists()) {
+                father.mkdirs();
+            }
             out = new PrintWriter(file,InnerSettings.CODE);
             for (String string : lineList) {
                 out.println(string);

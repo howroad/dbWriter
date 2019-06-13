@@ -7,6 +7,7 @@ import java.util.List;
 import com.nstc.dbwriter.builder.TableBuilder;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
 import com.nstc.dbwriter.util.WriteUtil;
 import com.nstc.frame.ShowFrame;
@@ -91,6 +92,7 @@ public class Start {
                 File outFile = new File(InnerSettings.PATCH_OUT_FILE + "patch/" + table.getTableName() + ".TAB");
                 outFile.getParentFile().mkdirs();
                 WriteUtil.writeFileByTemplet(templet, outFile, table);
+                //List<MyParam> paramList = table.getParamList();
                 System.out.println(outFile.getAbsolutePath());
             }
             

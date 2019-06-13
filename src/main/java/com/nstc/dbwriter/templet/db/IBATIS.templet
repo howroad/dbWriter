@@ -165,7 +165,7 @@
             )    
     </update>
     
-    <!-- 保存或修改$table{remark}集合 -->  
+    <!-- 保存或修改$table{remark}实体 -->  
     <update id="saveOrUpdate$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
         MERGE INTO $table{tableName} T
         USING DUAL

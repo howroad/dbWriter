@@ -10,6 +10,7 @@
             FROM (
         </isNotNull>
     </sql>
+    
     <!-- 分页 end -->
     <sql id="pagingEndSql">
         <isNotNull property="paging">
@@ -19,11 +20,12 @@
             (#paging.endRow#)
         </isNotNull>
     </sql>
+    
     <!-- 查询 $table{remark}公共SQL-->
     <sql id="query$table{entityName}ScopeSQL">
         @{start}
         <isNotEmpty property="$param{paramName}" prepend="and">
-            T.$param{columnName} = #$param{paramName}#
+            $table{tableNo}.$param{columnName} = #$param{paramName}#
         </isNotEmpty>
         @{end}       
     </sql>
@@ -52,11 +54,11 @@
 
     <!-- 修改$table{remark} -->
     <update id="update$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
-        UPDATE $table{tableName} T SET
-        T.$table{pkColumnName} = #$table{pkName}#
+        UPDATE $table{tableName} $table{tableNo} SET
+        $table{tableNo}.$table{pkColumnName} = #$table{pkName}#
         @{startFrom2}
         <isNotNull prepend="," property="$param{paramName}">
-            T.$param{columnName} = #$param{paramName}#
+            $table{tableNo}.$param{columnName} = #$param{paramName}#
         </isNotNull>
         @{end}
         WHERE $table{pkColumnName} = #$table{pkName}#
@@ -66,21 +68,21 @@
     <select id="get$table{entityName}List" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
         SELECT
             @{start}
-            T.$param{columnName} AS "$param{paramName}"$split{,}
+            $table{tableNo}.$param{columnName} AS "$param{paramName}"$split{,}
             @{end}
-        FROM $table{tableName} T WHERE 1 = 1
+        FROM $table{tableName} $table{tableNo} WHERE 1 = 1
         <include refid="query$table{entityName}ScopeSQL" />
-        ORDER BY T.$table{pkColumnName} ASC
+        ORDER BY $table{tableNo}.$table{pkColumnName} ASC
     </select>
     
     <!-- 根据Id查询$table{remark} -->
     <select id="get$table{entityName}ById" parameterClass="java.lang.Integer" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
         SELECT
             @{start}
-            T.$param{columnName} AS "$param{paramName}"$split{,}
+            $table{tableNo}.$param{columnName} AS "$param{paramName}"$split{,}
             @{end}
-        FROM $table{tableName} T WHERE 
-        T.$table{pkColumnName} = #id#
+        FROM $table{tableName} $table{tableNo} WHERE 
+        $table{tableNo}.$table{pkColumnName} = #id#
         AND ROWNUM = 1
     </select>
 
@@ -88,16 +90,16 @@
     <select id="get$table{entityName}ByScope" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
         SELECT
             @{start}
-            T.$param{columnName} AS "$param{paramName}"$split{,}
+            $table{tableNo}.$param{columnName} AS "$param{paramName}"$split{,}
             @{end}
-        FROM $table{tableName} T WHERE 1 = 1
+        FROM $table{tableName} $table{tableNo} WHERE 1 = 1
         <include refid="query$table{entityName}ScopeSQL" />
         AND ROWNUM = 1
     </select>
     
     <!-- 根据Id删除$table{remark} -->
     <delete id="delete$table{entityName}ByIds" parameterClass="java.util.ArrayList">
-        DELETE FROM $table{tableName} T WHERE  T.$table{pkColumnName} IN
+        DELETE FROM $table{tableName} $table{tableNo} WHERE  $table{tableNo}.$table{pkColumnName} IN
         <iterate open="(" close=")" conjunction=",">  
             #ids[]#  
         </iterate>
@@ -108,7 +110,7 @@
     <select id="get$table{entityName}PageCount" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="java.lang.Integer">
         SELECT
             COUNT(0)
-        FROM $table{tableName} T WHERE 1 = 1
+        FROM $table{tableName} $table{tableNo} WHERE 1 = 1
         <include refid="query$table{entityName}ScopeSQL" />
     </select>         
     
@@ -117,24 +119,24 @@
         <include refid="pagingStartSql" />
         SELECT
             @{start}
-            T.$param{columnName} AS "$param{paramName}"$split{,}
+            $table{tableNo}.$param{columnName} AS "$param{paramName}"$split{,}
             @{end}
-        FROM $table{tableName} T WHERE 1 = 1
+        FROM $table{tableName} $table{tableNo} WHERE 1 = 1
         <include refid="query$table{entityName}ScopeSQL" />
-        ORDER BY T.$table{pkColumnName} ASC
+        ORDER BY $table{tableNo}.$table{pkColumnName} ASC
         <include refid="pagingEndSql" />
     </select>
     @{/delete}
     
     <!-- 删除$table{remark} -->
     <delete id="delete$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope">
-        DELETE $table{tableName} T WHERE 1 = 1
+        DELETE $table{tableName} $table{tableNo} WHERE 1 = 1
         <include refid="query$table{entityName}ScopeSQL" />
     </delete> 
     
     <!-- 保存或修改$table{remark}集合 -->  
     <update id="saveOrUpdate$table{entityName}List" parameterClass="java.util.ArrayList">
-        MERGE INTO $table{tableName} T 
+        MERGE INTO $table{tableName} $table{tableNo} 
         USING
         <iterate open="(" close=") A" conjunction="UNION">  
             SELECT
@@ -145,11 +147,11 @@
             @{end}
             FROM DUAL
         </iterate>
-        ON (A.$table{pkColumnName} = T.$table{pkColumnName})
+        ON (A.$table{pkColumnName} = $table{tableNo}.$table{pkColumnName})
         WHEN MATCHED THEN
             UPDATE SET
             @{startFrom2}
-                T.$param{columnName} = A.$param{columnName}$split{,}
+                $table{tableNo}.$param{columnName} = A.$param{columnName}$split{,}
             @{end}
         WHEN NOT MATCHED THEN 
             INSERT (
@@ -167,14 +169,14 @@
     
     <!-- 保存或修改$table{remark}实体 -->  
     <update id="saveOrUpdate$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
-        MERGE INTO $table{tableName} T
+        MERGE INTO $table{tableName} $table{tableNo}
         USING DUAL
             ON (T.$table{pkColumnName} = #$table{pkName}#)
         WHEN MATCHED THEN
         UPDATE
             SET
             @{startFrom2}
-            T.$param{columnName} = #$param{paramName}#$split{,}
+            $table{tableNo}.$param{columnName} = #$param{paramName}#$split{,}
             @{end}
         WHEN NOT MATCHED THEN
             INSERT (

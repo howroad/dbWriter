@@ -1,5 +1,300 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="TEMP.CommonDaoImpl">
+    <!-- 分页 start -->
+    <sql id="pagingStartSql">
+        <isNotNull property="paging">
+            SELECT * FROM (SELECT N.*,ROWNUM AS R
+            FROM (
+        </isNotNull>
+    </sql>
+    <!-- 分页 end -->
+    <sql id="pagingEndSql">
+        <isNotNull property="paging">
+            ) N ) T
+            WHERE T.R > #paging.startRow#
+            AND T.R <![CDATA[<=]]>
+            (#paging.endRow#)
+        </isNotNull>
+    </sql>
+    <!-- 查询 附件信息表公共SQL-->
+    <sql id="queryAttachScopeSQL">
+        <isNotEmpty property="attachId" prepend="and">
+            GA.ATTACH_ID = #attachId#
+        </isNotEmpty>
+        <isNotEmpty property="attachName" prepend="and">
+            GA.ATTACH_NAME = #attachName#
+        </isNotEmpty>
+        <isNotEmpty property="filePath" prepend="and">
+            GA.FILE_PATH = #filePath#
+        </isNotEmpty>
+        <isNotEmpty property="attNo" prepend="and">
+            GA.ATT_NO = #attNo#
+        </isNotEmpty>
+        <isNotEmpty property="isDelete" prepend="and">
+            GA.IS_DELETE = #isDelete#
+        </isNotEmpty>
+        <isNotEmpty property="cltno" prepend="and">
+            GA.CLTNO = #cltno#
+        </isNotEmpty>
+        <isNotEmpty property="cltname" prepend="and">
+            GA.CLTNAME = #cltname#
+        </isNotEmpty>
+        <isNotEmpty property="createTime" prepend="and">
+            GA.CREATE_TIME = #createTime#
+        </isNotEmpty>
+        <isNotEmpty property="createPerson" prepend="and">
+            GA.CREATE_PERSON = #createPerson#
+        </isNotEmpty>
+    </sql>
     
+    <!-- 新增附件信息表 -->
+    <insert id="saveAttach" parameterClass="com.nstc.temp.model.Attach">
+        <selectKey resultClass="java.lang.Integer" keyProperty="attachId">
+            SELECT SEQ_G_ATTACH.NEXTVAL AS attachId FROM DUAL
+        </selectKey>
+        INSERT INTO G_ATTACH (
+            ATTACH_ID,
+            ATTACH_NAME,
+            FILE_PATH,
+            ATT_NO,
+            IS_DELETE,
+            CLTNO,
+            CLTNAME,
+            CREATE_TIME,
+            CREATE_PERSON
+        ) VALUES(
+            #attachId#,
+            #attachName#,
+            #filePath#,
+            #attNo#,
+            #isDelete#,
+            #cltno#,
+            #cltname#,
+            #createTime#,
+            #createPerson#
+        )
+    </insert>
+
+    <!-- 根据Id删除附件信息表 -->
+    <delete id="deleteAttachById" parameterClass="java.lang.Integer">
+        DELETE G_ATTACH WHERE ATTACH_ID = #attachId#
+    </delete>
+
+    <!-- 修改附件信息表 -->
+    <update id="updateAttach" parameterClass="com.nstc.temp.model.Attach">
+        UPDATE G_ATTACH GA SET
+        GA.ATTACH_ID = #attachId#
+        <isNotNull prepend="," property="attachName">
+            GA.ATTACH_NAME = #attachName#
+        </isNotNull>
+        <isNotNull prepend="," property="filePath">
+            GA.FILE_PATH = #filePath#
+        </isNotNull>
+        <isNotNull prepend="," property="attNo">
+            GA.ATT_NO = #attNo#
+        </isNotNull>
+        <isNotNull prepend="," property="isDelete">
+            GA.IS_DELETE = #isDelete#
+        </isNotNull>
+        <isNotNull prepend="," property="cltno">
+            GA.CLTNO = #cltno#
+        </isNotNull>
+        <isNotNull prepend="," property="cltname">
+            GA.CLTNAME = #cltname#
+        </isNotNull>
+        <isNotNull prepend="," property="createTime">
+            GA.CREATE_TIME = #createTime#
+        </isNotNull>
+        <isNotNull prepend="," property="createPerson">
+            GA.CREATE_PERSON = #createPerson#
+        </isNotNull>
+        WHERE ATTACH_ID = #attachId#
+    </update>
+
+    <!-- 查询附件信息表列表 -->
+    <select id="getAttachList" parameterClass="com.nstc.temp.model.Attach" resultClass="com.nstc.temp.model.Attach">
+        SELECT
+            GA.ATTACH_ID AS "attachId",
+            GA.ATTACH_NAME AS "attachName",
+            GA.FILE_PATH AS "filePath",
+            GA.ATT_NO AS "attNo",
+            GA.IS_DELETE AS "isDelete",
+            GA.CLTNO AS "cltno",
+            GA.CLTNAME AS "cltname",
+            GA.CREATE_TIME AS "createTime",
+            GA.CREATE_PERSON AS "createPerson"
+        FROM G_ATTACH GA WHERE 1 = 1
+        <include refid="queryAttachScopeSQL" />
+        ORDER BY GA.ATTACH_ID ASC
+    </select>
+    
+    <!-- 根据Id查询附件信息表 -->
+    <select id="getAttachById" parameterClass="java.lang.Integer" resultClass="com.nstc.temp.model.Attach">
+        SELECT
+            GA.ATTACH_ID AS "attachId",
+            GA.ATTACH_NAME AS "attachName",
+            GA.FILE_PATH AS "filePath",
+            GA.ATT_NO AS "attNo",
+            GA.IS_DELETE AS "isDelete",
+            GA.CLTNO AS "cltno",
+            GA.CLTNAME AS "cltname",
+            GA.CREATE_TIME AS "createTime",
+            GA.CREATE_PERSON AS "createPerson"
+        FROM G_ATTACH GA WHERE 
+        GA.ATTACH_ID = #id#
+        AND ROWNUM = 1
+    </select>
+
+    <!-- 根据条件查询附件信息表View的第一条记录  -->
+    <select id="getAttachByScope" parameterClass="com.nstc.temp.model.Attach" resultClass="com.nstc.temp.model.Attach">
+        SELECT
+            GA.ATTACH_ID AS "attachId",
+            GA.ATTACH_NAME AS "attachName",
+            GA.FILE_PATH AS "filePath",
+            GA.ATT_NO AS "attNo",
+            GA.IS_DELETE AS "isDelete",
+            GA.CLTNO AS "cltno",
+            GA.CLTNAME AS "cltname",
+            GA.CREATE_TIME AS "createTime",
+            GA.CREATE_PERSON AS "createPerson"
+        FROM G_ATTACH GA WHERE 1 = 1
+        <include refid="queryAttachScopeSQL" />
+        AND ROWNUM = 1
+    </select>
+    
+    <!-- 根据Id删除附件信息表 -->
+    <delete id="deleteAttachByIds" parameterClass="java.util.ArrayList">
+        DELETE FROM G_ATTACH GA WHERE  GA.ATTACH_ID IN
+        <iterate open="(" close=")" conjunction=",">  
+            #ids[]#  
+        </iterate>
+    </delete>   
+
+    <!-- 查询附件信息表记录数 -->
+    <select id="getAttachPageCount" parameterClass="com.nstc.temp.model.Attach" resultClass="java.lang.Integer">
+        SELECT
+            COUNT(0)
+        FROM G_ATTACH GA WHERE 1 = 1
+        <include refid="queryAttachScopeSQL" />
+    </select>         
+    
+    <!-- 查询附件信息表分页列表 -->
+    <select id="getAttachPageList" parameterClass="com.nstc.temp.model.Attach" resultClass="com.nstc.temp.model.Attach">
+        <include refid="pagingStartSql" />
+        SELECT
+            GA.ATTACH_ID AS "attachId",
+            GA.ATTACH_NAME AS "attachName",
+            GA.FILE_PATH AS "filePath",
+            GA.ATT_NO AS "attNo",
+            GA.IS_DELETE AS "isDelete",
+            GA.CLTNO AS "cltno",
+            GA.CLTNAME AS "cltname",
+            GA.CREATE_TIME AS "createTime",
+            GA.CREATE_PERSON AS "createPerson"
+        FROM G_ATTACH GA WHERE 1 = 1
+        <include refid="queryAttachScopeSQL" />
+        ORDER BY GA.ATTACH_ID ASC
+        <include refid="pagingEndSql" />
+    </select>
+    
+    <!-- 删除附件信息表 -->
+    <delete id="deleteAttach" parameterClass="com.nstc.temp.model.Attach">
+        DELETE G_ATTACH GA WHERE 1 = 1
+        <include refid="queryAttachScopeSQL" />
+    </delete> 
+    
+    <!-- 保存或修改附件信息表集合 -->  
+    <update id="saveOrUpdateAttachList" parameterClass="java.util.ArrayList">
+        MERGE INTO G_ATTACH GA 
+        USING
+        <iterate open="(" close=") A" conjunction="UNION">  
+            SELECT
+            <!-- 主键为空时候返回字符串，与原类型不匹配，非字符串类型都需要做转换 -->
+            DECODE(#list[].attachId#,NULL,NULL,#list[].attachId#) AS ATTACH_ID,
+            #list[].attachName# AS ATTACH_NAME, <!-- VARCHAR2(128) DECODE(#list[].attachName#,NULL,NULL,#list[].attachName#) AS ATTACH_NAME,-->
+            #list[].filePath# AS FILE_PATH, <!-- VARCHAR2(128) DECODE(#list[].filePath#,NULL,NULL,#list[].filePath#) AS FILE_PATH,-->
+            #list[].attNo# AS ATT_NO, <!-- VARCHAR2(32) DECODE(#list[].attNo#,NULL,NULL,#list[].attNo#) AS ATT_NO,-->
+            #list[].isDelete# AS IS_DELETE, <!-- NUMBER DECODE(#list[].isDelete#,NULL,NULL,#list[].isDelete#) AS IS_DELETE,-->
+            #list[].cltno# AS CLTNO, <!-- VARCHAR2(32) DECODE(#list[].cltno#,NULL,NULL,#list[].cltno#) AS CLTNO,-->
+            #list[].cltname# AS CLTNAME, <!-- VARCHAR2(32) DECODE(#list[].cltname#,NULL,NULL,#list[].cltname#) AS CLTNAME,-->
+            #list[].createTime# AS CREATE_TIME, <!-- DATE DECODE(#list[].createTime#,NULL,NULL,#list[].createTime#) AS CREATE_TIME,-->
+            #list[].createPerson# AS CREATE_PERSON <!-- VARCHAR2(32) DECODE(#list[].createPerson#,NULL,NULL,#list[].createPerson#) AS CREATE_PERSON-->
+            FROM DUAL
+        </iterate>
+        ON (A.ATTACH_ID = GA.ATTACH_ID)
+        WHEN MATCHED THEN
+            UPDATE SET
+                GA.ATTACH_NAME = A.ATTACH_NAME,
+                GA.FILE_PATH = A.FILE_PATH,
+                GA.ATT_NO = A.ATT_NO,
+                GA.IS_DELETE = A.IS_DELETE,
+                GA.CLTNO = A.CLTNO,
+                GA.CLTNAME = A.CLTNAME,
+                GA.CREATE_TIME = A.CREATE_TIME,
+                GA.CREATE_PERSON = A.CREATE_PERSON
+        WHEN NOT MATCHED THEN 
+            INSERT (
+            ATTACH_ID,
+            ATTACH_NAME,
+            FILE_PATH,
+            ATT_NO,
+            IS_DELETE,
+            CLTNO,
+            CLTNAME,
+            CREATE_TIME,
+            CREATE_PERSON
+            ) VALUES (
+            SEQ_G_ATTACH.NEXTVAL,
+            A.ATTACH_NAME,
+            A.FILE_PATH,
+            A.ATT_NO,
+            A.IS_DELETE,
+            A.CLTNO,
+            A.CLTNAME,
+            A.CREATE_TIME,
+            A.CREATE_PERSON
+            )    
+    </update>
+    
+    <!-- 保存或修改附件信息表实体 -->  
+    <update id="saveOrUpdateAttach" parameterClass="com.nstc.temp.model.Attach">
+        MERGE INTO G_ATTACH GA
+        USING DUAL
+            ON (T.ATTACH_ID = #attachId#)
+        WHEN MATCHED THEN
+        UPDATE
+            SET
+            GA.ATTACH_NAME = #attachName#,
+            GA.FILE_PATH = #filePath#,
+            GA.ATT_NO = #attNo#,
+            GA.IS_DELETE = #isDelete#,
+            GA.CLTNO = #cltno#,
+            GA.CLTNAME = #cltname#,
+            GA.CREATE_TIME = #createTime#,
+            GA.CREATE_PERSON = #createPerson#
+        WHEN NOT MATCHED THEN
+            INSERT (
+                ATTACH_ID,
+                ATTACH_NAME,
+                FILE_PATH,
+                ATT_NO,
+                IS_DELETE,
+                CLTNO,
+                CLTNAME,
+                CREATE_TIME,
+                CREATE_PERSON
+            ) 
+            VALUES (
+                SEQ_G_ATTACH.NEXTVAL,
+                #attachName#,
+                #filePath#,
+                #attNo#,
+                #isDelete#,
+                #cltno#,
+                #cltname#,
+                #createTime#,
+                #createPerson#
+            )
+    </update>    
 </sqlMap>

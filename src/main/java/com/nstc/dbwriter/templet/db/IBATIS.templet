@@ -141,7 +141,7 @@
             <!-- 主键为空时候返回字符串，与原类型不匹配，非字符串类型都需要做转换 -->
             DECODE(#list[].$table{pkName}#,NULL,NULL,#list[].$table{pkName}#) AS $table{pkColumnName},
             @{startFrom2}
-            #list[].$param{paramName}# AS $param{columnName}$split{,}
+            #list[].$param{paramName}# AS $param{columnName}$split{,} <!-- $param{columnType} DECODE(#list[].$param{paramName}#,NULL,NULL,#list[].$param{paramName}#) AS $param{columnName}$split{,}-->
             @{end}
             FROM DUAL
         </iterate>

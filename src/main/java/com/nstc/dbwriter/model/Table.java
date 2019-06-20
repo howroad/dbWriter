@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.CaseFormat;
 import com.nstc.dbwriter.config.CommonSettings;
@@ -54,7 +56,24 @@ public class Table implements MapContent{
         map.put("pkColumnName",paramList.get(0).getColumnName());
         map.put("seqName", getSeqName());
         map.put("pkNameUp",CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, paramList.get(0).getParamName()));
+        map.put("tableNo", tableNo());
+        
     }
+    
+    //获得缩写
+    public String tableNo() {
+        String tableName = getTableName();
+        String reg = "[^\\_]+";
+        Pattern pattern = Pattern.compile(reg);
+        Matcher matcher = pattern.matcher(tableName);
+        StringBuffer buffer = new StringBuffer();
+        while(matcher.find()) {
+            String str = matcher.group();
+            buffer.append(str.charAt(0));
+        }
+        return buffer.toString();
+    }
+    
     
 	/**
 	 * 是否有时间类型

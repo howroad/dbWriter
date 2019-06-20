@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 import com.nstc.dbwriter.config.CommonSettings;
+import com.nstc.dbwriter.config.TableContans;
 import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
 
@@ -28,6 +29,7 @@ public class CodeUtil {
 	private CodeUtil() {}
     
     public static List<String> buildNewLine(List<String> lineList,Table table) {
+        
         List<String> result = new ArrayList<String>();
     	/** 循环标识 */
     	boolean loop = false;
@@ -64,8 +66,17 @@ public class CodeUtil {
                         }
     				    MyParam param = iterator.next();
                         for (String string : loopLine) {
+                            if(string.matches("^.*\\@if1\\@.*$")) {
+                                if(param.getType().getColumnTypeName().startsWith(TableContans.NUMBER)) {
+                                    string = string.replace("@if1@","DECODE(#list[].$param{paramName}#,NULL,NULL,#list[].$param{paramName}#) AS $param{columnName}$split{,}");
+                                }else {
+                                    string = string.replace("@if1@", "#list[].$param{paramName}# AS $param{columnName}$split{,}");
+                                }
+                            }
+                            
                             outStr = replaceTemplet(string, param.getMap(), "param");
                             outStr = replaceTemplet(outStr, table.getMap(), "table");
+                            
                             //将date 变为 SYSDATE
                             //outStr = outStr.replaceAll("#(updateDate|updateTime)#", "SYSDATE");
                             if(iterator.hasNext()) {

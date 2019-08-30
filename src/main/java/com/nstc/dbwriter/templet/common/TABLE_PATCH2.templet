@@ -1,0 +1,16 @@
+@{start}
+DECLARE
+    CNT INTEGER;
+BEGIN
+    SELECT COUNT(0) INTO CNT  
+    FROM USER_TAB_COLUMNS A
+    WHERE A.TABLE_NAME = UPPER('$table{tableName}')
+    AND A.COLUMN_NAME = UPPER('$param{columnName}')
+    AND A.DATA_LENGTH < $param{columnSize};
+    IF CNT = 1 THEN
+    EXECUTE IMMEDIATE 'ALTER TABLE $table{tableName} MODIFY $param{columnName} $param{columnType}';
+    END IF;
+END;
+/
+
+@{end}

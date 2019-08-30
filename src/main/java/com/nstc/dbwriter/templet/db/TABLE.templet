@@ -9,17 +9,13 @@ BEGIN
         $param{columnName} $param{columnType}$split{,}
         @{end}
         )';
+    EXECUTE IMMEDIATE 'COMMENT ON TABLE $table{tableName} IS ''$table{remark}''';
+    @{start}
+    EXECUTE IMMEDIATE 'COMMENT ON COLUMN $table{tableName}.$param{columnName} IS ''$param{paramRemark}''';
+    @{end}
     END IF;
 END;
 /
-
-COMMENT ON TABLE $table{tableName} IS '$table{remark}'
-/
-
-@{start}
-COMMENT ON COLUMN $table{tableName}.$param{columnName} IS '$param{paramRemark}'
-/
-@{end}
 
 DECLARE
     CNT INTEGER;

@@ -73,6 +73,26 @@ public class Start {
         
     }
     
+    public static void N0801SQL() {
+        String[] tableNames = new String[] {"G_FLOW_DETAIL_PAGE"};
+        String[] sqls = new String[] {"SELECT * FROM G_FLOW_DETAIL_PAGE T ORDER BY 1 ASC"};
+        List<String[]> primaryKeys = new ArrayList<String[]>();
+        primaryKeys.add(new String[] {"ID"});
+        
+        for (int i = 0; i < tableNames.length; i++) {
+            String tableName = tableNames[i];
+            String sql = sqls[i];
+            String[] primaryKey = primaryKeys.get(i);
+            Table table = TableBuilder.buildTableFromDB(tableName);
+            String filName = CommonSettings.PATH + "\\sqls\\" + table.getTableName() + ".SQL";
+            File file = new File(filName);
+            file.getParentFile().mkdirs();
+            WriteUtil.buildDate(table,sql,primaryKey,filName);
+            System.out.println("build " + tableName + ".SQL down...");
+        }
+        
+    }
+    
     
     public static void start() {
         
@@ -86,10 +106,19 @@ public class Start {
                 //RunTest.buildClassAndRun(table.getEntityName(),false);
                 System.out.println(table.getTableName() + " write templet complete...(excel)");
             }
-            List<Table> tablePatch = TableBuilder.buildPatchTableFromExcel();
+            List<Table> tablePatch = TableBuilder.buildPatchTableFromExcel(1);
             for (Table table : tablePatch) {
                 File templet = new File(System.getProperty("user.dir") + "/src/main/java/" + InnerSettings.PATCH_TABLE);
                 File outFile = new File(InnerSettings.PATCH_OUT_FILE + "patch/" + table.getTableName() + ".TAB");
+                outFile.getParentFile().mkdirs();
+                WriteUtil.writeFileByTemplet(templet, outFile, table);
+                //List<MyParam> paramList = table.getParamList();
+                System.out.println(outFile.getAbsolutePath());
+            }
+            List<Table> tablePatch2 = TableBuilder.buildPatchTableFromExcel(2);
+            for (Table table : tablePatch2) {
+                File templet = new File(System.getProperty("user.dir") + "/src/main/java/" + InnerSettings.PATCH_TABLE2);
+                File outFile = new File(InnerSettings.PATCH_OUT_FILE + "patch/" + table.getTableName() + "2.TAB");
                 outFile.getParentFile().mkdirs();
                 WriteUtil.writeFileByTemplet(templet, outFile, table);
                 //List<MyParam> paramList = table.getParamList();

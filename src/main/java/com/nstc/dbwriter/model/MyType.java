@@ -24,6 +24,8 @@ public class MyType {
     
     private int scale;
     
+    private int columnSize;
+    
     public MyType(int dateType, int columnSize , int decimalDigits) {
         this.value = dateType;
         if (Types.DECIMAL == dateType) {
@@ -38,6 +40,7 @@ public class MyType {
         } else if (Types.VARCHAR == dateType) {
             paramTypeName = "String";
             columnTypeName = "VARCHAR2(" + columnSize + ")";
+            this.columnSize = columnSize;
         } else if (Types.TIMESTAMP == dateType) {
             paramTypeName = "Date";
             //columnTypeName = "TIMESTAMP";
@@ -116,6 +119,14 @@ public class MyType {
 
     public void setScale(int scale) {
         this.scale = scale;
+    }
+
+    public int getColumnSize() {
+        return columnSize;
+    }
+
+    public void setColumnSize(int columnSize) {
+        this.columnSize = columnSize;
     }
 
 }

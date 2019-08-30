@@ -54,11 +54,6 @@
         )
     </insert>
 
-    <!-- 根据Id删除$table{remark} -->
-    <delete id="delete$table{entityName}ById" parameterClass="java.lang.Integer">
-        DELETE $table{tableName} WHERE $table{pkColumnName} = #$table{pkName}#
-    </delete>
-
     <!-- 修改$table{remark} -->
     <update id="update$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
         UPDATE $table{tableName} $table{tableNo} SET
@@ -79,15 +74,6 @@
         <include refid="query$table{entityName}ScopeSQL" />
         ORDER BY $table{tableNo}.$table{pkColumnName} ASC
     </select>
-    
-    <!-- 根据Id查询$table{remark} -->
-    <select id="get$table{entityName}ById" parameterClass="java.lang.Integer" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
-        SELECT
-        <include refid="show$table{entityName}ViewSQL" />
-        FROM $table{tableName} $table{tableNo} WHERE 
-        $table{tableNo}.$table{pkColumnName} = #id#
-        AND ROWNUM = 1
-    </select>
 
     <!-- 根据条件查询$table{remark}View的第一条记录  -->
     <select id="get$table{entityName}ByScope" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
@@ -98,7 +84,7 @@
         AND ROWNUM = 1
     </select>
     
-    <!-- 根据Id删除$table{remark} -->
+    <!-- 根据Id集合删除$table{remark} -->
     <delete id="delete$table{entityName}ByIds" parameterClass="java.util.ArrayList">
         DELETE FROM $table{tableName} $table{tableNo} WHERE  $table{tableNo}.$table{pkColumnName} IN
         <iterate open="(" close=")" conjunction=",">  

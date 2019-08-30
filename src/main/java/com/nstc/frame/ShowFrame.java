@@ -166,7 +166,8 @@ public class ShowFrame extends JFrame {
         custBtn1.addActionListener(e ->{
             putValue();
             try {
-                Start.ta0723BuildSql();
+                //Start.ta0723BuildSql();
+                Start.N0801SQL();
                 JOptionPane.showMessageDialog(null, "生成成功");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());

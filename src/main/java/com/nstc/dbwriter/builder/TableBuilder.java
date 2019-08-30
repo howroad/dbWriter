@@ -162,7 +162,7 @@ public class TableBuilder {
      * @author luhao
      * @since：2019年2月25日 下午2:11:02
      */
-    public static List<Table> buildPatchTableFromExcel() {
+    public static List<Table> buildPatchTableFromExcel(int sheetNo) {
         //excel 导入数据
         File file = new File(CommonSettings.EXCEL_PATH);
         List<List<String>> dataList= null;
@@ -171,7 +171,7 @@ public class TableBuilder {
         Table tempTable = null;
         List<MyParam> tempParamList = null;
         try {
-            dataList = ExcelUtil.importExcel(file,1);
+            dataList = ExcelUtil.importExcel(file,sheetNo);
             for (ListIterator<List<String>> iterator = dataList.listIterator(); iterator.hasNext();) {
                 List<String> list = iterator.next();
                 if(!iterator.hasNext() || "END".equalsIgnoreCase(list.get(0))) {

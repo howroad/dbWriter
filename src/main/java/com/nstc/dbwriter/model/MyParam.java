@@ -78,6 +78,7 @@ public class MyParam implements MapContent{
         map.put("bigName", CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, this.paramName));
         map.put("columnName",this.columnName);
         map.put("columnType",this.type.getColumnTypeName());
+        map.put("columnSize",String.valueOf(this.type.getColumnSize()));
     }
 
     public MyType getType() {

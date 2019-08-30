@@ -46,6 +46,7 @@ public class InnerSettings {
     public final static String COMMON_XML_PATH = TEMP_DAO_DIR + "TEMP_Common.xml";
     
     public final static String PATCH_TABLE = TEMPLET_DIR + "/common/TABLE_PATCH.templet";
+    public final static String PATCH_TABLE2 = TEMPLET_DIR + "/common/TABLE_PATCH2.templet";
     public final static String PATCH_OUT_FILE = OUT_DIR_SQL;
     
     public final static String CODE = "GBK";

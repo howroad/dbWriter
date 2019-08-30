@@ -37,16 +37,6 @@ public class $table{entityName}Dao extends BaseDao{
     }
     
     /**
-    * 根据主键删除$table{remark}
-    * @param id $table{remark}主键
-    * @author $common{author}
-    * @since $table{now}
-    */
-    public void delete$table{entityName}ById (Integer id) {
-        getSqlMapClientTemplate().delete(getStatement("delete$table{entityName}ById"),id);
-    }
-    
-    /**
     * 修改$table{remark}
     * @param model $table{remark}实体
     * @author $common{author}
@@ -66,17 +56,6 @@ public class $table{entityName}Dao extends BaseDao{
     public List<$table{entityName}View> get$table{entityName}List($table{entityName}Scope scope) {
         List<$table{entityName}View> resultList = getSqlMapClientTemplate().queryForList(getStatement("get$table{entityName}List"),scope);
         return resultList;
-    }
-    
-    /**
-    * 根据Id查询$table{remark}
-    * @param id $table{remark}主键
-    * @author $common{author}
-    * @return $table{remark}
-    * @since $table{now}
-    */
-    public $table{entityName}View get$table{entityName}ById(Integer id) {
-        return ($table{entityName}View) getSqlMapClientTemplate().queryForObject(getStatement("get$table{entityName}ById"), id);
     }
 
     /**

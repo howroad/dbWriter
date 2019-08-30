@@ -115,6 +115,7 @@ public class Table implements MapContent{
         } else if (Types.VARCHAR == columnType || Types.CHAR == columnType) {
             String str = String.valueOf(obj);
             str = str.replaceAll("'", "''");
+            str = str.replace("&", "' || '&' || '");
             result = "'" + str + "'";
         } else if (Types.TIMESTAMP == columnType || Types.DATE == columnType) {
             if(obj.getClass() == oracle.sql.TIMESTAMP.class){

@@ -12,11 +12,10 @@ BEGIN
         AND A.COLUMN_NAME = UPPER('$param{columnName}'); 
         IF CNT = 0 THEN
             EXECUTE IMMEDIATE 'ALTER TABLE $table{tableName} ADD ($param{columnName} $param{columnType})';
+            EXECUTE IMMEDIATE 'COMMENT ON COLUMN $table{tableName}.$param{columnName} IS ''$param{paramRemark}''';
         END IF;
     END IF;
 END;
-/
-COMMENT ON COLUMN $table{tableName}.$param{columnName} IS '$param{paramRemark}'
 /
 
 @{end}

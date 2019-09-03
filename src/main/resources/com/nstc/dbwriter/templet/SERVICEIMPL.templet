@@ -1,0 +1,196 @@
+package $common{groupId}.$common{appNo}.service.impl;
+
+import java.util.List;
+
+import $common{groupId}.$common{appNo}.$common{poPackage}.*;
+import $common{groupId}.$common{appNo}.$common{poPackage}.scope.*;
+import $common{groupId}.$common{appNo}.$common{poPackage}.view.*;
+import $common{groupId}.$common{appNo}.service.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * <p>Title: $table{entityName}ServiceImpl.java</p>
+ *
+ * <p>Description: $table{remark}服务</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author $common{author}
+ * 
+ * @since：$table{now}
+ * 
+ */
+public class $table{entityName}ServiceImpl extends BaseServerImpl implements $table{entityName}Service {
+    
+    Log logger = LogFactory.getLog(getClass());
+
+    /**
+    * 新增$table{remark}
+    * @param model $table{remark}实体
+    * @author $common{author}
+    * @return $table{remark}主键
+    * @since $table{now}
+    */
+    public Integer save$table{entityName}($table{entityName} model) {
+        return getDaoFacade().get$table{entityName}Dao().save$table{entityName}(model);
+    }
+    
+    /**
+    * 根据主键删除$table{remark}
+    * @param id $table{remark}主键
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void delete$table{entityName}ById (Integer id) {
+        getDaoFacade().get$table{entityName}Dao().delete$table{entityName}ById (id);
+    }
+    
+    /**
+    * 修改$table{remark}
+    * @param model $table{remark}实体
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void update$table{entityName}($table{entityName} model) {
+        getDaoFacade().get$table{entityName}Dao().update$table{entityName}(model);
+    }
+    
+    /**
+    * 查询$table{remark}列表
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}集合
+    * @since $table{now}
+    */
+    public List<$table{entityName}View> get$table{entityName}List($table{entityName}Scope scope) {
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}List(scope);
+    }
+    
+    /**
+    * 根据Id查询$table{remark}
+    * @param id $table{remark}主键
+    * @author $common{author}
+    * @return $table{remark}
+    * @since $table{now}
+    */
+    public $table{entityName}View get$table{entityName}ById(Integer id) {
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}ById(id);
+    }
+
+    /**
+    * 根据条件查询$table{remark}View的第一条记录
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}
+    * @since $table{now}
+    */
+    public $table{entityName}View get$table{entityName}ByScope ($table{entityName}Scope scope) {
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}ByScope(scope);
+    }
+    
+    /**
+    * 根据主键删除多个$table{remark}
+    * @param ids $table{remark}主键
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void delete$table{entityName}ByIds (List<Integer> ids) {
+        getDaoFacade().get$table{entityName}Dao().delete$table{entityName}ByIds(ids);
+    }
+
+    /**
+    * 根据$table{remark}条件删除$table{remark}
+    * @param scope $table{remark}条件
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void delete$table{entityName} ($table{entityName}Scope scope) {
+        getDaoFacade().get$table{entityName}Dao().delete$table{entityName}(scope);
+    }
+    
+    @{delete}
+    /**
+    * 查询$table{remark}记录数
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}记录数
+    * @since $table{now}
+    */
+    public Integer get$table{entityName}PageCount($table{entityName}Scope scope) {
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}PageCount(scope);
+    }
+    
+    /**
+    * 查询$table{remark}分页列表
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}集合
+    * @since $table{now}
+    */
+    public List<$table{entityName}View> get$table{entityName}PageList($table{entityName}Scope scope) {
+        return getDaoFacade().get$table{entityName}Dao().get$table{entityName}PageList(scope);
+    }
+    
+    /**
+    * 新增或修改$table{remark}
+    * @param model $table{remark}实体
+    * @author $common{author}
+    * @return $table{remark}主键
+    * @since $table{now}
+    */
+    public Integer saveOrUpdate$table{entityName}($table{entityName} model) {
+        //保存或修改$table{remark}信息
+        Integer id = null;
+        if(model.get$table{pkNameUp}() == null || model.get$table{pkNameUp}() == 0) {
+            id = getDaoFactory().get$table{entityName}Dao().save$table{entityName}(model);
+        }else {
+            getDaoFactory().get$table{entityName}Dao().update$table{entityName}(model);
+            id = model.get$table{pkNameUp}();
+        }
+        
+        //TODO 保存附件信息
+        
+        return id;
+    }
+    
+     /**
+     * 提交$table{remark}到工作流
+     * @Description:
+     * @param model
+     * @return Integer caseId
+     * @author $common{author}
+     * @since $table{now}
+     */
+    public Integer submit$table{entityName}($table{entityName} model) {
+        if(model == null || model.get$table{pkNameUp}() == null) {
+            throw new RuntimeException("无法创建$table{remark}工作流,$table{remark}对象为空！");
+        }
+        
+        //获得工作流相关信息
+        AffairView flowView = getDaoFactory().getAffairDao().getAffairViewFlowById(model.getId());
+        if(flowView == null) {
+            throw new RuntimeException("该事务已停用,无法提交！");
+            //throw new RuntimeException("该事务已停用！！请检查当前事物类型工作流及其配置！事务申请编号：" + model.getId());
+        }
+
+        String fwKey = flowView.getFwKey();
+        if(StringUtils.isEmpty(fwKey)) {
+            throw new RuntimeException("请检查当前单位事务类型编号为【" + model.getAffairCode() + "】的工作流设置！");
+        }
+        
+        // 先改变状态（放在此处是因为工作流在创建后会立即执行后置任务）
+        model.setStatus(BizFlowStatusEnum.SUBMIT.getValue());
+        updateAffair(model);
+        
+        Integer caseId =  getLocator().getBizflowService().startBizFlow(fwKey, model.getId().toString(),
+                model.getDescription(), new HashMap<String, Object>(16));
+        //存入caseId
+        model.setBizcaseid(caseId);
+        model.setStatus(null);
+        updateAffair(model);
+        return caseId;    
+    }
+    @{/delete} 
+}       

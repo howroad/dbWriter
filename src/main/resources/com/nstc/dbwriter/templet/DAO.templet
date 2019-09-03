@@ -1,0 +1,104 @@
+    /**
+    * 新增$table{remark}
+    * @param model $table{remark}实体
+    * @author $common{author}
+    * @return $table{remark}主键
+    * @since $table{now}
+    */
+    public Integer save$table{entityName}($table{entityName} model);
+
+    /**
+    * 根据主键删除$table{remark}
+    * @param id $table{remark}主键
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void delete$table{entityName}ById (Integer id);
+
+    /**
+    * 修改$table{remark}
+    * @param model $table{remark}实体
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void update$table{entityName}($table{entityName} model);
+
+    /**
+    * 查询$table{remark}列表
+    * @param scope $table{remark}Scope 查询条件
+    * @author $common{author}
+    * @return $table{remark}集合
+    * @since $table{now}
+    */
+    public List<$table{entityName}> get$table{entityName}List($table{entityName}Scope scope);
+    
+    /**
+    * 根据Id查询$table{remark}View
+    * @param id $table{remark}主键
+    * @author $common{author}
+    * @return $table{remark}
+    * @since $table{now}
+    */
+    public $table{entityName}View get$table{entityName}ById(Integer id);
+
+    /**
+    * 根据条件查询$table{remark}View的第一条记录
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}
+    * @since $table{now}
+    */
+    public $table{entityName}View get$table{entityName}ByScope ($table{entityName}Scope scope);
+
+    /**
+    * 根据主键删除多个$table{remark}
+    * @param ids $table{remark}主键
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void delete$table{entityName}ByIds (List<Integer> ids);
+    
+        
+    @{delete}
+    /**
+    * 查询$table{remark}记录数
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}记录数
+    * @since $table{now}
+    */
+    public Integer get$table{entityName}PageCount($table{entityName}Scope scope);
+    
+    /**
+    * 查询$table{remark}分页列表
+    * @param scope $table{remark}查询条件
+    * @author $common{author}
+    * @return $table{remark}集合
+    * @since $table{now}
+    */
+    public List<$table{entityName}View> get$table{entityName}PageList($table{entityName}Scope scope);
+    @{/delete}  
+
+    /**
+     * 根据条件删除$table{remark}
+     * @param scope $table{remark}删除条件
+     * @author $common{author}
+     * @since：$table{now}
+     */
+    public void delete$table{entityName}($table{entityName}Scope scope);
+    
+    /**
+    * 新增或者修改$table{remark}集合中的内容
+    * @param list $table{remark}集合
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void saveOrUpdate$table{entityName}List (List<$table{entityName}> list);  
+      
+    /**
+    * 新增或者修改$table{remark}
+    * @param list $table{remark}实体
+    * @author $common{author}
+    * @since $table{now}
+    */
+    public void saveOrUpdate$table{entityName} ($table{entityName} model);    

@@ -1,0 +1,61 @@
+package com.nstc.$common{appNo}.business;
+
+import com.nstc.util.CastUtil;
+import com.nstc.util.CollectionUtils;
+
+/**
+ * $table{remark}抽象父类
+ * 
+ * <p>Title: AbstractAffairBusiness.java</p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author $common{author}
+ * 
+ * @since：$table{now}
+ *
+ */
+public abstract class Abstract$common{appNoUpper}Business extends BaseBusiness{
+
+    /** 保存状态：0表示保存，1表示提交 */
+    protected final static String SAVE_FLAG = "saveFlag";
+    /** 保存 */
+    protected final static Integer SAVE = 0;
+    /** 提交 */
+    protected final static Integer SUBMIT = 1;
+    /** 保存成功消息 */
+    protected final static String SAVE_SUCCESS_MSG = "保存成功";
+    /** 提交成功消息 */
+    protected final static String SUBMIT_SUCCESS_MSG = "提交成功";
+    /** 删除成功消息 */
+    protected final static String DELETE_SUCCESS_MSG = "删除成功";
+    /** 是否刷新 */
+    protected final static String REFRESH_FLAG = "refreshFlag";
+    /** 刷新  */
+    protected final static Integer REFRESH = 1;
+    /** 不刷新 */
+    protected final static Integer NO_REFRESH = 0;
+    /** 待处理记录数量key */
+    protected final static String PENDING = "pending";
+    
+    /**
+     * 获取选择的Id
+     * @Description:
+     * @param list
+     * @return List<String>
+     * @author $common{author}
+     * @since：$table{now}
+     */
+    protected List<Integer> selectByName(List<Map<String, Object>> list,String idName) {
+        List<Integer> ids = new ArrayList<Integer>();
+        if (!CollectionUtils.isEmpty(list)) {
+            for (Map<String, Object> map : list) {
+                Integer id = CastUtil.toInteger(map.get("idName"),0);
+                ids.add(id);
+            }
+        }
+        return ids;
+    }
+}

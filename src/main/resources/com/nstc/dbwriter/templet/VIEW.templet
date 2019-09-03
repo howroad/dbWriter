@@ -1,0 +1,21 @@
+package $common{groupId}.$common{appNo}.$common{poPackage}.view;
+
+$table{import}
+import com.nstc.dbwriter.model.Paging;
+import $common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName};
+
+/**
+ * <p>Title: $table{entityName}View.java</p>
+ *
+ * <p>Description: $table{remark}视图</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author luhao
+ * 
+ * @since：$table{now}
+ *
+ */
+public class $table{entityName}View extends $table{entityName}{
+    
+}

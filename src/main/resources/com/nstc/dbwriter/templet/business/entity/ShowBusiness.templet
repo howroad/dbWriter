@@ -1,0 +1,63 @@
+package com.nstc.$common{appNo}.business;
+
+/**
+ * 初始化$table{remark}
+ 
+ * <p>Title: Show$table{entityName}Business.java</p>
+ *
+ * <p>Description: 初始化$table{remark}</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author $common{author}
+ * 
+ * @since：$table{now}
+ *
+ */
+public class Show$table{entityName}Business extends Abstract$common{appNoUpper}Business{
+    
+    private Map<String, Object> $common{appNoLow}_$table{entityNameLow}_form;
+    
+    /** $table{remark}主键 */
+    private Integer $table{pkName};
+
+    @Override
+    public void doExecute() throws Exception {
+        initBuss();
+        
+        //id不为空表示从会带出数据，才会有附件。如果是新增那么不会有附件
+        if ( $table{pkName} != null && !NumberConstant.I_ZERO.equals(id)) {
+            //根据Id查看事务详细信息
+            $table{entityName} model = getLocator().get$table{entityName}Service().get$table{entityName}ById($table{pkName});
+            //TODO 设置特殊字段
+            $common{appNoLow}_$table{entityNameLow}_form = BeanHelper.describe(model);
+            
+            //根据事务id查询到关联的附件fileList
+            CommonFileScope scope = new CommonFileScope();
+            scope.setBussId(CastUtil.toNotNullString(id));
+            scope.setType(CommonFileTypeEnum.AFFAIR_APPLY.getCode());
+            List<CommonFile> fileList = getLocator().getCommonService().queryCommonFile(scope);
+            
+            //组装下载附件所需的数据
+            String backUrl = "TPS-Web@tps_affair_apply.sf?m=" + super.getPageModel("v") + "&id=" + id;
+            Map<String, Object> updloadFile = super.buildCommonFileMap(fileList, null, backUrl);
+            $common{appNoLow}_$table{entityNameLow}_form.put("uploadFile", updloadFile);
+        }
+        
+        putResult("$common{appNoLow}_$table{entityNameLow}_form", $common{appNoLow}_$table{entityNameLow}_form);
+        
+        // 组装其他数据
+    }
+    
+    /**
+     * 初始化
+     * @author $common{author}
+     * @since：$table{now}
+     */
+    public void init() {
+        if ($common{appNoLow}_$table{entityNameLow}_form == null) {
+            $common{appNoLow}_$table{entityNameLow}_form = new HashMap<String, Object>(16);
+        }
+    }
+
+}

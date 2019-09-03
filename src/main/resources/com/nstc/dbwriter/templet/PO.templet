@@ -1,0 +1,41 @@
+package $common{groupId}.$common{appNo}.$common{poPackage};
+
+$table{import}
+
+/**
+ * <p>Title: $table{entityName}.java</p>
+ *
+ * <p>Description: $table{remark}</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author luhao
+ * 
+ * @since：$table{now}
+ *
+ */
+public class $table{entityName} {
+    
+    @{start}
+    /** $param{paramRemark} */
+    private $param{paramType} $param{paramName};
+    
+    @{end}
+
+    @{start}
+    public void set$param{bigName}($param{paramType} $param{paramName}){
+        this.$param{paramName} = $param{paramName};
+    }
+    public $param{paramType} get$param{bigName}(){
+        return this.$param{paramName};
+    }
+    @{end}
+    
+    public String toString() {
+        return "$table{entityName} ["
+                @{start}
+                + "$param{paramName} = " + $param{paramName} + "$split{,} "
+                @{end}
+                + "]";
+    }
+}

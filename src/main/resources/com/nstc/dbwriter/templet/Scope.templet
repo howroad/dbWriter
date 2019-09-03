@@ -1,0 +1,32 @@
+package $common{groupId}.$common{appNo}.$common{poPackage}.scope;
+
+$table{import}
+import com.nstc.dbwriter.model.Paging;
+import $common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName};
+
+/**
+ * <p>Title: $table{entityName}Scope.java</p>
+ *
+ * <p>Description: $table{remark}查询条件</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author luhao
+ * 
+ * @since：$table{now}
+ *
+ */
+public class $table{entityName}Scope extends $table{entityName}{
+    
+
+    /** 分页对象 */
+    private Paging paging;
+    
+    public void setPaging(Paging paging) {
+        this.paging = paging;
+    }
+    public Paging getPaging() {
+        return paging;
+    }
+    
+}

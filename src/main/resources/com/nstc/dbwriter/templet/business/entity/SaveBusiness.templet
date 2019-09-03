@@ -1,0 +1,38 @@
+package com.nstc.$common{appNo}.business;
+
+/**
+ * 保存/提交$table{remark}
+ * 
+ * <p>Title: Save$table{entityName}Business.java</p>
+ *
+ * <p>Description: 保存/提交$table{remark}</p>
+ *
+ * <p>Company: 北京九恒星科技股份有限公司</p>
+ *
+ * @author $common{author}
+ * 
+ * @since：$table{now}
+ * 
+ */
+public class Save$table{entityName}Business extends Abstract$common{appNoUpper}Business{
+    
+    private Map<String, Object> $common{appNo}_$table{entityNameLow}_form;
+    
+    public void doExecute() {
+        if ($common{appNo}_$table{entityNameLow}_form != null) {
+            $table{entityName} model = ($table{entityName}) BeanHelper.populate($table{entityName}.class, $common{appNo}_$table{entityNameLow}_form);
+            Integer saveFlag = CastUtil.toInteger($common{appNo}_$table{entityNameLow}_form.get(SAVE_FLAG));
+            if (SAVE == saveFlag) {
+                // 保存
+                getLocator().get$table{entityName}Service().saveOrUpdate$table{entityName}(model);
+                setInfoMsg(SAVE_SUCCESS_MSG);
+            } else if (SUBMIT == saveFlag) {
+                // 保存并发起工作流
+                getLocator().getAffairService().saveOrUpdateAndSubmit$table{entityName}(model);
+                setInfoMsg(SUBMIT_SUCCESS_MSG);
+            }
+            //TODO 页面上的其他数据
+        }
+    }
+
+}

@@ -117,7 +117,7 @@ public class Start {
                     WriteUtil.buildTempletByEntry(table,CommonSettings.FROM_EXCEL, jarEntry, outFile);
                 }else {
                     String templetPath = null;
-                    templetPath = InnerSettings.BASE_PATH + "/src/main/java/" + InnerSettings.PATCH_TABLE;
+                    templetPath = InnerSettings.BASE_PATH + "/src/main/resources/" + InnerSettings.PATCH_TABLE;
                     File templet = new File(templetPath);
                     outFile.getParentFile().mkdirs();
                     WriteUtil.writeFileByTemplet(templet, outFile, table);
@@ -134,7 +134,7 @@ public class Start {
                     JarEntry jarEntry = WriteUtil.getJarEntry("TABLE_PATCH2.templet");
                     WriteUtil.buildTempletByEntry(table,CommonSettings.FROM_EXCEL, jarEntry, outFile);
                 }else {
-                    File templet = new File(InnerSettings.BASE_PATH + "/src/main/java/" + InnerSettings.PATCH_TABLE2);
+                    File templet = new File(InnerSettings.BASE_PATH + "/src/main/resources/" + InnerSettings.PATCH_TABLE2);
                     outFile.getParentFile().mkdirs();
                     WriteUtil.writeFileByTemplet(templet, outFile, table);
                     //List<MyParam> paramList = table.getParamList();

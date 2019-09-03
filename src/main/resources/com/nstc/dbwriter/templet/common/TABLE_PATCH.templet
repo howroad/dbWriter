@@ -1,0 +1,21 @@
+@{start}
+DECLARE
+    CNT INTEGER;
+    CNT1 INTEGER;
+BEGIN
+    SELECT COUNT(0) INTO CNT1 FROM USER_ALL_TABLES
+    WHERE TABLE_NAME = UPPER('$table{tableName}');
+    IF CNT1 > 0 
+    THEN
+        SELECT COUNT(0) INTO CNT FROM USER_TAB_COLUMNS A
+        WHERE A.TABLE_NAME = UPPER('$table{tableName}')
+        AND A.COLUMN_NAME = UPPER('$param{columnName}'); 
+        IF CNT = 0 THEN
+            EXECUTE IMMEDIATE 'ALTER TABLE $table{tableName} ADD ($param{columnName} $param{columnType})';
+            EXECUTE IMMEDIATE 'COMMENT ON COLUMN $table{tableName}.$param{columnName} IS ''$param{paramRemark}''';
+        END IF;
+    END IF;
+END;
+/
+
+@{end}

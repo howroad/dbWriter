@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="$common{appNoUpper}.$table{entityName}Dao">
+
+    <!-- //TODO-SPIC分页 start -->
+
+    <!-- //TODO-SPIC分页 end -->
+    
+    <!-- //TODO-SPIC查询 $table{remark}公共SQL-->
+       
+    <!-- //TODO-SPIC 新增$table{remark} -->
+
+    <!-- //TODO-SPIC 根据Id删除$table{remark} -->
+
+    <!-- //TODO-SPIC 修改$table{remark} -->
+
+    <!-- //TODO-SPIC 查询$table{remark}列表 -->
+    
+    <!-- //TODO-SPIC 根据Id查询$table{remark} -->
+
+    <!-- //TODO-SPIC 根据条件查询$table{remark}View的第一条记录  -->
+    
+    <!-- //TODO-SPIC 根据Id删除$table{remark} -->
+
+    <!-- //TODO-SPIC 查询$table{remark}记录数 -->
+    
+    <!-- //TODO-SPIC 查询$table{remark}分页列表 -->
+    
+    <!-- //TODO-SPIC 删除$table{remark} -->
+    
+    <!-- //TODO-SPIC 保存或修改$table{remark}集合 -->  
+    
+    <!-- //TODO-SPIC 保存或修改$table{remark}实体 -->  
+    
+</sqlMap>

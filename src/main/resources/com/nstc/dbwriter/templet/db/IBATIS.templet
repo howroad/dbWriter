@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="$common{appNoUpper}.$table{entityName}Dao">
+    @{delete}
+    <!-- 分页 start -->
+    <sql id="pagingStartSql">
+        <isNotNull property="paging">
+            SELECT * FROM (SELECT N.*,ROWNUM AS R
+            FROM (
+        </isNotNull>
+    </sql>
+    
+    <!-- 分页 end -->
+    <sql id="pagingEndSql">
+        <isNotNull property="paging">
+            ) N ) T
+            WHERE T.R > #paging.startRow#
+            AND T.R <![CDATA[<=]]>
+            (#paging.endRow#)
+        </isNotNull>
+    </sql>
+    
+    <!-- 查询 $table{remark}公共SQL-->
+    <sql id="query$table{entityName}ScopeSQL">
+        @{start}
+        <isNotEmpty property="$param{paramName}" prepend="and">
+            $table{tableNo}.$param{columnName} = #$param{paramName}#
+        </isNotEmpty>
+        @{end}       
+    </sql>
+    
+    <!-- 显示 $table{remark}公共SQL-->
+    <sql id="show$table{entityName}ViewSQL">
+        @{start}
+        $table{tableNo}.$param{columnName} AS "$param{paramName}"$split{,}
+        @{end}  
+    </sql>
+    @{/delete} 
+       
+    <!-- 新增$table{remark} -->
+    <insert id="save$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+        <selectKey resultClass="java.lang.Integer" keyProperty="$table{pkName}">
+            SELECT $table{seqName}.NEXTVAL AS $table{pkName} FROM DUAL
+        </selectKey>
+        INSERT INTO $table{tableName} (
+            @{start}
+            $param{columnName}$split{,}
+            @{end}
+        ) VALUES(
+            @{start}
+            #$param{paramName}#$split{,}
+            @{end}
+        )
+    </insert>
+
+    <!-- 修改$table{remark} -->
+    <update id="update$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+        UPDATE $table{tableName} $table{tableNo} SET
+        $table{tableNo}.$table{pkColumnName} = #$table{pkName}#
+        @{startFrom2}
+        <isNotNull prepend="," property="$param{paramName}">
+            $table{tableNo}.$param{columnName} = #$param{paramName}#
+        </isNotNull>
+        @{end}
+        WHERE $table{pkColumnName} = #$table{pkName}#
+    </update>
+
+    <!-- 查询$table{remark}列表 -->
+    <select id="get$table{entityName}List" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
+        SELECT
+        <include refid="show$table{entityName}ViewSQL" />
+        FROM $table{tableName} $table{tableNo} WHERE 1 = 1
+        <include refid="query$table{entityName}ScopeSQL" />
+        ORDER BY $table{tableNo}.$table{pkColumnName} ASC
+    </select>
+
+    <!-- 根据条件查询$table{remark}View的第一条记录  -->
+    <select id="get$table{entityName}ByScope" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
+        SELECT
+        <include refid="show$table{entityName}ViewSQL" />
+        FROM $table{tableName} $table{tableNo} WHERE 1 = 1
+        <include refid="query$table{entityName}ScopeSQL" />
+        AND ROWNUM = 1
+    </select>
+    
+    <!-- 根据Id集合删除$table{remark} -->
+    <delete id="delete$table{entityName}ByIds" parameterClass="java.util.ArrayList">
+        DELETE FROM $table{tableName} $table{tableNo} WHERE  $table{tableNo}.$table{pkColumnName} IN
+        <iterate open="(" close=")" conjunction=",">  
+            #ids[]#  
+        </iterate>
+    </delete>   
+
+    @{delete}
+    <!-- 查询$table{remark}记录数 -->
+    <select id="get$table{entityName}PageCount" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="java.lang.Integer">
+        SELECT
+            COUNT(0)
+        FROM $table{tableName} $table{tableNo} WHERE 1 = 1
+        <include refid="query$table{entityName}ScopeSQL" />
+    </select>         
+    
+    <!-- 查询$table{remark}分页列表 -->
+    <select id="get$table{entityName}PageList" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope" resultClass="$common{groupId}.$common{appNo}.$common{poPackage}.view.$table{entityName}View">
+        <include refid="pagingStartSql" />
+        SELECT
+        <include refid="show$table{entityName}ViewSQL" />
+        FROM $table{tableName} $table{tableNo} WHERE 1 = 1
+        <include refid="query$table{entityName}ScopeSQL" />
+        ORDER BY $table{tableNo}.$table{pkColumnName} ASC
+        <include refid="pagingEndSql" />
+    </select>
+    @{/delete}
+    
+    <!-- 删除$table{remark} -->
+    <delete id="delete$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.scope.$table{entityName}Scope">
+        DELETE $table{tableName} $table{tableNo} WHERE 1 = 1
+        <include refid="query$table{entityName}ScopeSQL" />
+    </delete> 
+    
+    <!-- 保存或修改$table{remark}集合 -->  
+    <update id="saveOrUpdate$table{entityName}List" parameterClass="java.util.ArrayList">
+        MERGE INTO $table{tableName} $table{tableNo} 
+        USING
+        <iterate open="(" close=") A" conjunction="UNION">  
+            SELECT
+            <!-- 主键为空时候返回字符串，与原类型不匹配，非字符串类型都需要做转换 -->
+            DECODE(#list[].$table{pkName}#,NULL,NULL,#list[].$table{pkName}#) AS $table{pkColumnName},
+            @{startFrom2}
+            @if1@
+            @{end}
+            FROM DUAL
+        </iterate>
+        ON (A.$table{pkColumnName} = $table{tableNo}.$table{pkColumnName})
+        WHEN MATCHED THEN
+            UPDATE SET
+            @{startFrom2}
+                $table{tableNo}.$param{columnName} = A.$param{columnName}$split{,}
+            @{end}
+        WHEN NOT MATCHED THEN 
+            INSERT (
+            $table{pkColumnName},
+            @{startFrom2}
+            $param{columnName}$split{,}
+            @{end}
+            ) VALUES (
+            $table{seqName}.NEXTVAL,
+            @{startFrom2}
+            A.$param{columnName}$split{,}
+            @{end}
+            )    
+    </update>
+    
+    <!-- 保存或修改$table{remark}实体 -->  
+    <update id="saveOrUpdate$table{entityName}" parameterClass="$common{groupId}.$common{appNo}.$common{poPackage}.$table{entityName}">
+        MERGE INTO $table{tableName} $table{tableNo}
+        USING DUAL
+            ON (T.$table{pkColumnName} = #$table{pkName}#)
+        WHEN MATCHED THEN
+        UPDATE
+            SET
+            @{startFrom2}
+            $table{tableNo}.$param{columnName} = #$param{paramName}#$split{,}
+            @{end}
+        WHEN NOT MATCHED THEN
+            INSERT (
+                $table{pkColumnName},
+                @{startFrom2}
+                $param{columnName}$split{,}
+                @{end}
+            ) 
+            VALUES (
+                $table{seqName}.NEXTVAL,
+                @{startFrom2}
+                #$param{paramName}#$split{,}
+                @{end}
+            )
+    </update>
+    
+</sqlMap>

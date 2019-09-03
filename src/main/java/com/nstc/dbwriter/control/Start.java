@@ -3,12 +3,13 @@ package com.nstc.dbwriter.control;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarEntry;
 
 import com.nstc.dbwriter.builder.TableBuilder;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
-import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
+import com.nstc.dbwriter.util.ValidateUtil;
 import com.nstc.dbwriter.util.WriteUtil;
 import com.nstc.frame.ShowFrame;
 
@@ -24,14 +25,16 @@ import com.nstc.frame.ShowFrame;
  * @author luhao
  * 
  * @since：2018年12月26日 下午2:56:58
- * 
+ * jar
  */
 public class Start {
     public static void main(String[] args) {
+        System.out.println("start..");
         //Start.start();
         new ShowFrame().setVisible(true);
         //ta0723BuildSql();
-        
+        System.out.println("end..");
+
     }
     
     public static void ta0723BuildSql() {
@@ -49,7 +52,7 @@ public class Start {
                 "SELECT * FROM GDT_CUST_TEMPLATE ORDER BY 1 ASC",
                 "SELECT * FROM GDT_CUST_EXTRA ORDER BY 1 ASC",
                 "SELECT u.* FROM UM_CODE U INNER JOIN um_ctype t on u.ctid=t.ctid where t.ctype in ('CLMS01','CLMS02','CLMS03','CLMS04')"};
-        List<String[]> primaryKeys = new ArrayList<String[]>();
+        List<String[]> primaryKeys = new ArrayList<>();
         primaryKeys.add(new String[] {"BUSS_ID"});
         primaryKeys.add(new String[] {"BE_ID"});
         primaryKeys.add(new String[] {"FIXED_ID"});
@@ -99,42 +102,58 @@ public class Start {
         // 从Excel中按照所有模版生成数据
         if(CommonSettings.fromExcel) {
             
-            List<Table> tables = TableBuilder.buildTableFromExcel();
-            for (int i = 0; i < tables.size(); i++) {
-                Table table = tables.get(i);
-                WriteUtil.buildAllTemplet(table,CommonSettings.FROM_EXCEL,InnerSettings.TEMPLET_DIR);
+            List<Table> tables = TableBuilder.buildTableFromExcel(0);
+            for (Table table : tables) {
+                WriteUtil.buildAllTemplet(table, CommonSettings.FROM_EXCEL, InnerSettings.TEMPLET_DIR);
                 //RunTest.buildClassAndRun(table.getEntityName(),false);
-                System.out.println(table.getTableName() + " write templet complete...(excel)");
             }
-            List<Table> tablePatch = TableBuilder.buildPatchTableFromExcel(1);
+            System.out.println("MODEL_ALL COMPLET（EXCEL）");
+
+            List<Table> tablePatch = TableBuilder.buildTableFromExcel(1);
             for (Table table : tablePatch) {
-                File templet = new File(System.getProperty("user.dir") + "/src/main/java/" + InnerSettings.PATCH_TABLE);
                 File outFile = new File(InnerSettings.PATCH_OUT_FILE + "patch/" + table.getTableName() + ".TAB");
-                outFile.getParentFile().mkdirs();
-                WriteUtil.writeFileByTemplet(templet, outFile, table);
+                if(ValidateUtil.projectIsJar()) {
+                    JarEntry jarEntry = WriteUtil.getJarEntry("TABLE_PATCH.templet");
+                    WriteUtil.buildTempletByEntry(table,CommonSettings.FROM_EXCEL, jarEntry, outFile);
+                }else {
+                    String templetPath = null;
+                    templetPath = InnerSettings.BASE_PATH + "/src/main/java/" + InnerSettings.PATCH_TABLE;
+                    File templet = new File(templetPath);
+                    outFile.getParentFile().mkdirs();
+                    WriteUtil.writeFileByTemplet(templet, outFile, table);
+                }
                 //List<MyParam> paramList = table.getParamList();
-                System.out.println(outFile.getAbsolutePath());
             }
-            List<Table> tablePatch2 = TableBuilder.buildPatchTableFromExcel(2);
+            System.out.println("1.ADD_COLUMN COMPLET（EXCEL）");
+
+
+            List<Table> tablePatch2 = TableBuilder.buildTableFromExcel(2);
             for (Table table : tablePatch2) {
-                File templet = new File(System.getProperty("user.dir") + "/src/main/java/" + InnerSettings.PATCH_TABLE2);
                 File outFile = new File(InnerSettings.PATCH_OUT_FILE + "patch/" + table.getTableName() + "2.TAB");
-                outFile.getParentFile().mkdirs();
-                WriteUtil.writeFileByTemplet(templet, outFile, table);
+                if(ValidateUtil.projectIsJar()) {
+                    JarEntry jarEntry = WriteUtil.getJarEntry("TABLE_PATCH2.templet");
+                    WriteUtil.buildTempletByEntry(table,CommonSettings.FROM_EXCEL, jarEntry, outFile);
+                }else {
+                    File templet = new File(InnerSettings.BASE_PATH + "/src/main/java/" + InnerSettings.PATCH_TABLE2);
+                    outFile.getParentFile().mkdirs();
+                    WriteUtil.writeFileByTemplet(templet, outFile, table);
+                    //List<MyParam> paramList = table.getParamList();
+                }
                 //List<MyParam> paramList = table.getParamList();
-                System.out.println(outFile.getAbsolutePath());
             }
-            
-            for (int i = 0; i < tables.size(); i++) {
-                Table table = tables.get(i);
+            System.out.println("2.ALTER_COLUMN COMPLET（EXCEL）");
+
+            /*
+            for (Table table : tables) {
                 System.out.println("DELETE FROM " + table.getTableName());
                 System.out.println("/");
             }
-            for (int i = 0; i < tables.size(); i++) {
-                Table table = tables.get(i);
+            for (Table table : tables) {
                 System.out.println("DROP TABLE " + table.getTableName());
                 System.out.println("/");
             }
+
+             */
         }
         
         // 从数据库中查询按照模版生成数据

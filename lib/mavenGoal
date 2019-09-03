@@ -1,0 +1,5 @@
+install:install-file -Dfile=lib/ojdbc6-12.1.0.1.0.jar
+                     -DgroupId=com.oracle
+                     -DartifactId=ojdbc6
+                     -Dversion=12.1.0.1.0
+                     -Dpackaging=Jar

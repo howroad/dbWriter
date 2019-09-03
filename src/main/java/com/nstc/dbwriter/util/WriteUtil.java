@@ -192,7 +192,7 @@ public class WriteUtil {
             buildAllTempletFromJar(table,path);
         }else {
             //System.out.println(System.getProperty("user.dir") + "/src/main/java/" + templetDir);
-            buildAllTempletFromDir(table, path, System.getProperty("user.dir") + "/src/main/java/" + templetDir);
+            buildAllTempletFromDir(table, path, InnerSettings.BASE_PATH + "/src/main/java/" + templetDir);
         }
     }
     
@@ -272,10 +272,28 @@ public class WriteUtil {
         }
         return list;
     }
-    
-    
-    
-    public static void buildTempletByEntry(Table table,String path, JarEntry jarEntry) {
+
+
+    public static JarEntry getJarEntry(String entryName){
+        try {
+            //获得jar包路径
+            JarFile jFile = new JarFile(System.getProperty("java.class.path"));
+            Enumeration<JarEntry> jarEntrys = jFile.entries();
+            while (jarEntrys.hasMoreElements()) {
+                JarEntry entry = jarEntrys.nextElement();
+                String name = entry.getName();
+                if(name.contains(".templet"))
+                if(name.endsWith(entryName)) {
+                    return entry;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void buildTempletByEntry_DefaultPath(Table table,String path, JarEntry jarEntry) {
         String jarEntryName = "/" + path + jarEntry.getName().replace(InnerSettings.TEMPLET_DIR, "");
         String templetFileName = jarEntryName.substring(jarEntryName.lastIndexOf("/") + 1);
         if(!jarEntry.isDirectory() && jarEntryName.endsWith(".templet") && !jarEntryName.startsWith("common")) {
@@ -291,7 +309,47 @@ public class WriteUtil {
             outPath.getParentFile().mkdirs();
             InputStream is = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
             writeFileByTemplet(is, outPath, table);
-            System.out.println("生成：  " + jarEntryName.replace(templetFileName, newFileName));
+            if(newFileName.endsWith(".TAB") || newFileName.endsWith(".PDC")) {
+                InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+                File sqlPath = new File(InnerSettings.OUT_DIR_SQL + newFileName);
+                writeFileByTemplet(is0, sqlPath, table);
+            }else if(newFileName.equals(table.getEntityName() + ".java")) {
+                InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+                File modelPath = new File(InnerSettings.OUT_DIR_MODEL + newFileName);
+                writeFileByTemplet(is0, modelPath, table);
+            }else if(newFileName.equals(table.getEntityName() + "Scope.java")) {
+                InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+                File scopePath = new File(InnerSettings.OUT_DIR_SCOPE + newFileName);
+                writeFileByTemplet(is0, scopePath, table);
+            }else if(newFileName.equals(table.getEntityName() + "View.java")) {
+                InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+                File viewPath = new File(InnerSettings.OUT_DIR_VIEW + newFileName);
+                writeFileByTemplet(is0, viewPath, table);
+            }else if(newFileName.endsWith("Dao.java") || newFileName.endsWith("DaoImpl.java")) {
+                InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+                File daoPath = new File(InnerSettings.OUT_DIR_DAO + newFileName);
+                writeFileByTemplet(is0, daoPath, table);
+            }else if(newFileName.contains(".xml")) {
+                InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+                File xmlPath = new File(InnerSettings.OUT_DIR_XML + newFileName);
+                writeFileByTemplet(is0, xmlPath, table);
+            }else if(newFileName.endsWith("Service.java") || newFileName.endsWith("ServiceImpl.java")) {
+                InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+                File servicePath = new File(InnerSettings.OUT_DIR_SERVICE + newFileName);
+                writeFileByTemplet(is0, servicePath, table);
+            }
+            //System.out.println("生成：  " + jarEntryName.replace(templetFileName, newFileName));
+        }
+
+    }
+    
+    public static void buildTempletByEntry(Table table,String path, JarEntry jarEntry, File outPath) {
+        String jarEntryName = "/" + path + jarEntry.getName().replace(InnerSettings.TEMPLET_DIR, "");
+        String templetFileName = jarEntryName.substring(jarEntryName.lastIndexOf("/") + 1);
+        if(!jarEntry.isDirectory() && jarEntryName.endsWith(".templet") && !jarEntryName.startsWith("common")) {
+            outPath.getParentFile().mkdirs();
+            InputStream is = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
+            writeFileByTemplet(is, outPath, table);
         }
         
     }
@@ -299,7 +357,7 @@ public class WriteUtil {
     public static void buildAllTempletFromJar(Table table, String path) {
         List<JarEntry> list = getAllTempletJarEntry();
         for (JarEntry jarEntry : list) {
-            buildTempletByEntry(table,path, jarEntry);
+            buildTempletByEntry_DefaultPath(table,path, jarEntry);
         }
     }
     
@@ -338,7 +396,7 @@ public class WriteUtil {
         List<String> lineList = new ArrayList<String>();
         BufferedReader in = null ;
         try {
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(file),InnerSettings.INPUT_CODE));
             String line = null;
             while((line = in.readLine()) != null) {
                 lineList.add(new String(line));
@@ -369,6 +427,7 @@ public class WriteUtil {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+
             if(in != null) {
                 try {
                     in.close();
@@ -376,6 +435,7 @@ public class WriteUtil {
                     e.printStackTrace();
                 }
             }
+
         }
         return lineList;
     }
@@ -447,6 +507,10 @@ public class WriteUtil {
     public static void writeFileByTemplet(InputStream ins,File outFile, Table table) {
         List<String> lineList = getLineList(ins);
         List<String> resultList = CodeUtil.buildNewLine(lineList, table);
+        if(lineList.isEmpty()){
+            System.out.println("【empty】：" + outFile.getName());
+            return;
+        }
         writeFile(resultList, outFile);
     }
     

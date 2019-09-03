@@ -39,14 +39,14 @@ public class TempSettings {
         Properties pro = new Properties();
         InputStream in = null;
         File tempFile = new File(TEMP_PROPERTIES);
-        
+
         try {
             if(tempFile.exists() && tempFile.isFile()) {
                 hasConfig = true;
                 in = new FileInputStream(tempFile);
                 pro.load(in);
                 in.close();
-                
+
                 URL = pro.getProperty("URL");
                 USER = pro.getProperty("USER");
                 PASSWORD = pro.getProperty("PASSWORD");

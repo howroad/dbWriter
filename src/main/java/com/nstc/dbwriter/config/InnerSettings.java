@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InnerSettings {
-    public final static String TEST_MODEL_DIR = System.getProperty("user.dir") + "\\src\\main\\java\\com\\nstc\\temp\\model\\";
+    public final static String BASE_PATH = System.getProperty("user.dir").replace("dbWriter","") + "/dbWriter";
+
+    public final static String TEST_MODEL_DIR = BASE_PATH + "\\src\\main\\java\\com\\nstc\\temp\\model\\";
     /** 输出目录 输出到本工程 */
     public static String OUT_DIR = "C:/Users/Administrator/Desktop/model/";
     public static String OUT_DIR_SQL = OUT_DIR + "ORACLE/sql/";
@@ -50,6 +52,8 @@ public class InnerSettings {
     public final static String PATCH_OUT_FILE = OUT_DIR_SQL;
     
     public final static String CODE = "GBK";
+
+    public final static String INPUT_CODE =  "UTF-8";
     
     public final static String POST_FIX = "";
     

@@ -43,3 +43,9 @@ APPNO不起作用
  
  //自动代码 日志找不到类
  import org.apache.log4j.PropertyConfigurator;
+
+ 将jar和directory的templet同步
+
+ setting写一个接口 和两个实现类
+ 写一个自定义意思的mapping
+可以从resource读取模版

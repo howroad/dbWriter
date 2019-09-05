@@ -14,6 +14,7 @@ import javax.tools.ToolProvider;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.config.TableContans;
+import com.nstc.log.PanelLog;
 
 /**
  * <p>Title: TestNature.java</p>
@@ -26,7 +27,7 @@ import com.nstc.dbwriter.config.TableContans;
  * 
  */
 public class RunTest {
-    
+
     public static void buildClassAndRun(String pathName,boolean autoRunTest) {
         PrintWriter code = null;
         PrintWriter tempCode = null;

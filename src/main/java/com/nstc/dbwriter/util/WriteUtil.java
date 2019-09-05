@@ -26,6 +26,7 @@ import java.util.jar.JarFile;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.model.Table;
+import com.nstc.log.PanelLog;
 
 /**
  * <p>
@@ -337,7 +338,7 @@ public class WriteUtil {
                 File servicePath = new File(InnerSettings.OUT_DIR_SERVICE + newFileName);
                 writeFileByTemplet(is0, servicePath, table);
             }
-            //System.out.println("生成：  " + jarEntryName.replace(templetFileName, newFileName));
+            //PanelLog.log("生成：  " + jarEntryName.replace(templetFileName, newFileName));
         }
 
     }
@@ -507,7 +508,7 @@ public class WriteUtil {
         List<String> lineList = getLineList(ins);
         List<String> resultList = CodeUtil.buildNewLine(lineList, table);
         if(lineList.isEmpty()){
-            System.out.println("【empty】：" + outFile.getName());
+            PanelLog.log("【empty】：" + outFile.getName());
             return;
         }
         writeFile(resultList, outFile);

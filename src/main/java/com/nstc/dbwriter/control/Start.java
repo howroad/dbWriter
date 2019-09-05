@@ -11,7 +11,9 @@ import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.model.Table;
 import com.nstc.dbwriter.util.ValidateUtil;
 import com.nstc.dbwriter.util.WriteUtil;
-import com.nstc.frame.ShowFrame;
+import com.nstc.frame.panel.LogPanel;
+import com.nstc.frame.jframe.ShowFrame;
+import com.nstc.log.PanelLog;
 
 /**
  * <p>
@@ -29,12 +31,9 @@ import com.nstc.frame.ShowFrame;
  */
 public class Start {
     public static void main(String[] args) {
-        System.out.println("start..");
         //Start.start();
         new ShowFrame().setVisible(true);
         //ta0723BuildSql();
-        System.out.println("end..");
-
     }
     
     public static void ta0723BuildSql() {
@@ -71,7 +70,7 @@ public class Start {
             File file = new File(filName);
             file.getParentFile().mkdirs();
             WriteUtil.buildDate(table,sql,primaryKey,filName);
-            System.out.println("build " + tableName + ".SQL down...");
+            PanelLog.log("build " + tableName + ".SQL down...");
         }
         
     }
@@ -91,7 +90,7 @@ public class Start {
             File file = new File(filName);
             file.getParentFile().mkdirs();
             WriteUtil.buildDate(table,sql,primaryKey,filName);
-            System.out.println("build " + tableName + ".SQL down...");
+            PanelLog.log("build " + tableName + ".SQL down...");
         }
         
     }
@@ -107,7 +106,7 @@ public class Start {
                 WriteUtil.buildAllTemplet(table, CommonSettings.FROM_EXCEL, InnerSettings.TEMPLET_DIR);
                 //RunTest.buildClassAndRun(table.getEntityName(),false);
             }
-            System.out.println("MODEL_ALL COMPLET（EXCEL）");
+            PanelLog.log("MODEL_ALL COMPLET（EXCEL）");
 
             List<Table> tablePatch = TableBuilder.buildTableFromExcel(1);
             for (Table table : tablePatch) {
@@ -124,7 +123,7 @@ public class Start {
                 }
                 //List<MyParam> paramList = table.getParamList();
             }
-            System.out.println("1.ADD_COLUMN COMPLET（EXCEL）");
+            PanelLog.log("1.ADD_COLUMN COMPLET（EXCEL）");
 
 
             List<Table> tablePatch2 = TableBuilder.buildTableFromExcel(2);
@@ -141,19 +140,18 @@ public class Start {
                 }
                 //List<MyParam> paramList = table.getParamList();
             }
-            System.out.println("2.ALTER_COLUMN COMPLET（EXCEL）");
+            PanelLog.log("2.ALTER_COLUMN COMPLET（EXCEL）");
 
-            /*
+
             for (Table table : tables) {
-                System.out.println("DELETE FROM " + table.getTableName());
-                System.out.println("/");
+                PanelLog.log("DELETE FROM " + table.getTableName());
+                PanelLog.log("/");
             }
             for (Table table : tables) {
-                System.out.println("DROP TABLE " + table.getTableName());
-                System.out.println("/");
+                PanelLog.log("DROP TABLE " + table.getTableName());
+                PanelLog.log("/");
             }
 
-             */
         }
         
         // 从数据库中查询按照模版生成数据
@@ -165,21 +163,21 @@ public class Start {
                 WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR);
                 WriteUtil.buildDate(table);
                 
-                System.out.println(table.getTableName() + " write templet complete...(db)");
+                PanelLog.log(table.getTableName() + " write templet complete...(db)");
                 // 自动测试
                 if(CommonSettings.autoRunTest) {
                     // 将javabean 放入model目录
                     WriteUtil.buildJavaBeanByTemplet(table);
                     // 将dao方法写入
                     WriteUtil.writeCommonFileByTemplet(table);
-                    System.out.println(table.getTableName() + " insert...Done");
+                    PanelLog.log(table.getTableName() + " insert...Done");
                     
                     RunTest.buildClassAndRun(table.getEntityName(),CommonSettings.autoRunTest);
-                    System.out.println(table.getTableName() + " TestBean complete...");
+                    PanelLog.log(table.getTableName() + " TestBean complete...");
                 }
             } 
         }
-        System.out.println("end...");
+        PanelLog.log("end...");
         
     }
 }

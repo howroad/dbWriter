@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.nstc.dbwriter.config.InnerSettings;
 import com.nstc.dbwriter.util.WriteUtil;
+import com.nstc.log.PanelLog;
 
 /**
  * <p>Title: 清空测试文件</p>
@@ -78,6 +79,6 @@ public class ClearTemp {
         //重新生成TEMP_Common.xml
         list = WriteUtil.getLineList(new File(InnerSettings.COMMON_XML_TEMPLET_PATH));
         WriteUtil.writeFile(list, new File(InnerSettings.COMMON_XML_PATH));
-        System.out.println("clear...end");
+        PanelLog.log("clear...end");
     }
 }

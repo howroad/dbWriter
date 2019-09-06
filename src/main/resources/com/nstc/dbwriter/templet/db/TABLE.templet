@@ -6,7 +6,7 @@ BEGIN
     IF CNT = 0 THEN
     EXECUTE IMMEDIATE 'CREATE TABLE $table{tableName}(
         @{start}
-        $param{columnName} $param{columnType}$split{,}
+        $param{columnName} $param{columnType} $param{defaultValue}$param{nullable}$split{,}
         @{end}
         )';
     EXECUTE IMMEDIATE 'COMMENT ON TABLE $table{tableName} IS ''$table{remark}''';

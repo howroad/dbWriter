@@ -18,4 +18,6 @@ public interface TableContans {
     String VARCHAR2 = "VARCHAR2";
     String INTEGER = "INTEGER";
     String BLOB = "BLOB";
+    String NULL = "NULL";
+    String NOTNULL = "NOT NULL";
 }

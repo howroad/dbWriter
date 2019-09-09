@@ -41,7 +41,7 @@ public class MyParam implements MapContent {
                 this.defaultValue = defaultV;
                 break;
             case Types.VARCHAR :
-                this.defaultValue = StringUtils.isBlank(defaultV) ? null : "'" + defaultV + "'";
+                this.defaultValue = StringUtils.isBlank(defaultV) ? null : "''" + defaultV + "''";
                 break;
             case Types.TIMESTAMP:
                 this.defaultValue = defaultV;
@@ -50,7 +50,7 @@ public class MyParam implements MapContent {
                 this.defaultValue = defaultV;
                 break;
             case Types.CHAR:
-                this.defaultValue = StringUtils.isBlank(defaultV) ? null : "'" + defaultV + "'";
+                this.defaultValue = StringUtils.isBlank(defaultV) ? null : "''" + defaultV + "''";
                 break;
             case Types.BLOB:
                 this.defaultValue = defaultV;
@@ -88,7 +88,7 @@ public class MyParam implements MapContent {
             } else {
                 throw new RuntimeException("类型错误");
             }
-            this.defaultValue = StringUtils.isBlank(default0)? null : "'" + default0 + "'";
+            this.defaultValue = StringUtils.isBlank(default0)? null : "''" + default0 + "''";
         } else if (columnType.startsWith(TableContans.INTEGER)) {
             this.type = new MyType(Types.DECIMAL, 0, 0);
             this.defaultValue = default0;

@@ -138,6 +138,9 @@ public class TableBuilder {
             for (ListIterator<List<String>> iterator = dataList.listIterator(); iterator.hasNext();) {
                 List<String> list = iterator.next();
                 if("END".equalsIgnoreCase(list.get(0))) {
+                    if(tempTable == null){
+                        break;
+                    }
                     Table table = tempTable.clone();
                     tableList.add(table);
                     break;

@@ -109,7 +109,7 @@ public class ShowFrame extends JFrame {
         this.contentPanel.add(settingPanel);
         this.contentPanel.add(logPanel);
 
-        this.setTitle("dbWriter");
+        this.setTitle("dbWriter v2.9.9");
         this.setContentPane(contentPanel);
         pack();
         init();

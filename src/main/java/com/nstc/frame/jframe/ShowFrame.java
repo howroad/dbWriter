@@ -4,8 +4,6 @@ import static com.nstc.dbwriter.config.CommonSettings.stringToArray;
 import static com.nstc.dbwriter.config.TempSettings.writeProperties;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -44,13 +42,16 @@ public class ShowFrame extends JFrame {
     private static final int TEXT_LENGTH = 20;
     private static final String SEQ_DIR_0 = "前置";
 
-    private JPanel contentPanel = new JPanel(new GridLayout(1,2));
+    private JPanel contentPanel = new JPanel(new GridLayout(1,3));
 
     /** 内容，后两位参数是间距 */
     private JPanel settingPanel = new JPanel(new GridLayout(12, 2, 1, 1));
 
     private LogPanel logPanel = new LogPanel();
 
+    private JPanel sqlPanel = new JPanel(new GridLayout(12, 2, 1, 1));
+
+    /** settings start */
     private FilePane filePanel = new FilePane("...", TEXT_LENGTH);
     private TextPane outerDirPanel = new TextPane("outer:", TEXT_LENGTH);
     private TextPane uRLPanel = new TextPane("url:", TEXT_LENGTH);
@@ -70,9 +71,19 @@ public class ShowFrame extends JFrame {
     private JButton clearBtn = new JButton("clear");
     private JButton testBtn = new JButton("test");
     
-    private JButton custBtn1 = new JButton("导出SQL脚本");
-    private JButton logBtn = new JButton("log");
-    
+    private JButton showSqlBtn = new JButton("sql>>");
+    private JButton logBtn = new JButton("log>>");
+    /** settings end */
+
+    /**export Sql start*/
+    private TextPane sqlTables = new TextPane("tbls(;):", TEXT_LENGTH);
+    private TextPane sqlSqls = new TextPane("sqls(;):", TEXT_LENGTH);
+    private TextPane sqlPks = new TextPane("pks(;,):", TEXT_LENGTH);
+    private JPanel sqlBtnPanel = new JPanel();
+    private JButton createSql = new JButton("生成sql");
+    /**export Sql end*/
+
+
     public ShowFrame() {
 
         PanelLog.initLog(this.logPanel);
@@ -90,7 +101,7 @@ public class ShowFrame extends JFrame {
         btnPanel.add(clearBtn);
         btnPanel.add(testBtn);
         
-        custPanel.add(custBtn1);
+        custPanel.add(showSqlBtn);
         custPanel.add(logBtn);
         
         this.settingPanel.add(filePanel);
@@ -106,8 +117,17 @@ public class ShowFrame extends JFrame {
         this.settingPanel.add(btnPanel);
         this.settingPanel.add(custPanel);
 
+        /**sql panel start*/
+        sqlPanel.add(sqlTables);
+        sqlPanel.add(sqlSqls);
+        sqlPanel.add(sqlPks);
+        sqlBtnPanel.add(createSql);
+        sqlPanel.add(sqlBtnPanel);
+        /**sql panel end*/
+
         this.contentPanel.add(settingPanel);
         this.contentPanel.add(logPanel);
+        this.contentPanel.add(sqlPanel);
 
         this.setTitle("dbWriter v2.9.9");
         this.setContentPane(contentPanel);
@@ -119,7 +139,8 @@ public class ShowFrame extends JFrame {
     private void init() {
         addListener();
         putDefaultValue();
-        hideLog();
+        hidePanel(logPanel);
+        hidePanel(sqlPanel);
     }
     
     private void putDefaultValue() {
@@ -182,11 +203,12 @@ public class ShowFrame extends JFrame {
         testBtn.setEnabled(false);
         
         //自定义事件
-        custBtn1.addActionListener(e ->{
+        createSql.addActionListener(e ->{
             putValue();
             try {
                 //Start.ta0723BuildSql();
-                Start.N0801SQL();
+                //Start.N0801SQL();
+                Start.createCustSql(this.sqlTables.getText(),this.sqlSqls.getText(),this.sqlPks.getText().toUpperCase());
                 JOptionPane.showMessageDialog(null, "生成成功");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());
@@ -195,7 +217,10 @@ public class ShowFrame extends JFrame {
         });
 
         logBtn.addActionListener(e -> {
-            showOrHideLog();
+            showOrHidePanel(this.logPanel);
+        });
+        showSqlBtn.addActionListener(e ->{
+            showOrHidePanel(this.sqlPanel);
         });
     }
     
@@ -251,21 +276,21 @@ public class ShowFrame extends JFrame {
         
     }
 
-    public void showOrHideLog(){
-        if(logPanel.isVisible()){
-            hideLog();
+    public void showOrHidePanel(JPanel panel){
+        if(panel.isVisible()){
+            hidePanel(panel);
         }else{
-            showLog();
+            showPanel(panel);
         }
     }
-    public void hideLog(){
-        logPanel.setVisible(false);
-        contentPanel.remove(logPanel);
+    public void hidePanel(JPanel panel){
+        panel.setVisible(false);
+        contentPanel.remove(panel);
         pack();
     }
-    public void showLog(){
-        logPanel.setVisible(true);
-        contentPanel.add(logPanel);
+    public void showPanel(JPanel panel){
+        panel.setVisible(true);
+        contentPanel.add(panel);
         pack();
     }
     

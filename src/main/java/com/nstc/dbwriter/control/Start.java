@@ -94,7 +94,29 @@ public class Start {
         }
         
     }
-    
+
+    public static void createCustSql(String tbNamesStr,String sqlsStr,String pkNamesStr) {
+        String[] tableNames = tbNamesStr.split(";");
+        String[] sqls = sqlsStr.split(";");
+        String[] primaryKeyStr = pkNamesStr.split(";");
+        List<String[]> primaryKeys = new ArrayList<String[]>();
+        for (String pk: primaryKeyStr) {
+            primaryKeys.add(pk.split(","));
+        }
+
+        for (int i = 0; i < tableNames.length; i++) {
+            String tableName = tableNames[i];
+            String sql = sqls[i];
+            String[] primaryKey = primaryKeys.get(i);
+            Table table = TableBuilder.buildTableFromDB(tableName);
+            String filName = CommonSettings.PATH + "\\sqls\\" + table.getTableName() + ".SQL";
+            File file = new File(filName);
+            file.getParentFile().mkdirs();
+            WriteUtil.buildDate(table,sql,primaryKey,filName);
+            PanelLog.log("build " + tableName + ".SQL down...");
+        }
+
+    }
     
     public static void start() {
         

@@ -50,3 +50,5 @@ APPNO不起作用
  写一个自定义意思的mapping
 可以从resource读取模版.....ok
 util -> service
+
+导出的SQL

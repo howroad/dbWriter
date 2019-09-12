@@ -1,9 +1,10 @@
-package com.nstc.dbwriter.service;
+package com.nstc.dbwriter.service.impl;
 
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.TableContans;
 import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
+import com.nstc.dbwriter.service.ILineUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.regex.Pattern;
  * @author luhao
  * @since：2019-09-05 16:06
  */
-public class LineServiceImpl implements LineService {
+public class LineUtilImpl implements ILineUtil {
     @Override
     public List<String> buildNewLine(List<String> lineList, Table table) {
 

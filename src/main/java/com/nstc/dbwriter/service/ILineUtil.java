@@ -13,7 +13,7 @@ import java.util.Map;
  * @author luhao
  * @since：2019-09-05 15:13
  */
-public interface LineService {
+public interface ILineUtil {
 
     /**
      * 将模版文件转换正确的文件

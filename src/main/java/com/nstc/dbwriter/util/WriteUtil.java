@@ -54,7 +54,7 @@ public class WriteUtil {
         }
     }
 
-    public static void buildCreateFromDB(Table table) {
+ /*   public static void buildCreateFromDB(Table table) {
         PrintWriter out = null;
         String filName = CommonSettings.PATH  + table.getTableName() + "_FROMDB" + ".TAB";
         try {
@@ -65,8 +65,8 @@ public class WriteUtil {
         } finally {
             out.close();
         }        
-    }
-    
+    }*/
+    /*
     public static String getCreateFromDB(String tableName) {
         tableName = tableName.toUpperCase();
         Connection conn = null;
@@ -100,7 +100,7 @@ public class WriteUtil {
             }
         }
         return result;       
-    }
+    }*/
     
     
 

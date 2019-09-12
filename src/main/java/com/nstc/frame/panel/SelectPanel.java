@@ -1,5 +1,7 @@
 package com.nstc.frame.panel;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.awt.Dimension;
 
 import javax.swing.JComboBox;
@@ -24,14 +26,17 @@ public class SelectPanel extends JPanel{
     private JComboBox<String> comboBox;
     public SelectPanel(String lable,int length,String...items) {
         super();
-        label = new JLabel(lable);
+        if(!StringUtils.isBlank(lable)){
+            label = new JLabel(lable);
+            label.setPreferredSize(new Dimension(2 * length, 20));
+            this.add(label);
+        }
         comboBox = new JComboBox<String>();
-        label.setPreferredSize(new Dimension(2 * length, 20));
         comboBox.setPreferredSize(new Dimension(10 * length, 20));
         for (String string : items) {
             comboBox.addItem(string);
         }
-        this.add(label);
+
         this.add(comboBox);
     }
     public String getText() {

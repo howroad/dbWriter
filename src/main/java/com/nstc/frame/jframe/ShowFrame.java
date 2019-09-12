@@ -3,17 +3,11 @@ package com.nstc.frame.jframe;
 import static com.nstc.dbwriter.config.CommonSettings.stringToArray;
 import static com.nstc.dbwriter.config.TempSettings.writeProperties;
 
-import java.awt.GridLayout;
+import java.awt.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-import com.nstc.frame.panel.FilePane;
-import com.nstc.frame.panel.LogPanel;
-import com.nstc.frame.panel.SelectPanel;
-import com.nstc.frame.panel.TextPane;
+import com.nstc.frame.panel.*;
 import com.nstc.log.PanelLog;
 import org.apache.commons.lang3.Validate;
 
@@ -39,10 +33,10 @@ import com.nstc.dbwriter.util.WriteUtil;
 public class ShowFrame extends JFrame {
     
     private static final long serialVersionUID = -4760857055691612569L;
-    private static final int TEXT_LENGTH = 20;
+    public static final int TEXT_LENGTH = 20;
     private static final String SEQ_DIR_0 = "前置";
 
-    private JPanel contentPanel = new JPanel(new GridLayout(1,3));
+    private JPanel contentPanel = new JPanel(new FlowLayout());
 
     /** 内容，后两位参数是间距 */
     private JPanel settingPanel = new JPanel(new GridLayout(12, 2, 1, 1));
@@ -81,6 +75,18 @@ public class ShowFrame extends JFrame {
     private TextPane sqlPks = new TextPane("pks(;,):", TEXT_LENGTH);
     private JPanel sqlBtnPanel = new JPanel();
     private JButton createSql = new JButton("生成sql");
+
+
+    //JOIN
+    private JoinSqlLine joinSqlLine1 = new JoinSqlLine(true);
+    private JoinSqlLine joinSqlLine2 = new JoinSqlLine(false);
+    private JoinSqlLine joinSqlLine3 = new JoinSqlLine(false);
+    private JoinSqlLine joinSqlLine4 = new JoinSqlLine(false);
+    private JoinSqlLine joinSqlLine5 = new JoinSqlLine(false);
+
+    private JPanel joinBtnPanel = new JPanel();
+    private JButton joinBtnOnSqlId = new JButton("按照sqlId生成");
+    private JButton joinBtnOnColumn = new JButton("按照字段生成");
     /**export Sql end*/
 
 
@@ -123,6 +129,17 @@ public class ShowFrame extends JFrame {
         sqlPanel.add(sqlPks);
         sqlBtnPanel.add(createSql);
         sqlPanel.add(sqlBtnPanel);
+
+        sqlPanel.add(joinSqlLine1);
+        sqlPanel.add(joinSqlLine2);
+        sqlPanel.add(joinSqlLine3);
+        sqlPanel.add(joinSqlLine4);
+        sqlPanel.add(joinSqlLine5);
+
+        joinBtnPanel.add(joinBtnOnSqlId);
+        joinBtnPanel.add(joinBtnOnColumn);
+        sqlPanel.add(joinBtnPanel);
+
         /**sql panel end*/
 
         this.contentPanel.add(settingPanel);

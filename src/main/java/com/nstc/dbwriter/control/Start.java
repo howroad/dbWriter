@@ -7,11 +7,10 @@ import java.util.jar.JarEntry;
 
 import com.nstc.dbwriter.builder.TableBuilder;
 import com.nstc.dbwriter.config.CommonSettings;
-import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.config.TempletConstants;
 import com.nstc.dbwriter.model.Table;
 import com.nstc.dbwriter.util.ValidateUtil;
 import com.nstc.dbwriter.util.WriteUtil;
-import com.nstc.frame.panel.LogPanel;
 import com.nstc.frame.jframe.ShowFrame;
 import com.nstc.log.PanelLog;
 
@@ -66,7 +65,7 @@ public class Start {
             String sql = sqls[i];
             String[] primaryKey = primaryKeys.get(i);
             Table table = TableBuilder.buildTableFromDB(tableName);
-            String filName = CommonSettings.PATH + "\\sqls\\" + table.getTableName() + ".SQL";
+            String filName = CommonSettings.OUT_PATH + "\\sqls\\" + table.getTableName() + ".SQL";
             File file = new File(filName);
             file.getParentFile().mkdirs();
             WriteUtil.buildDate(table,sql,primaryKey,filName);
@@ -86,7 +85,7 @@ public class Start {
             String sql = sqls[i];
             String[] primaryKey = primaryKeys.get(i);
             Table table = TableBuilder.buildTableFromDB(tableName);
-            String filName = CommonSettings.PATH + "\\sqls\\" + table.getTableName() + ".SQL";
+            String filName = CommonSettings.OUT_PATH + "\\sqls\\" + table.getTableName() + ".SQL";
             File file = new File(filName);
             file.getParentFile().mkdirs();
             WriteUtil.buildDate(table,sql,primaryKey,filName);
@@ -109,7 +108,7 @@ public class Start {
             String sql = sqls[i];
             String[] primaryKey = primaryKeys.get(i);
             Table table = TableBuilder.buildTableFromDB(tableName);
-            String filName = CommonSettings.PATH + "\\sqls\\" + table.getTableName() + ".SQL";
+            String filName = CommonSettings.OUT_PATH + "\\sqls\\" + table.getTableName() + ".SQL";
             File file = new File(filName);
             file.getParentFile().mkdirs();
             WriteUtil.buildDate(table,sql,primaryKey,filName);
@@ -125,20 +124,20 @@ public class Start {
             
             List<Table> tables = TableBuilder.buildTableFromExcel(0);
             for (Table table : tables) {
-                WriteUtil.buildAllTemplet(table, CommonSettings.FROM_EXCEL, InnerSettings.TEMPLET_DIR);
+                WriteUtil.buildAllTemplet(table, TempletConstants.FROM_EXCEL, TempletConstants.TEMPLET_DIR);
                 //RunTest.buildClassAndRun(table.getEntityName(),false);
             }
             PanelLog.log("MODEL_ALL COMPLET（EXCEL）");
 
             List<Table> tablePatch = TableBuilder.buildTableFromExcel(1);
             for (Table table : tablePatch) {
-                File outFile = new File(InnerSettings.PATCH_OUT_FILE + "patch/" + table.getTableName() + ".TAB");
+                File outFile = new File(TempletConstants.PATCH_OUT_FILE + "patch/" + table.getTableName() + ".TAB");
                 if(ValidateUtil.projectIsJar()) {
                     JarEntry jarEntry = WriteUtil.getJarEntry("TABLE_PATCH.templet");
-                    WriteUtil.buildTempletByEntry(table,CommonSettings.FROM_EXCEL, jarEntry, outFile);
+                    WriteUtil.buildTempletByEntry(table, TempletConstants.FROM_EXCEL, jarEntry, outFile);
                 }else {
                     String templetPath = null;
-                    templetPath = InnerSettings.BASE_PATH + "/src/main/resources/" + InnerSettings.PATCH_TABLE;
+                    templetPath = TempletConstants.BASE_PATH + "/src/main/resources/" + TempletConstants.PATCH_TABLE;
                     File templet = new File(templetPath);
                     outFile.getParentFile().mkdirs();
                     WriteUtil.writeFileByTemplet(templet, outFile, table);
@@ -150,12 +149,12 @@ public class Start {
 
             List<Table> tablePatch2 = TableBuilder.buildTableFromExcel(2);
             for (Table table : tablePatch2) {
-                File outFile = new File(InnerSettings.PATCH_OUT_FILE + "patch/" + table.getTableName() + "2.TAB");
+                File outFile = new File(TempletConstants.PATCH_OUT_FILE + "patch/" + table.getTableName() + "2.TAB");
                 if(ValidateUtil.projectIsJar()) {
                     JarEntry jarEntry = WriteUtil.getJarEntry("TABLE_PATCH2.templet");
-                    WriteUtil.buildTempletByEntry(table,CommonSettings.FROM_EXCEL, jarEntry, outFile);
+                    WriteUtil.buildTempletByEntry(table, TempletConstants.FROM_EXCEL, jarEntry, outFile);
                 }else {
-                    File templet = new File(InnerSettings.BASE_PATH + "/src/main/resources/" + InnerSettings.PATCH_TABLE2);
+                    File templet = new File(TempletConstants.BASE_PATH + "/src/main/resources/" + TempletConstants.PATCH_TABLE2);
                     outFile.getParentFile().mkdirs();
                     WriteUtil.writeFileByTemplet(templet, outFile, table);
                     //List<MyParam> paramList = table.getParamList();
@@ -182,7 +181,7 @@ public class Start {
             for (String tableName : tablesFromDB) {
                 Table table = TableBuilder.buildTableFromDB(tableName);
                 //使用模版生成
-                WriteUtil.buildAllTemplet(table,CommonSettings.FROM_DB,InnerSettings.TEMPLET_DIR);
+                WriteUtil.buildAllTemplet(table, TempletConstants.FROM_DB, TempletConstants.TEMPLET_DIR);
                 WriteUtil.buildDate(table);
                 
                 PanelLog.log(table.getTableName() + " write templet complete...(db)");

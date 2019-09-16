@@ -3,7 +3,7 @@ package com.nstc.dbwriter.control;
 import java.io.File;
 import java.util.List;
 
-import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.config.TempletConstants;
 import com.nstc.dbwriter.util.WriteUtil;
 import com.nstc.log.PanelLog;
 
@@ -26,13 +26,13 @@ public class ClearTemp {
     
     public static void clear() {
         //删除model
-        File modelDir = new File(InnerSettings.TEST_MODEL_DIR);
+        File modelDir = new File(TempletConstants.TEST_MODEL_DIR);
         clearDir(modelDir);
         //删除测试类
-        File testDir = new File(InnerSettings.TEST_DIR);
+        File testDir = new File(TempletConstants.TEST_DIR);
         clearDir(testDir);
         //删除输出
-        File outDir = new File(InnerSettings.OUT_DIR);
+        File outDir = new File(TempletConstants.OUT_DIR);
         clearDir(outDir);
     }
     
@@ -71,14 +71,14 @@ public class ClearTemp {
     public static void reBuildCommonFile() {
         //重新生成ICommonDAO
         List<String> list = null;
-        list = WriteUtil.getLineList(new File(InnerSettings.ICOMMONDAO_TEMPLET_PATH));
-        WriteUtil.writeFile(list, new File(InnerSettings.ICOMMONDAO_PATH));
+        list = WriteUtil.getLineList(new File(TempletConstants.ICOMMONDAO_TEMPLET_PATH));
+        WriteUtil.writeFile(list, new File(TempletConstants.ICOMMONDAO_PATH));
         //重新生成CommonDaoImpl
-        list = WriteUtil.getLineList(new File(InnerSettings.COMMONDAOIMPL_TEMPLET_PATH));
-        WriteUtil.writeFile(list, new File(InnerSettings.COMMONDAOIMPL_PATH));
+        list = WriteUtil.getLineList(new File(TempletConstants.COMMONDAOIMPL_TEMPLET_PATH));
+        WriteUtil.writeFile(list, new File(TempletConstants.COMMONDAOIMPL_PATH));
         //重新生成TEMP_Common.xml
-        list = WriteUtil.getLineList(new File(InnerSettings.COMMON_XML_TEMPLET_PATH));
-        WriteUtil.writeFile(list, new File(InnerSettings.COMMON_XML_PATH));
+        list = WriteUtil.getLineList(new File(TempletConstants.COMMON_XML_TEMPLET_PATH));
+        WriteUtil.writeFile(list, new File(TempletConstants.COMMON_XML_PATH));
         PanelLog.log("clear...end");
     }
 }

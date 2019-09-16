@@ -12,7 +12,7 @@ import com.nstc.log.PanelLog;
 import org.apache.commons.lang3.Validate;
 
 import com.nstc.dbwriter.config.CommonSettings;
-import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.config.TempletConstants;
 import com.nstc.dbwriter.config.TempSettings;
 import com.nstc.dbwriter.control.ClearTemp;
 import com.nstc.dbwriter.control.Start;
@@ -171,7 +171,7 @@ public class ShowFrame extends JFrame {
             tablesPanel.setText(TempSettings.TABLES);
         }else {
             filePanel.setText(CommonSettings.EXCEL_PATH);
-            outerDirPanel.setText(InnerSettings.OUT_DIR);
+            outerDirPanel.setText(TempletConstants.OUT_DIR);
             uRLPanel.setText(CommonSettings.URL.replace("jdbc:oracle:thin:@", ""));
             userNamePanel.setText(CommonSettings.USER);
             passwordPanel.setText(CommonSettings.PASSWORD);
@@ -262,7 +262,7 @@ public class ShowFrame extends JFrame {
             throw new RuntimeException();
         }
         CommonSettings.EXCEL_PATH = TempSettings.EXCEL_PATH;
-        InnerSettings.OUT_DIR = TempSettings.OUT_DIR;
+        TempletConstants.OUT_DIR = TempSettings.OUT_DIR;
         CommonSettings.URL = TempSettings.URL;
         CommonSettings.USER = TempSettings.USER.toUpperCase();
         CommonSettings.PASSWORD = TempSettings.PASSWORD.toUpperCase();

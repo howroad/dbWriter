@@ -12,9 +12,8 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
 import com.nstc.dbwriter.config.CommonSettings;
-import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.config.TempletConstants;
 import com.nstc.dbwriter.config.TableContans;
-import com.nstc.log.PanelLog;
 
 /**
  * <p>Title: TestNature.java</p>
@@ -31,7 +30,7 @@ public class RunTest {
     public static void buildClassAndRun(String pathName,boolean autoRunTest) {
         PrintWriter code = null;
         PrintWriter tempCode = null;
-        String path = InnerSettings.BASE_PATH + "\\src\\main\\java\\com\\nstc\\temp\\test\\Test" + pathName + ".java";
+        String path = TempletConstants.BASE_PATH + "\\src\\main\\java\\com\\nstc\\temp\\test\\Test" + pathName + ".java";
         String classPath = Class.class.getClass().getResource("/").getPath() + "com/nstc/temp/test/Test" + pathName + ".java";
         System.out.println(path);
         try {

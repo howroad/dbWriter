@@ -24,7 +24,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import com.nstc.dbwriter.config.CommonSettings;
-import com.nstc.dbwriter.config.InnerSettings;
+import com.nstc.dbwriter.config.TempletConstants;
 import com.nstc.dbwriter.model.Table;
 import com.nstc.log.PanelLog;
 
@@ -56,7 +56,7 @@ public class WriteUtil {
 
  /*   public static void buildCreateFromDB(Table table) {
         PrintWriter out = null;
-        String filName = CommonSettings.PATH  + table.getTableName() + "_FROMDB" + ".TAB";
+        String filName = CommonSettings.OUT_PATH  + table.getTableName() + "_FROMDB" + ".TAB";
         try {
            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), InnerSettings.CODE));
            out.println(getCreateFromDB(table.getTableName()));
@@ -106,11 +106,11 @@ public class WriteUtil {
 
     public static void buildDate(Table table) {
         PrintWriter out = null;
-        String filName = CommonSettings.PATH + table.getTableName() + "\\fromDB\\" + table.getTableName() + ".SQL";
+        String filName = CommonSettings.OUT_PATH + table.getTableName() + "\\fromDB\\" + table.getTableName() + ".SQL";
         try {
-            File dir = new File(CommonSettings.PATH + table.getTableName() + "\\fromDB\\");
+            File dir = new File(CommonSettings.OUT_PATH + table.getTableName() + "\\fromDB\\");
             dir.mkdirs();
-            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), InnerSettings.CODE));
+            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), TempletConstants.CODE));
             String sql = "SELECT * FROM " + table.getTableName().toUpperCase() + " WHERE ROWNUM <= 1000 ORDER BY 1 ASC";
             List<List<Object>> dataList = getDataBySQL(sql);
             table.writeDate(out, dataList);
@@ -125,9 +125,9 @@ public class WriteUtil {
     public static void buildDate(Table table,String sql,String[] primaryColUpKeys,String filName) {
         PrintWriter out = null;
         try {
-            File dir = new File(CommonSettings.PATH + table.getTableName() + "\\fromDB\\");
+            File dir = new File(CommonSettings.OUT_PATH + table.getTableName() + "\\fromDB\\");
             dir.mkdirs();
-            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), InnerSettings.CODE));
+            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), TempletConstants.CODE));
             List<List<Object>> dataList = getDataBySQL(sql);
             table.writeDate(out, dataList, primaryColUpKeys);
         } catch (Exception e) {
@@ -178,12 +178,12 @@ public class WriteUtil {
     }
     
     public static void buildJavaBeanByTemplet(Table table) {
-        File templet = new File(InnerSettings.PO_TEMPLET_PATH);
-        File outFile = new File(InnerSettings.TEST_MODEL_DIR + table.getJaveBeanFileName());
+        File templet = new File(TempletConstants.PO_TEMPLET_PATH);
+        File outFile = new File(TempletConstants.TEST_MODEL_DIR + table.getJaveBeanFileName());
         WriteUtil.writeFileByTemplet(templet, outFile, table);
         if(CommonSettings.usePage) {
-            File scopeTemplet = new File(InnerSettings.SCOPE_TEMPLET_PATH);
-            File scopeOutFile = new File(InnerSettings.TEST_MODEL_DIR + table.getEntityName() + "Scope.java");
+            File scopeTemplet = new File(TempletConstants.SCOPE_TEMPLET_PATH);
+            File scopeOutFile = new File(TempletConstants.TEST_MODEL_DIR + table.getEntityName() + "Scope.java");
             WriteUtil.writeFileByTemplet(scopeTemplet, scopeOutFile, table);
         }
     }
@@ -192,7 +192,7 @@ public class WriteUtil {
         if(ValidateUtil.projectIsJar()) {
             buildAllTempletFromJar(table,path);
         }else {
-            buildAllTempletFromDir(table, path, InnerSettings.BASE_PATH + "/src/main/resources/" + templetDir);
+            buildAllTempletFromDir(table, path, TempletConstants.BASE_PATH + "/src/main/resources/" + templetDir);
         }
     }
     
@@ -201,7 +201,7 @@ public class WriteUtil {
         File temletDir = new File(templetDir);
         ValidateUtil.exsit(templetDir);
         //创建文件夹
-        File dir = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path);
+        File dir = new File(TempletConstants.OUT_DIR + table.getTableName() + "\\" + path);
         dir.mkdirs();
         // 到的文件名列表
         if (temletDir.exists() && temletDir.isDirectory()) {
@@ -214,36 +214,36 @@ public class WriteUtil {
                     }
                     buildAllTempletFromDir(table, path + "\\" + fileName + "\\", templetDir + "\\" + fileName);
                 }else if(file.isFile() && fileName.endsWith(".templet")){
-                    String outName = InnerSettings.templetMap.get(fileName);
+                    String outName = TempletConstants.templetMap.get(fileName);
                     String newFileName = null;
                     if(outName == null) {
-                        newFileName = table.getEntityName() + fileName.replace(".templet", InnerSettings.POST_FIX);
+                        newFileName = table.getEntityName() + fileName.replace(".templet", TempletConstants.POST_FIX);
                     }else {
                         newFileName = CodeUtil.replaceTemplet(outName, table.getMap(), "table");
                         newFileName = CodeUtil.replaceTemplet(newFileName, CommonSettings.map, "common");
                     }
-                    File outPath = new File(InnerSettings.OUT_DIR + table.getTableName() + "\\" + path + newFileName);
+                    File outPath = new File(TempletConstants.OUT_DIR + table.getTableName() + "\\" + path + newFileName);
                     writeFileByTemplet(file, outPath, table);
                     if(newFileName.endsWith(".TAB") || newFileName.endsWith(".PDC")) {
-                        File sqlPath = new File(InnerSettings.OUT_DIR_SQL + newFileName);
+                        File sqlPath = new File(TempletConstants.OUT_DIR_SQL + newFileName);
                         writeFileByTemplet(file, sqlPath, table);
                     }else if(newFileName.equals(table.getEntityName() + ".java")) {
-                        File modelPath = new File(InnerSettings.OUT_DIR_MODEL + newFileName);
+                        File modelPath = new File(TempletConstants.OUT_DIR_MODEL + newFileName);
                         writeFileByTemplet(file, modelPath, table);
                     }else if(newFileName.equals(table.getEntityName() + "Scope.java")) {
-                        File scopePath = new File(InnerSettings.OUT_DIR_SCOPE + newFileName);
+                        File scopePath = new File(TempletConstants.OUT_DIR_SCOPE + newFileName);
                         writeFileByTemplet(file, scopePath, table);
                     }else if(newFileName.equals(table.getEntityName() + "View.java")) {
-                        File viewPath = new File(InnerSettings.OUT_DIR_VIEW + newFileName);
+                        File viewPath = new File(TempletConstants.OUT_DIR_VIEW + newFileName);
                         writeFileByTemplet(file, viewPath, table);
                     }else if(newFileName.endsWith("Dao.java") || newFileName.endsWith("DaoImpl.java")) {
-                        File daoPath = new File(InnerSettings.OUT_DIR_DAO + newFileName);
+                        File daoPath = new File(TempletConstants.OUT_DIR_DAO + newFileName);
                         writeFileByTemplet(file, daoPath, table);
                     }else if(newFileName.contains(".xml")) {
-                        File xmlPath = new File(InnerSettings.OUT_DIR_XML + newFileName);
+                        File xmlPath = new File(TempletConstants.OUT_DIR_XML + newFileName);
                         writeFileByTemplet(file, xmlPath, table);
                     }else if(newFileName.endsWith("Service.java") || newFileName.endsWith("ServiceImpl.java")) {
-                        File servicePath = new File(InnerSettings.OUT_DIR_SERVICE + newFileName);
+                        File servicePath = new File(TempletConstants.OUT_DIR_SERVICE + newFileName);
                         writeFileByTemplet(file, servicePath, table);
                     }
                     
@@ -263,7 +263,7 @@ public class WriteUtil {
             while (jarEntrys.hasMoreElements()) {
                 JarEntry entry = jarEntrys.nextElement();
                 String name = entry.getName();
-                if(name.startsWith(InnerSettings.TEMPLET_DIR)) {
+                if(name.startsWith(TempletConstants.TEMPLET_DIR)) {
                     list.add(entry);
                 }
             }
@@ -294,48 +294,48 @@ public class WriteUtil {
     }
 
     public static void buildTempletByEntry_DefaultPath(Table table,String path, JarEntry jarEntry) {
-        String jarEntryName = "/" + path + jarEntry.getName().replace(InnerSettings.TEMPLET_DIR, "");
+        String jarEntryName = "/" + path + jarEntry.getName().replace(TempletConstants.TEMPLET_DIR, "");
         String templetFileName = jarEntryName.substring(jarEntryName.lastIndexOf("/") + 1);
         if(!jarEntry.isDirectory() && jarEntryName.endsWith(".templet") && !jarEntryName.startsWith("common")) {
-            String outName = InnerSettings.templetMap.get(templetFileName);
+            String outName = TempletConstants.templetMap.get(templetFileName);
             String newFileName = null;
             if(outName == null) {
-                newFileName = table.getEntityName() + templetFileName.replace(".templet", InnerSettings.POST_FIX);
+                newFileName = table.getEntityName() + templetFileName.replace(".templet", TempletConstants.POST_FIX);
             }else {
                 newFileName = CodeUtil.replaceTemplet(outName, table.getMap(), "table");
                 newFileName = CodeUtil.replaceTemplet(newFileName, CommonSettings.map, "common");
             }
-            File outPath = new File(InnerSettings.OUT_DIR + table.getTableName() + jarEntryName.replace(templetFileName, newFileName));
+            File outPath = new File(TempletConstants.OUT_DIR + table.getTableName() + jarEntryName.replace(templetFileName, newFileName));
             outPath.getParentFile().mkdirs();
             InputStream is = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
             writeFileByTemplet(is, outPath, table);
             if(newFileName.endsWith(".TAB") || newFileName.endsWith(".PDC")) {
                 InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
-                File sqlPath = new File(InnerSettings.OUT_DIR_SQL + newFileName);
+                File sqlPath = new File(TempletConstants.OUT_DIR_SQL + newFileName);
                 writeFileByTemplet(is0, sqlPath, table);
             }else if(newFileName.equals(table.getEntityName() + ".java")) {
                 InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
-                File modelPath = new File(InnerSettings.OUT_DIR_MODEL + newFileName);
+                File modelPath = new File(TempletConstants.OUT_DIR_MODEL + newFileName);
                 writeFileByTemplet(is0, modelPath, table);
             }else if(newFileName.equals(table.getEntityName() + "Scope.java")) {
                 InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
-                File scopePath = new File(InnerSettings.OUT_DIR_SCOPE + newFileName);
+                File scopePath = new File(TempletConstants.OUT_DIR_SCOPE + newFileName);
                 writeFileByTemplet(is0, scopePath, table);
             }else if(newFileName.equals(table.getEntityName() + "View.java")) {
                 InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
-                File viewPath = new File(InnerSettings.OUT_DIR_VIEW + newFileName);
+                File viewPath = new File(TempletConstants.OUT_DIR_VIEW + newFileName);
                 writeFileByTemplet(is0, viewPath, table);
             }else if(newFileName.endsWith("Dao.java") || newFileName.endsWith("DaoImpl.java")) {
                 InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
-                File daoPath = new File(InnerSettings.OUT_DIR_DAO + newFileName);
+                File daoPath = new File(TempletConstants.OUT_DIR_DAO + newFileName);
                 writeFileByTemplet(is0, daoPath, table);
             }else if(newFileName.contains(".xml")) {
                 InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
-                File xmlPath = new File(InnerSettings.OUT_DIR_XML + newFileName);
+                File xmlPath = new File(TempletConstants.OUT_DIR_XML + newFileName);
                 writeFileByTemplet(is0, xmlPath, table);
             }else if(newFileName.endsWith("Service.java") || newFileName.endsWith("ServiceImpl.java")) {
                 InputStream is0 = WriteUtil.class.getClassLoader().getResourceAsStream(jarEntry.getName());
-                File servicePath = new File(InnerSettings.OUT_DIR_SERVICE + newFileName);
+                File servicePath = new File(TempletConstants.OUT_DIR_SERVICE + newFileName);
                 writeFileByTemplet(is0, servicePath, table);
             }
             //PanelLog.log("生成：  " + jarEntryName.replace(templetFileName, newFileName));
@@ -344,7 +344,7 @@ public class WriteUtil {
     }
     
     public static void buildTempletByEntry(Table table,String path, JarEntry jarEntry, File outPath) {
-        String jarEntryName = "/" + path + jarEntry.getName().replace(InnerSettings.TEMPLET_DIR, "");
+        String jarEntryName = "/" + path + jarEntry.getName().replace(TempletConstants.TEMPLET_DIR, "");
         String templetFileName = jarEntryName.substring(jarEntryName.lastIndexOf("/") + 1);
         if(!jarEntry.isDirectory() && jarEntryName.endsWith(".templet") && !jarEntryName.startsWith("common")) {
             outPath.getParentFile().mkdirs();
@@ -396,7 +396,7 @@ public class WriteUtil {
         List<String> lineList = new ArrayList<String>();
         BufferedReader in = null ;
         try {
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(file),InnerSettings.INPUT_CODE));
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(file), TempletConstants.INPUT_CODE));
             String line = null;
             while((line = in.readLine()) != null) {
                 lineList.add(new String(line));
@@ -461,7 +461,7 @@ public class WriteUtil {
         int index = getLastKeyLineNum(lineList, FILE_LAST_KEY[fileType]);
         PrintWriter out = null;
         try {
-            out = new PrintWriter(file,InnerSettings.CODE);
+            out = new PrintWriter(file, TempletConstants.CODE);
             for (int i = 0; i < index; i++) {
                 out.println(lineList.get(i));
             }
@@ -484,17 +484,17 @@ public class WriteUtil {
         List<String> lineList = null;
         List<String> resultList = null;
         
-        lineList = getLineList(new File(InnerSettings.DAO_TEMPLET_PATH));
+        lineList = getLineList(new File(TempletConstants.DAO_TEMPLET_PATH));
         resultList = CodeUtil.buildNewLine(lineList, table);
-        insertFileByList(new File(InnerSettings.ICOMMONDAO_PATH), resultList, table, DAO_INTERFACE);
+        insertFileByList(new File(TempletConstants.ICOMMONDAO_PATH), resultList, table, DAO_INTERFACE);
         
-        lineList = getLineList(new File(InnerSettings.DAOIMPL_TEMPLET_PATH));
+        lineList = getLineList(new File(TempletConstants.DAOIMPL_TEMPLET_PATH));
         resultList = CodeUtil.buildNewLine(lineList, table);
-        insertFileByList(new File(InnerSettings.COMMONDAOIMPL_PATH), resultList, table, DAO_IMPL);
+        insertFileByList(new File(TempletConstants.COMMONDAOIMPL_PATH), resultList, table, DAO_IMPL);
         
-        lineList = getLineList(new File(InnerSettings.XML_TEMPLET_PATH));
+        lineList = getLineList(new File(TempletConstants.XML_TEMPLET_PATH));
         resultList = CodeUtil.buildNewLine(lineList, table);
-        insertFileByList(new File(InnerSettings.COMMON_XML_PATH), resultList, table, XML);
+        insertFileByList(new File(TempletConstants.COMMON_XML_PATH), resultList, table, XML);
         
     }
     
@@ -522,7 +522,7 @@ public class WriteUtil {
             if(!father.exists()) {
                 father.mkdirs();
             }
-            out = new PrintWriter(file,InnerSettings.CODE);
+            out = new PrintWriter(file, TempletConstants.CODE);
             for (String string : lineList) {
                 out.println(string);
             }

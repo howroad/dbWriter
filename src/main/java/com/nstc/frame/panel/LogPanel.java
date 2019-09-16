@@ -1,22 +1,6 @@
 package com.nstc.frame.panel;
 
-import com.nstc.dbwriter.config.CommonSettings;
-import com.nstc.dbwriter.config.InnerSettings;
-import com.nstc.dbwriter.config.TempSettings;
-import com.nstc.dbwriter.control.ClearTemp;
-import com.nstc.dbwriter.control.Start;
-import com.nstc.dbwriter.util.ValidateUtil;
-import com.nstc.dbwriter.util.WriteUtil;
-import com.nstc.frame.panel.FilePane;
-import com.nstc.frame.panel.SelectPanel;
-import com.nstc.frame.panel.TextPane;
-import org.apache.commons.lang3.Validate;
-
 import javax.swing.*;
-import java.awt.*;
-
-import static com.nstc.dbwriter.config.CommonSettings.stringToArray;
-import static com.nstc.dbwriter.config.TempSettings.writeProperties;
 
 
 /**

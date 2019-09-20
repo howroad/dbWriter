@@ -54,8 +54,7 @@ public class $table{entityName}Dao extends BaseDao{
     * @since $table{now}
     */
     public List<$table{entityName}View> get$table{entityName}List($table{entityName}Scope scope) {
-        List<$table{entityName}View> resultList = getSqlMapClientTemplate().queryForList(getStatement("get$table{entityName}List"),scope);
-        return resultList;
+        return getSqlMapClientTemplate().queryForList(getStatement("get$table{entityName}List"),scope);
     }
 
     /**
@@ -101,8 +100,7 @@ public class $table{entityName}Dao extends BaseDao{
     public List<$table{entityName}View> get$table{entityName}PageList($table{entityName}Scope scope) {
         Integer count = get$table{entityName}PageCount(scope);
         scope.getPaging().setTotalRow(count);
-        List<$table{entityName}View> resultList = getSqlMapClientTemplate().queryForList(getStatement("get$table{entityName}PageList"),scope);
-        return resultList;
+        return getSqlMapClientTemplate().queryForList(getStatement("get$table{entityName}PageList"),scope);
     }
     @{/delete}
     
@@ -128,7 +126,7 @@ public class $table{entityName}Dao extends BaseDao{
     
     /**
     * 新增或者修改$table{remark}
-    * @param list $table{remark}实体
+    * @param model $table{remark}实体
     * @author $common{author}
     * @since $table{now}
     */

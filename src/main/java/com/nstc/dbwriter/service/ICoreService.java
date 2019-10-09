@@ -2,6 +2,8 @@ package com.nstc.dbwriter.service;
 
 import com.nstc.frame.jframe.ShowFrame;
 
+import javax.swing.*;
+
 /**
  * <p>Title: ICoreService.java</p>
  * <p>Description: </p>
@@ -10,13 +12,8 @@ import com.nstc.frame.jframe.ShowFrame;
  */
 public interface ICoreService {
     void testCoonect();
-    void handelCore();
+    void handelRun();
     void clear();
     void autoTest();
-    void showAndHideSqlPanel();
-    void showAndHideLog();
-    void createSql();
-    void createCustQuery();
-    void before(ShowFrame showFrame);
-
+    void createCustSql(String tbNamesStr,String sqlsStr,String pkNamesStr);
 }

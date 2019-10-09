@@ -7,6 +7,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import com.nstc.dbwriter.service.Container;
 import com.nstc.frame.panel.*;
 import com.nstc.log.PanelLog;
 import org.apache.commons.lang3.Validate;
@@ -14,10 +15,7 @@ import org.apache.commons.lang3.Validate;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.TempletConstants;
 import com.nstc.dbwriter.config.TempSettings;
-import com.nstc.dbwriter.control.ClearTemp;
-import com.nstc.dbwriter.control.Start;
 import com.nstc.dbwriter.util.ValidateUtil;
-import com.nstc.dbwriter.util.WriteUtil;
 
 
 /**
@@ -184,7 +182,7 @@ public class ShowFrame extends JFrame {
         conBtn.addActionListener((e) -> {
             putValue();
             try {
-                WriteUtil.getDataBySQL("SELECT 1 FROM DUAL");
+                Container.coreService.testCoonect();
                 JOptionPane.showMessageDialog(null, "连接成功");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());
@@ -198,7 +196,7 @@ public class ShowFrame extends JFrame {
                     JOptionPane.showMessageDialog(null, "请选择一个生成类型！");
                     return;
                 }
-                Start.start();
+                Container.coreService.handelRun();
                 JOptionPane.showMessageDialog(null, "生成成功！");
                 writeProperties();
             } catch (Exception e1) {
@@ -210,7 +208,7 @@ public class ShowFrame extends JFrame {
             putValue();
             try {
 //                ClearTemp.clearAndRebuild();
-                ClearTemp.clear();
+                Container.clearService.clear();
                 JOptionPane.showMessageDialog(null, "清除成功");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());
@@ -225,7 +223,7 @@ public class ShowFrame extends JFrame {
             try {
                 //Start.ta0723BuildSql();
                 //Start.N0801SQL();
-                Start.createCustSql(this.sqlTables.getText(),this.sqlSqls.getText(),this.sqlPks.getText().toUpperCase());
+                Container.coreService.createCustSql(this.sqlTables.getText(),this.sqlSqls.getText(),this.sqlPks.getText().toUpperCase());
                 JOptionPane.showMessageDialog(null, "生成成功");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());

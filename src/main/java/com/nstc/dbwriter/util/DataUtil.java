@@ -1,7 +1,20 @@
 package com.nstc.dbwriter.util;
 
+import com.nstc.dbwriter.config.CommonSettings;
+import com.nstc.dbwriter.model.MyParam;
+import com.nstc.dbwriter.model.Table;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Reader;
 import java.lang.reflect.Field;
+import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * <p>Title: DataUtil.java</p>
@@ -177,4 +190,36 @@ public class DataUtil {
         }
         return obj;
     }
+    /**
+     * 将字Clob转成String类型
+     * @Description:
+     * @param sc
+     * @return String
+     * @author net
+     * @since：2018年12月26日 下午4:57:21
+     */
+    public static String clobToString(Clob sc) {
+        String reString = "";
+        //得到流
+        StringBuffer sb = null;
+        try {
+            Reader is = sc.getCharacterStream();
+            BufferedReader br = new BufferedReader(is);
+            String s = br.readLine();
+            sb = new StringBuffer();
+            //执行循环将字符串全部取出付值给StringBuffer由StringBuffer转成STRING
+            while (s != null) {
+                sb.append(s.trim().replaceAll("\t", "\n") + "\n");
+                s = br.readLine();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        reString = sb.toString();
+        return reString;
+    }
+
+
 }

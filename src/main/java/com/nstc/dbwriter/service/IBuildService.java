@@ -12,7 +12,7 @@ import java.util.List;
  * @author luhao
  * @since：2019-09-12 13:38
  */
-public interface ITableService {
+public interface IBuildService {
     List<Table> buildTableFromNames(List<String> tbNames);
     Table buildTableFromName(String tbName);
     List<Table> buildTableFromExcel(int sheetNo);

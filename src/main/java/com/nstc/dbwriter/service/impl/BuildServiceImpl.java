@@ -4,7 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
-import com.nstc.dbwriter.service.ITableService;
+import com.nstc.dbwriter.service.IBuildService;
 import com.nstc.dbwriter.util.ExcelUtil;
 import oracle.jdbc.driver.OracleConnection;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +23,7 @@ import java.util.ListIterator;
  * @author luhao
  * @since：2019-09-12 13:40
  */
-public class BuildServiceImpl implements ITableService {
+public class BuildServiceImpl implements IBuildService {
     @Override
     public List<Table> buildTableFromNames(List<String> tbNames) {
         List<Table> resultList = new ArrayList<Table>();

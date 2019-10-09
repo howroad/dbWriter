@@ -14,13 +14,14 @@ import java.util.List;
  * @author luhao
  * @since：2019-09-12 11:49
  */
-public interface IHandelService {
+public interface IDatabaseService {
     File createJoinSql(List<JoinSqlLine> lineList, File templet, String sqlId);
     List<Table> getTable(List<JoinSqlLine> lineList);
     List<String> getTableNames(List<JoinSqlLine> lineList);
     List<List<Object>> getDateBySql(String sql);
-    List<String> getDDL(String tableName);
+    String getDDL(String tableName);
     List<String> getAllDate(String tableName, int size);
     List<String> getDate(Table table,String sql,String[] primaryColUpKeys,String filName);
-    List<String> getDateByDate(List<List<Object>> dataList);
+    List<String> dataToLine(Table table, List<List<Object>> dataList);
+
 }

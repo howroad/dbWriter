@@ -104,7 +104,7 @@ public class Table implements MapContent{
 	 * @author luhao
 	 * @since：2018年12月26日 下午5:17:29
 	 */
-	private String getInsertValue(Object obj,MyParam param) {
+	public String getInsertValue(Object obj,MyParam param) {
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    int columnType = param.getType().getValue();
 	    String result = null;

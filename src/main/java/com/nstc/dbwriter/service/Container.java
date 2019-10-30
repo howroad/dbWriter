@@ -13,17 +13,13 @@ import com.nstc.dbwriter.service.impl.*;
 public class Container {
     public static IDatabaseService databaseService;
     public static IBuildService buildService;
-    public static ILineUtil lineService;
     public static ICoreService coreService;
     public static IIOService ioService;
-    public static IClearService clearService;
 
     static{
         databaseService = new DatabaseServiceImpl();
         buildService = new BuildServiceImpl();
-        lineService = new LineUtilImpl();
         coreService = new CoreServiceImpl();
-        ioService = new IOServiceImpl();
-        clearService = new ClearServiceImpl();
+        ioService = new IOServiceImpl2();
     }
 }

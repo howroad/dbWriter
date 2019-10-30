@@ -18,10 +18,26 @@ public interface IDatabaseService {
     File createJoinSql(List<JoinSqlLine> lineList, File templet, String sqlId);
     List<Table> getTable(List<JoinSqlLine> lineList);
     List<String> getTableNames(List<JoinSqlLine> lineList);
-    List<List<Object>> getDateBySql(String sql);
-    String getDDL(String tableName);
-    List<String> getAllDate(String tableName, int size);
+
+    /**
+     * 通过sql查询数据
+     * @param sql
+     * @return
+     */
+    List<List<Object>> query(String sql);
+
+    /**
+     * 获得数据库默认的DDL
+     * @param tableName
+     * @return
+     */
+    String defaultDDL(String tableName);
+
     List<String> getDate(Table table,String sql,String[] primaryColUpKeys,String filName);
     List<String> dataToLine(Table table, List<List<Object>> dataList);
+    List<Table> buildTableFromNames(List<String> tbNames);
+    Table buildTableFromName(String tbName);
+    List<Table> buildTableFromExcel(int sheetNo);
+
 
 }

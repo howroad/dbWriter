@@ -7,7 +7,7 @@ import com.nstc.dbwriter.service.Container;
 import com.nstc.dbwriter.service.IIOService;
 import com.nstc.dbwriter.util.LineUtil;
 import com.nstc.dbwriter.util.ValidateUtil;
-import org.apache.commons.lang3.Validate;
+import com.nstc.log.PanelLog;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,16 +22,20 @@ import java.util.jar.JarFile;
  * <p>Company: 北京九恒星科技股份有限公司</p>
  *
  * @author luhao
- * @since：2019-10-12 16:46
+ * @since：2019-10-09 10:32
  */
-public class IOServiceImpl implements IIOService {
+public class IOServiceImpl2 implements IIOService {
+    private static String[] FILE_LAST_KEY = new String[] {"}","}","</sqlMap>"};
+    public static int DAO_INTERFACE = 0;
+    public static int DAO_IMPL = 1;
+    public static int XML = 2;
 
     @Override
-    public List<String> readToLine(InputStream ins) {
+    public List<String> readToLine(File file) {
         List<String> lineList = new ArrayList<String>();
         BufferedReader in = null ;
         try {
-            in = new BufferedReader(new InputStreamReader(ins,TempletConstants.INPUT_CODE));
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(file), TempletConstants.INPUT_CODE));
             String line = null;
             while((line = in.readLine()) != null) {
                 lineList.add(new String(line));
@@ -46,29 +50,14 @@ public class IOServiceImpl implements IIOService {
                     e.printStackTrace();
                 }
             }
-
         }
         return lineList;
-    }
-    @Override
-    public List<String> readToLine(File file) {
-        FileInputStream ins = null;
-        try {
-            ins = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        return readToLine(ins);
     }
 
     @Override
     public List<String> readToLine(String path) {
-        File file = new File(path);
-        return readToLine(file);
+        return readToLine(new File(path));
     }
-
-
 
     @Override
     public void write(File file, List<String> lineList) {
@@ -95,42 +84,17 @@ public class IOServiceImpl implements IIOService {
 
     @Override
     public void write(String path, List<String> lineList) {
-        File file = new File(path);
-        write(file,lineList);
+
     }
 
     @Override
     public void write(File file, String line) {
-        Validate.notNull(line);
-        PrintWriter out = null;
-        try {
-            File father = file.getParentFile();
-            if(!father.exists()) {
-                father.mkdirs();
-            }
-            out = new PrintWriter(file, TempletConstants.CODE);
-            out.println(line);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }finally {
-            if(out != null) {
-                out.close();
-            }
-        }
+
     }
 
     @Override
     public void write(String path, String line) {
-        File file = new File(path);
-        write(file,line);
-    }
 
-    @Override
-    public void writeFileByTemplet(File templet, File outFile, Table table) {
-        List<String> lineList = readToLine(templet);
-        List<String> resultList = LineUtil.buildNewLine(lineList, table);
-        write(outFile,resultList);
     }
 
     @Override
@@ -138,10 +102,14 @@ public class IOServiceImpl implements IIOService {
         File templet = new File(TempletConstants.PO_TEMPLET_PATH);
         File outFile = new File(TempletConstants.TEST_MODEL_DIR + table.getJaveBeanFileName());
         writeFileByTemplet(templet, outFile, table);
+        if(CommonSettings.usePage) {
+            File scopeTemplet = new File(TempletConstants.SCOPE_TEMPLET_PATH);
+            File scopeOutFile = new File(TempletConstants.TEST_MODEL_DIR + table.getEntityName() + "Scope.java");
+            writeFileByTemplet(scopeTemplet, scopeOutFile, table);
+        }
     }
 
     @Override
-    @Deprecated
     public void writeAllTemplet(Table table, String path, String templetDir) {
         if(ValidateUtil.projectIsJar()) {
             writeAllTempletFromJar(table,path);
@@ -150,7 +118,75 @@ public class IOServiceImpl implements IIOService {
         }
     }
 
-    @Deprecated
+    @Override
+    public List<String> readToLine(InputStream ins) {
+        List<String> lineList = new ArrayList<String>();
+        BufferedReader in = null ;
+        try {
+            in = new BufferedReader(new InputStreamReader(ins,"utf-8"));
+            String line = null;
+            while((line = in.readLine()) != null) {
+                lineList.add(new String(line));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            if(in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return lineList;
+    }
+
+    @Override
+    public int getLastKeyLineNum(List<String> lineList, String key) {
+        int num = -1;
+        for (int i = 0; i < lineList.size(); i++) {
+            String str = lineList.get(i);
+            if(str != null && str.contains(key)) {
+                num = i;
+            }
+        }
+        return num;
+    }
+
+    @Override
+    public void reWriteFileByList(File file, List<String> list, Table table, int fileType) {
+        List<String> lineList = readToLine(file);
+        for (String string : lineList) {
+            if(string.contains("save" + table.getEntityName())) {
+                return;
+            }
+        }
+        int index = getLastKeyLineNum(lineList, FILE_LAST_KEY[fileType]);
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(file, TempletConstants.CODE);
+            for (int i = 0; i < index; i++) {
+                out.println(lineList.get(i));
+            }
+            for(String line : list) {
+                out.println(line);
+            }
+            for(int i = index ; i < lineList.size() ; i++) {
+                out.println(lineList.get(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        } finally{
+            if(out != null) {
+                out.close();
+            }
+        }
+    }
+
     @Override
     public void writeAllTempletFromDir(Table table, String path, String templetDir) {
         // 根据路径创建File对象
@@ -213,8 +249,9 @@ public class IOServiceImpl implements IIOService {
     public List<JarEntry> readAllTempletJarEntry() {
         List<JarEntry> list = new ArrayList<JarEntry>();
         try {
+            @SuppressWarnings("resource")
             //获得jar包路径
-            JarFile jFile = new JarFile(System.getProperty("java.class.path"));
+                    JarFile jFile = new JarFile(System.getProperty("java.class.path"));
             Enumeration<JarEntry> jarEntrys = jFile.entries();
             while (jarEntrys.hasMoreElements()) {
                 JarEntry entry = jarEntrys.nextElement();
@@ -301,63 +338,152 @@ public class IOServiceImpl implements IIOService {
 
     @Override
     public void writeTempletByEntry(Table table, String path, JarEntry jarEntry, File outPath) {
-
+        String jarEntryName = "/" + path + jarEntry.getName().replace(TempletConstants.TEMPLET_DIR, "");
+        String templetFileName = jarEntryName.substring(jarEntryName.lastIndexOf("/") + 1);
+        if(!jarEntry.isDirectory() && jarEntryName.endsWith(".templet") && !jarEntryName.startsWith("common")) {
+            outPath.getParentFile().mkdirs();
+            InputStream is = getClass().getClassLoader().getResourceAsStream(jarEntry.getName());
+            writeFileByTemplet(is, outPath, table);
+        }
     }
 
     @Override
     public void writeAllTempletFromJar(Table table, String path) {
-
-    }
-
-    @Override
-    public int getLastKeyLineNum(List<String> lineList, String key) {
-        return 0;
-    }
-
-    @Override
-    public void reWriteFileByList(File file, List<String> list, Table table, int fileType) {
-
+        List<JarEntry> list = readAllTempletJarEntry();
+        for (JarEntry jarEntry : list) {
+            writeTempletByEntry_DefaultPath(table,path, jarEntry);
+        }
     }
 
     @Override
     public void writeCommonFileByTemplet(Table table) {
+        List<String> lineList = null;
+        List<String> resultList = null;
 
+        lineList = readToLine(new File(TempletConstants.DAO_TEMPLET_PATH));
+        resultList = LineUtil.buildNewLine(lineList, table);
+        reWriteFileByList(new File(TempletConstants.ICOMMONDAO_PATH), resultList, table, DAO_INTERFACE);
+
+        lineList = readToLine(new File(TempletConstants.DAOIMPL_TEMPLET_PATH));
+        resultList = LineUtil.buildNewLine(lineList, table);
+        reWriteFileByList(new File(TempletConstants.COMMONDAOIMPL_PATH), resultList, table, DAO_IMPL);
+
+        lineList = readToLine(new File(TempletConstants.XML_TEMPLET_PATH));
+        resultList = LineUtil.buildNewLine(lineList, table);
+        reWriteFileByList(new File(TempletConstants.COMMON_XML_PATH), resultList, table, XML);
     }
 
-
+    @Override
+    public void writeFileByTemplet(File templet, File outFile, Table table) {
+        List<String> lineList = readToLine(templet);
+        List<String> resultList = LineUtil.buildNewLine(lineList, table);
+        write(outFile,resultList);
+    }
 
     @Override
     public void writeFileByTemplet(InputStream ins, File outFile, Table table) {
-
+        List<String> lineList = readToLine(ins);
+        List<String> resultList = LineUtil.buildNewLine(lineList, table);
+        if(lineList.isEmpty()){
+            PanelLog.log("【empty】：" + outFile.getName());
+            return;
+        }
+        write(outFile,resultList);
     }
 
     @Override
     public void writeDataFile(Table table) {
-
+        PrintWriter out = null;
+        String filName = CommonSettings.OUT_PATH + table.getTableName() + "\\fromDB\\" + table.getTableName() + ".SQL";
+        try {
+            File dir = new File(CommonSettings.OUT_PATH + table.getTableName() + "\\fromDB\\");
+            dir.mkdirs();
+            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), TempletConstants.CODE));
+            String sql = "SELECT * FROM " + table.getTableName().toUpperCase() + " WHERE ROWNUM <= 1000 ORDER BY 1 ASC";
+            List<List<Object>> dataList = Container.databaseService.query(sql);
+            table.writeDate(out, dataList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            out.close();
+        }
     }
 
     @Override
     public void writeDataFile(Table table, String sql, String[] primaryColUpKeys, String filName) {
-
+        PrintWriter out = null;
+        try {
+            File dir = new File(CommonSettings.OUT_PATH + table.getTableName() + "\\fromDB\\");
+            dir.mkdirs();
+            out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(filName, false), TempletConstants.CODE));
+            List<List<Object>> dataList = Container.databaseService.query(sql);
+            table.writeDate(out, dataList, primaryColUpKeys);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            out.close();
+        }
     }
-
     @Override
     public void clear() {
-
+        //删除model
+        File modelDir = new File(TempletConstants.TEST_MODEL_DIR);
+        clearDir(modelDir);
+        //删除测试类
+        File testDir = new File(TempletConstants.TEST_DIR);
+        clearDir(testDir);
+        //删除输出
+        File outDir = new File(TempletConstants.OUT_DIR);
+        clearDir(outDir);
     }
 
     @Override
     public void clearDir(File dir) {
-
+        if(dir.exists() && dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            for (File file : files) {
+                if(file.isFile()) {
+                    if(".gitkeep".equals(file.getName())){
+                        continue;
+                    }
+                    if(file.getName().endsWith(".xlsx")){
+                        continue;
+                    }
+                    if(file.getName().endsWith(".jar")){
+                        continue;
+                    }
+                    if(file.getName().toUpperCase().endsWith(".CMD")){
+                        continue;
+                    }
+                    file.delete();
+                }else if(file.isDirectory()) {
+                    clearDir(file);
+                    file.delete();
+                }
+            }
+        }
     }
 
     @Override
     public void reBuildCommonFile() {
-
+        //重新生成ICommonDAO
+        List<String> list = null;
+        list = Container.ioService.readToLine(new File(TempletConstants.ICOMMONDAO_TEMPLET_PATH));
+        Container.ioService.write(new File(TempletConstants.ICOMMONDAO_PATH),list);
+        //重新生成CommonDaoImpl
+        list = Container.ioService.readToLine(new File(TempletConstants.COMMONDAOIMPL_TEMPLET_PATH));
+        Container.ioService.write(new File(TempletConstants.COMMONDAOIMPL_PATH),list);
+        //重新生成TEMP_Common.xml
+        list = Container.ioService.readToLine(new File(TempletConstants.COMMON_XML_TEMPLET_PATH));
+        Container.ioService.write(new File(TempletConstants.COMMON_XML_PATH),list);
+        PanelLog.log("clear...end");
     }
 
     @Override
     public void clearAndRebuild() {
-
+        clear();
+        reBuildCommonFile();
     }
 }

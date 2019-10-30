@@ -27,7 +27,7 @@ public class CoreServiceImpl implements ICoreService {
     @Override
     public void testCoonect() {
         String sql = "SELECT 1 FROM DUAL";
-        Container.databaseService.getDateBySql(sql);
+        Container.databaseService.query(sql);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class CoreServiceImpl implements ICoreService {
 
     @Override
     public void clear() {
-        Container.clearService.clear();
+        Container.ioService.clear();
     }
 
     @Override

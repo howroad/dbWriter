@@ -208,7 +208,7 @@ public class ShowFrame extends JFrame {
             putValue();
             try {
 //                ClearTemp.clearAndRebuild();
-                Container.clearService.clear();
+                Container.ioService.clear();
                 JOptionPane.showMessageDialog(null, "清除成功");
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(null, e1.getMessage());

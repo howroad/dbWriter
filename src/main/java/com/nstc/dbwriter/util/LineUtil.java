@@ -1,10 +1,9 @@
-package com.nstc.dbwriter.service.impl;
+package com.nstc.dbwriter.util;
 
 import com.nstc.dbwriter.config.CommonSettings;
 import com.nstc.dbwriter.config.TableContans;
 import com.nstc.dbwriter.model.MyParam;
 import com.nstc.dbwriter.model.Table;
-import com.nstc.dbwriter.service.ILineUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -15,16 +14,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <p>Title: LineServiceImpl.java</p>
+ * <p>Title: LineUtil.java</p>
  * <p>Description: </p>
  * <p>Company: 北京九恒星科技股份有限公司</p>
  *
  * @author luhao
- * @since：2019-09-05 16:06
+ * @since：2019-10-12 16:27
  */
-public class LineUtilImpl implements ILineUtil {
-    @Override
-    public List<String> buildNewLine(List<String> lineList, Table table) {
+public class LineUtil {
+    public static List<String> buildNewLine(List<String> lineList, Table table) {
 
         List<String> result = new ArrayList<String>();
         /** 循环标识 */
@@ -106,8 +104,8 @@ public class LineUtilImpl implements ILineUtil {
         return result;
     }
 
-    @Override
-    public String replaceTemplet(String template, Map<String, String> tokens, String type) {
+
+    public static String replaceTemplet(String template, Map<String, String> tokens, String type) {
 
         //生成匹配模式的正则表达式
         String patternString = "\\$"+ type + "\\{(" + StringUtils.join(tokens.keySet(), "|") + ")\\}";
@@ -128,4 +126,5 @@ public class LineUtilImpl implements ILineUtil {
         return sb.toString();
 
     }
+
 }

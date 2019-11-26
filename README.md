@@ -1,3 +1,7 @@
+该项目已在cdWriter中重写！传送门：
+https://github.com/howroad/cdwriter/
+
+
 # dbWriter
 数据库创建文件的小工具v0.3
 #####公司项目中用到很多CURD操作，由于框架的原因，使用的是Ibatis2.3，使用工具经过简单的配置可以生成ibatis文件，dao文件，注释，等相关信息。
